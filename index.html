@@ -397,20 +397,14 @@
 </header>
 
 <nav>
-
   <a href="#">wake up</a>
   <a href="#">write</a>
   <a href="#">go home</a>
-
 </nav>
 
 <div class="status">
-
   status:
-  <span class="online">
-    online
-  </span>
-
+  <span class="online">online</span>
 </div>
 
 <div class="content">
@@ -430,17 +424,9 @@
 
     <div class="links">
 
-      <a href="#">
-        flowers
-      </a>
-
-      <a href="#">
-        pudding
-      </a>
-
-      <a href="#">
-        strawberry
-      </a>
+      <a href="#">flowers</a>
+      <a href="#">pudding</a>
+      <a href="#">strawberry</a>
 
     </div>
 
@@ -465,11 +451,7 @@
     </article>
 
     <div id="posts-container">
-
-      <p>
-        loading posts
-      </p>
-
+      <p>loading posts...</p>
     </div>
 
   </main>
@@ -629,7 +611,6 @@ POST
 
         let result;
 
-
         try {
 
           result =
@@ -637,18 +618,17 @@ POST
 
         } catch {
 
-          throw new Error(
-            "Worker returned invalid JSON: " + text
+          console.error(
+            "Worker response:",
+            text
           );
 
+          message.textContent =
+            "server sent something weird.";
+
+          return;
+
         }
-
-
-        console.log(
-          "POST response:",
-          response.status,
-          result
-        );
 
 
         if (response.status === 401) {
@@ -672,11 +652,14 @@ POST
         }
 
 
-        if (!result.correct) {
+        if (
+          result.correct === false ||
+          result.saved === false
+        ) {
 
           message.textContent =
             result.error ||
-            "wrong password.";
+            "post failed.";
 
           return;
 
@@ -687,16 +670,13 @@ POST
           "post-password"
         ).value = "";
 
-
         document.getElementById(
           "post-content"
         ).value = "";
 
-
         closePostBox();
 
-
-        await loadPosts();
+        loadPosts();
 
       }
 
@@ -707,7 +687,6 @@ POST
           "POST ERROR:",
           error
         );
-
 
         message.textContent =
           "cant connect to the server.";
@@ -740,8 +719,7 @@ POST
         if (!response.ok) {
 
           throw new Error(
-            "Worker returned HTTP " +
-            response.status
+            "HTTP " + response.status
           );
 
         }
@@ -762,15 +740,12 @@ POST
           const empty =
             document.createElement("p");
 
-
           empty.textContent =
             "no posts yet.";
-
 
           container.appendChild(
             empty
           );
-
 
           return;
 
@@ -779,43 +754,37 @@ POST
 
         posts.forEach(function(post) {
 
-          const paragraph =
+          const postBox =
             document.createElement("div");
 
-
-          paragraph.className =
+          postBox.className =
             "user-post";
 
 
           const username =
             document.createElement("strong");
 
-
           username.textContent =
-            (post.username || "Tsukasachan") +
-            ":";
+            (post.username || "Tsukasachan") + ":";
 
 
           const content =
             document.createElement("div");
 
-
           content.textContent =
             post.content || "";
 
 
-          paragraph.appendChild(
+          postBox.appendChild(
             username
           );
 
-
-          paragraph.appendChild(
+          postBox.appendChild(
             content
           );
 
-
           container.appendChild(
-            paragraph
+            postBox
           );
 
         });
@@ -830,17 +799,13 @@ POST
           error
         );
 
-
         container.innerHTML = "";
-
 
         const errorText =
           document.createElement("p");
 
-
         errorText.textContent =
           "couldn't load posts!";
-
 
         container.appendChild(
           errorText
