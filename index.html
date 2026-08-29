@@ -488,7 +488,7 @@ alt=""
     <div id="posts-container">
 
       <p>
-        loading posts...
+        loading posts
       </p>
 
     </div>
@@ -567,8 +567,10 @@ POST
 
   <script>
 
+    /* YOUR ACTUAL CLOUDFLARE WORKER URL */
     const WORKER_URL =
       "https://secretblogapi.floweringsakuratree.workers.dev";
+
 
     function openPostBox() {
 
@@ -578,6 +580,7 @@ POST
 
     }
 
+
     function closePostBox() {
 
       document.getElementById("post-modal").style.display = "none";
@@ -585,6 +588,7 @@ POST
       document.getElementById("post-message").textContent = "";
 
     }
+
 
     async function makePost() {
 
@@ -597,6 +601,7 @@ POST
       const message =
         document.getElementById("post-message");
 
+
       if (!password) {
 
         message.textContent =
@@ -605,6 +610,7 @@ POST
         return;
 
       }
+
 
       if (!content.trim()) {
 
@@ -615,8 +621,10 @@ POST
 
       }
 
+
       message.textContent =
         "posting...";
+
 
       try {
 
@@ -635,6 +643,7 @@ POST
 
         });
 
+
         const text = await response.text();
 
         let result;
@@ -645,19 +654,19 @@ POST
 
         } catch {
 
-          console.error("Worker response:", text);
-
           throw new Error(
-            "Worker returned invalid JSON"
+            "Worker returned invalid JSON: " + text
           );
 
         }
+
 
         console.log(
           "POST response:",
           response.status,
           result
         );
+
 
         if (response.status === 401) {
 
@@ -667,6 +676,7 @@ POST
           return;
 
         }
+
 
         if (!response.ok) {
 
@@ -678,7 +688,8 @@ POST
 
         }
 
-        if (result.correct === false) {
+
+        if (!result.correct) {
 
           message.textContent =
             result.error || "wrong password.";
@@ -687,28 +698,24 @@ POST
 
         }
 
-        if (result.saved === false) {
-
-          message.textContent =
-            result.error || "post wasn't saved.";
-
-          return;
-
-        }
 
         document.getElementById(
           "post-password"
         ).value = "";
 
+
         document.getElementById(
           "post-content"
         ).value = "";
 
+
         closePostBox();
+
 
         await loadPosts();
 
       }
+
 
       catch (error) {
 
@@ -717,17 +724,20 @@ POST
           error
         );
 
+
         message.textContent =
-          "cant connect to the server.";
+          "cant connect to the server";
 
       }
 
     }
 
+
     async function loadPosts() {
 
       const container =
         document.getElementById("posts-container");
+
 
       try {
 
@@ -739,6 +749,7 @@ POST
           }
         );
 
+
         if (!response.ok) {
 
           throw new Error(
@@ -748,10 +759,13 @@ POST
 
         }
 
+
         const posts =
           await response.json();
 
+
         container.innerHTML = "";
+
 
         if (
           !Array.isArray(posts) ||
@@ -770,6 +784,7 @@ POST
 
         }
 
+
         posts.forEach(function(post) {
 
           const paragraph =
@@ -778,11 +793,16 @@ POST
           paragraph.className =
             "user-post";
 
+
           const username =
             document.createElement("strong");
 
           username.textContent =
             (post.username || "Tsukasachan") + ":";
+
+
+          paragraph.appendChild(username);
+
 
           const content =
             document.createElement("div");
@@ -790,15 +810,16 @@ POST
           content.textContent =
             post.content || "";
 
-          paragraph.appendChild(username);
 
           paragraph.appendChild(content);
+
 
           container.appendChild(paragraph);
 
         });
 
       }
+
 
       catch (error) {
 
@@ -807,13 +828,16 @@ POST
           error
         );
 
+
         container.innerHTML = "";
+
 
         const errorText =
           document.createElement("p");
 
         errorText.textContent =
           "couldn't load posts!";
+
 
         container.appendChild(
           errorText
@@ -823,12 +847,14 @@ POST
 
     }
 
+
     document.addEventListener(
       "DOMContentLoaded",
       function() {
 
         const modal =
           document.getElementById("post-modal");
+
 
         modal.addEventListener(
           "click",
@@ -842,6 +868,7 @@ POST
 
           }
         );
+
 
         loadPosts();
 
