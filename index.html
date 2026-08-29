@@ -37,20 +37,6 @@
       color: #808080;
     }
 
-    .website-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      z-index: 9999;
-      pointer-events: none;
-      user-select: none;
-      -webkit-user-drag: none;
-      display: block;
-    }
-
     .page {
       width: 850px;
       max-width: 90%;
@@ -394,13 +380,6 @@
 
 <body>
 
-<img
-src="websiteyay.jpeg"
-class="website-overlay"
-alt=""
-
->
-
   <div class="page">
 
 ```
@@ -567,7 +546,6 @@ POST
 
   <script>
 
-    /* YOUR ACTUAL CLOUDFLARE WORKER URL */
     const WORKER_URL =
       "https://secretblogapi.floweringsakuratree.workers.dev";
 
@@ -628,29 +606,34 @@ POST
 
       try {
 
-        const response = await fetch(WORKER_URL, {
+        const response =
+          await fetch(WORKER_URL, {
 
-          method: "POST",
+            method: "POST",
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+            headers: {
+              "Content-Type": "application/json"
+            },
 
-          body: JSON.stringify({
-            password: password,
-            content: content
-          })
+            body: JSON.stringify({
+              password: password,
+              content: content
+            })
 
-        });
+          });
 
 
-        const text = await response.text();
+        const text =
+          await response.text();
+
 
         let result;
 
+
         try {
 
-          result = JSON.parse(text);
+          result =
+            JSON.parse(text);
 
         } catch {
 
@@ -692,7 +675,8 @@ POST
         if (!result.correct) {
 
           message.textContent =
-            result.error || "wrong password.";
+            result.error ||
+            "wrong password.";
 
           return;
 
@@ -726,7 +710,7 @@ POST
 
 
         message.textContent =
-          "cant connect to the server";
+          "cant connect to the server.";
 
       }
 
@@ -736,18 +720,21 @@ POST
     async function loadPosts() {
 
       const container =
-        document.getElementById("posts-container");
+        document.getElementById(
+          "posts-container"
+        );
 
 
       try {
 
-        const response = await fetch(
-          WORKER_URL + "?t=" + Date.now(),
-          {
-            method: "GET",
-            cache: "no-store"
-          }
-        );
+        const response =
+          await fetch(
+            WORKER_URL + "?t=" + Date.now(),
+            {
+              method: "GET",
+              cache: "no-store"
+            }
+          );
 
 
         if (!response.ok) {
@@ -775,10 +762,15 @@ POST
           const empty =
             document.createElement("p");
 
+
           empty.textContent =
             "no posts yet.";
 
-          container.appendChild(empty);
+
+          container.appendChild(
+            empty
+          );
+
 
           return;
 
@@ -790,6 +782,7 @@ POST
           const paragraph =
             document.createElement("div");
 
+
           paragraph.className =
             "user-post";
 
@@ -797,24 +790,33 @@ POST
           const username =
             document.createElement("strong");
 
+
           username.textContent =
-            (post.username || "Tsukasachan") + ":";
-
-
-          paragraph.appendChild(username);
+            (post.username || "Tsukasachan") +
+            ":";
 
 
           const content =
             document.createElement("div");
 
+
           content.textContent =
             post.content || "";
 
 
-          paragraph.appendChild(content);
+          paragraph.appendChild(
+            username
+          );
 
 
-          container.appendChild(paragraph);
+          paragraph.appendChild(
+            content
+          );
+
+
+          container.appendChild(
+            paragraph
+          );
 
         });
 
@@ -835,6 +837,7 @@ POST
         const errorText =
           document.createElement("p");
 
+
         errorText.textContent =
           "couldn't load posts!";
 
@@ -853,14 +856,18 @@ POST
       function() {
 
         const modal =
-          document.getElementById("post-modal");
+          document.getElementById(
+            "post-modal"
+          );
 
 
         modal.addEventListener(
           "click",
           function(event) {
 
-            if (event.target === modal) {
+            if (
+              event.target === modal
+            ) {
 
               closePostBox();
 
