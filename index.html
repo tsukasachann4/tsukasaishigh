@@ -23,14 +23,12 @@
 body {
   margin: 0;
   padding: 0;
-
   background-color: #FEE8FF;
   background-image: url("websiteyay.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
   background-attachment: fixed;
-
   color: #808080;
 }
 
@@ -41,14 +39,10 @@ body {
 .page {
   width: 850px;
   max-width: 90%;
-
   margin: 40px auto;
   padding: 8px;
-
   background-color: #FEE8FF;
-
   border: 4px solid #C9C2E8;
-
   position: relative;
   z-index: 1;
 }
@@ -59,11 +53,8 @@ body {
 
 header {
   background-color: #D8F3F5;
-
   border: 3px solid #C9C2E8;
-
   padding: 12px;
-
   text-align: center;
 }
 
@@ -75,10 +66,8 @@ header {
 .title-image img {
   max-width: 100%;
   height: auto;
-
   display: block;
   margin: 0 auto;
-
   image-rendering: pixelated;
 }
 
@@ -94,35 +83,24 @@ header p {
 nav {
   margin-top: 8px;
   padding: 8px;
-
   background-color: #C9C2E8;
-
   border: 3px solid #D8F3F5;
-
   text-align: center;
 }
 
 nav a {
   display: inline-block;
-
   margin: 3px 8px;
   padding: 5px 10px;
-
   color: #808080;
-
   background-color: #FEE8FF;
-
   border-top: 2px solid white;
   border-left: 2px solid white;
-
   border-right: 2px solid #808080;
   border-bottom: 2px solid #808080;
-
   text-decoration: none;
-
   font-weight: bold;
   font-size: 13px;
-
   cursor: pointer;
 }
 
@@ -137,11 +115,8 @@ nav a:hover {
 .status {
   margin-top: 8px;
   padding: 7px;
-
   background-color: #D8F3F5;
-
   border: 2px dotted #C9C2E8;
-
   font-size: 13px;
 }
 
@@ -155,9 +130,7 @@ nav a:hover {
 
 .content {
   display: flex;
-
   gap: 10px;
-
   margin-top: 10px;
 }
 
@@ -167,44 +140,31 @@ nav a:hover {
 
 .sidebar {
   width: 210px;
-
   flex-shrink: 0;
-
   background-color: #C9C2E8;
-
   border: 3px solid #D8F3F5;
-
   padding: 10px;
 }
 
 .sidebar h2 {
   margin-top: 0;
-
   font-size: 18px;
-
   color: #808080;
-
   border-bottom: 2px dotted #D8F3F5;
-
   padding-bottom: 5px;
 }
 
 .sidebar img {
   width: 150px;
   height: 150px;
-
   object-fit: cover;
-
   border: 4px solid #D8F3F5;
-
   display: block;
-
   margin: auto;
 }
 
 .sidebar p {
   font-size: 13px;
-
   line-height: 1.5;
 }
 
@@ -214,19 +174,12 @@ nav a:hover {
 
 .links a {
   display: block;
-
   padding: 4px;
-
   margin: 4px 0;
-
   background-color: #FEE8FF;
-
   border: 2px dashed #D8F3F5;
-
   color: #808080;
-
   text-decoration: none;
-
   font-size: 12px;
 }
 
@@ -235,18 +188,14 @@ nav a:hover {
 }
 
 /* ================================
-   POSTS
+   POSTS AREA
 ================================ */
 
 .posts {
   flex: 1;
-
   min-width: 0;
-
-  max-height: 600px;
-
+  max-height: 700px;
   overflow-y: auto;
-
   padding-right: 6px;
 }
 
@@ -258,13 +207,11 @@ nav a:hover {
 
 .posts::-webkit-scrollbar-track {
   background: #FEE8FF;
-
   border: 2px solid #C9C2E8;
 }
 
 .posts::-webkit-scrollbar-thumb {
   background: #C9C2E8;
-
   border: 2px solid #D8F3F5;
 }
 
@@ -272,43 +219,50 @@ nav a:hover {
   background: #D8F3F5;
 }
 
+/* ================================
+   SECTION HEADERS
+================================ */
+
+.section-header {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #D8F3F5;
+  border: 3px solid #C9C2E8;
+  color: #808080;
+  font-size: 17px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ================================
+   MY POSTS
+================================ */
+
 .post {
   margin-bottom: 12px;
-
   padding: 10px;
-
   background-color: #FEE8FF;
-
   border: 4px solid #D8F3F5;
 }
 
 .post-title {
   margin: -10px -10px 8px -10px;
-
   padding: 7px;
-
   background-color: #D8F3F5;
-
   border-bottom: 3px solid #C9C2E8;
-
   font-weight: bold;
-
   font-size: 17px;
 }
 
 .post-info {
   font-size: 11px;
-
   margin-bottom: 8px;
-
   border-bottom: 1px dotted #808080;
-
   padding-bottom: 5px;
 }
 
 .post p {
   line-height: 1.6;
-
   font-size: 14px;
 }
 
@@ -318,36 +272,131 @@ nav a:hover {
 
 .user-post {
   margin: 10px 0;
-
   padding: 10px;
-
   background-color: #FEE8FF;
-
   border: 3px solid #D8F3F5;
-
   color: #808080;
-
   font-size: 14px;
-
   line-height: 1.5;
-
   white-space: pre-wrap;
-
   overflow-wrap: anywhere;
 }
 
 .user-post strong {
   display: block;
-
   margin-bottom: 5px;
 }
 
 .user-post-time {
   font-size: 10px;
-
   margin-top: 8px;
-
   opacity: 0.7;
+}
+
+/* ================================
+   GUEST NOTES SECTION
+================================ */
+
+.guest-section {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 4px dotted #C9C2E8;
+}
+
+.guest-section-header {
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: #C9C2E8;
+  border: 3px solid #D8F3F5;
+  color: #808080;
+  text-align: center;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.guest-description {
+  margin: 8px 0 12px 0;
+  padding: 7px;
+  background-color: #D8F3F5;
+  border: 2px dotted #C9C2E8;
+  font-size: 12px;
+  text-align: center;
+}
+
+.guest-note {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #FEE8FF;
+  border: 3px solid #C9C2E8;
+  color: #808080;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.guest-note-name {
+  font-weight: bold;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.guest-note-time {
+  margin-top: 8px;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.guest-note-form {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #D8F3F5;
+  border: 3px solid #C9C2E8;
+}
+
+.guest-note-form-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.guest-input,
+.guest-textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 7px;
+  background-color: #FEE8FF;
+  color: #808080;
+  border: 3px solid #C9C2E8;
+  font-family: "Pixel Operator", monospace;
+  outline: none;
+}
+
+.guest-textarea {
+  min-height: 90px;
+  resize: vertical;
+  font-size: 13px;
+}
+
+.guest-submit {
+  padding: 6px 12px;
+  background-color: #C9C2E8;
+  color: #808080;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
+}
+
+.guest-submit:hover {
+  background-color: #D8F3F5;
+}
+
+#guest-message {
+  font-size: 11px;
+  margin: 7px 0 0 0;
 }
 
 /* ================================
@@ -356,15 +405,10 @@ nav a:hover {
 
 .image-link {
   display: inline-block;
-
   color: #816E8A;
-
   text-decoration: none;
-
   font-weight: bold;
-
   margin-top: 6px;
-
   cursor: pointer;
 }
 
@@ -380,50 +424,34 @@ nav a:hover {
 .tchan-button {
 
   position: fixed;
-
   bottom: 20px;
-
   z-index: 1000;
-
   padding: 8px 14px;
-
   font-family: "Pixel Operator", monospace;
-
   font-size: 14px;
-
   cursor: pointer;
 }
-
-/* NORMAL POST BUTTON */
 
 .open-post-button {
 
   right: 20px;
-
   background-color: #C9C2E8;
-
   color: #808080;
 
   border-top: 3px solid white;
   border-left: 3px solid white;
-
   border-right: 3px solid #808080;
   border-bottom: 3px solid #808080;
 }
 
-/* TCHAN BUTTON */
-
 .tchan-button {
 
   left: 20px;
-
   background-color: #C9C2E8;
-
   color: #808080;
 
   border-top: 3px solid white;
   border-left: 3px solid white;
-
   border-right: 3px solid #808080;
   border-bottom: 3px solid #808080;
 }
@@ -447,35 +475,31 @@ nav a:hover {
   z-index: 2000;
 
   align-items: center;
-
   justify-content: center;
 
   background-color: rgba(0,0,0,0.25);
 }
 
-/* NORMAL POST WINDOW */
+/* ================================
+   NORMAL POST WINDOW
+================================ */
 
 .post-window {
 
   width: 420px;
-
   max-width: 85%;
-
   padding: 12px;
 
   background-color: #FEE8FF;
-
   border: 4px solid #C9C2E8;
 }
 
 .post-window-title {
 
   margin: -12px -12px 12px -12px;
-
   padding: 8px;
 
   background-color: #D8F3F5;
-
   border-bottom: 3px solid #C9C2E8;
 
   font-size: 16px;
@@ -491,11 +515,9 @@ nav a:hover {
 #tchan-password {
 
   width: 100%;
-
   padding: 8px;
 
   background-color: #FEE8FF;
-
   color: #808080;
 
   border: 3px solid #D8F3F5;
@@ -506,23 +528,17 @@ nav a:hover {
 }
 
 #post-password {
-
   margin-bottom: 8px;
 }
 
 #post-content {
-
   min-height: 130px;
-
   resize: vertical;
-
   font-size: 14px;
 }
 
 #image-url {
-
   margin-top: 8px;
-
   font-size: 12px;
 }
 
@@ -533,11 +549,8 @@ nav a:hover {
 .post-window-buttons {
 
   display: flex;
-
   justify-content: flex-end;
-
   gap: 6px;
-
   margin-top: 8px;
 }
 
@@ -546,12 +559,10 @@ nav a:hover {
   padding: 6px 12px;
 
   background-color: #C9C2E8;
-
   color: #808080;
 
   border-top: 3px solid white;
   border-left: 3px solid white;
-
   border-right: 3px solid #808080;
   border-bottom: 3px solid #808080;
 
@@ -567,47 +578,38 @@ nav a:hover {
 .tchan-window {
 
   width: 350px;
-
   max-width: 85%;
-
   padding: 12px;
 
   background-color: black;
-
   color: red;
 
   border: 4px solid red;
 }
 
 .tchan-window * {
-
   color: red;
 }
 
 .tchan-title {
 
   margin: -12px -12px 12px -12px;
-
   padding: 8px;
 
   background-color: #120000;
-
   border-bottom: 3px solid red;
 }
 
 #tchan-password {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 .tchan-window button {
 
   background-color: black;
-
   color: red;
 
   border: 2px solid red;
@@ -626,170 +628,199 @@ nav a:hover {
 body.tchan-mode {
 
   background-color: black;
-
   background-image: none;
-
   color: red;
 }
 
 body.tchan-mode .page {
 
   background-color: black;
-
   border-color: red;
 }
 
 body.tchan-mode header {
 
   background-color: #120000;
-
   border-color: red;
 }
 
 body.tchan-mode header p {
-
   color: red;
 }
 
 body.tchan-mode nav {
 
   background-color: #120000;
-
   border-color: red;
 }
 
 body.tchan-mode nav a {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode nav a:hover {
-
   background-color: #120000;
 }
 
 body.tchan-mode .status {
 
   background-color: #120000;
-
   border-color: red;
 }
 
 body.tchan-mode .sidebar {
 
   background-color: #120000;
-
   border-color: red;
 }
 
 body.tchan-mode .sidebar h2 {
 
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .sidebar p {
-
   color: red;
 }
 
 body.tchan-mode .sidebar img {
-
   border-color: red;
 }
 
 body.tchan-mode .links a {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .post {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .post-title {
 
   background-color: #120000;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .post-info {
 
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .post p {
-
   color: red;
 }
 
 body.tchan-mode .user-post {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .user-post strong {
-
   color: red;
 }
 
 body.tchan-mode .user-post-time {
-
   color: red;
 }
 
 body.tchan-mode .image-link {
-
   color: red;
 }
 
 body.tchan-mode footer {
 
   background-color: #120000;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .open-post-button {
 
   background-color: black;
-
   color: red;
-
   border-color: red;
 }
 
 body.tchan-mode .tchan-button {
 
   background-color: red;
-
   color: black;
+  border-color: red;
+}
 
+body.tchan-mode .section-header {
+
+  background-color: #120000;
+  color: red;
+  border-color: red;
+}
+
+/* TCHAN guest notes */
+
+body.tchan-mode .guest-section {
+
+  border-color: red;
+}
+
+body.tchan-mode .guest-section-header {
+
+  background-color: #120000;
+  color: red;
+  border-color: red;
+}
+
+body.tchan-mode .guest-description {
+
+  background-color: #120000;
+  color: red;
+  border-color: red;
+}
+
+body.tchan-mode .guest-note {
+
+  background-color: black;
+  color: red;
+  border-color: red;
+}
+
+body.tchan-mode .guest-note-name,
+body.tchan-mode .guest-note-time {
+
+  color: red;
+}
+
+body.tchan-mode .guest-note-form {
+
+  background-color: #120000;
+  border-color: red;
+}
+
+body.tchan-mode .guest-input,
+body.tchan-mode .guest-textarea {
+
+  background-color: black;
+  color: red;
+  border-color: red;
+}
+
+body.tchan-mode .guest-submit {
+
+  background-color: black;
+  color: red;
   border-color: red;
 }
 
@@ -798,19 +829,16 @@ body.tchan-mode .tchan-button {
 body.tchan-mode .posts::-webkit-scrollbar-track {
 
   background: black;
-
   border-color: red;
 }
 
 body.tchan-mode .posts::-webkit-scrollbar-thumb {
 
   background: red;
-
   border-color: black;
 }
 
 body.tchan-mode .posts::-webkit-scrollbar-thumb:hover {
-
   background: #ff3333;
 }
 
@@ -821,13 +849,11 @@ body.tchan-mode .posts::-webkit-scrollbar-thumb:hover {
 footer {
 
   margin-top: 10px;
-
   padding: 8px;
 
   text-align: center;
 
   background-color: #D8F3F5;
-
   border: 3px solid #C9C2E8;
 
   font-size: 12px;
@@ -840,40 +866,34 @@ footer {
 @media (max-width: 700px) {
 
   .content {
-
     display: block;
   }
 
   .sidebar {
 
     width: auto;
-
     margin-bottom: 10px;
   }
 
   .page {
 
     width: auto;
-
     max-width: 95%;
   }
 
   .posts {
-
-    max-height: 500px;
+    max-height: 600px;
   }
 
   .open-post-button {
 
     right: 10px;
-
     bottom: 10px;
   }
 
   .tchan-button {
 
     left: 10px;
-
     bottom: 10px;
   }
 }
@@ -983,6 +1003,14 @@ strawberry
 
 <main class="posts">
 
+<!-- ================================
+     MY POSTS
+================================ -->
+
+<div class="section-header">
+MY POSTS
+</div>
+
 
 <article
 class="post"
@@ -1011,6 +1039,70 @@ loading posts
 </p>
 
 </div>
+
+
+<!-- ================================
+     GUEST NOTES
+================================ -->
+
+<section class="guest-section">
+
+<div class="guest-section-header">
+GUEST NOTES
+</div>
+
+<div class="guest-description">
+leave a little message here! everyone can see these ♡
+</div>
+
+
+<div id="guest-notes-container">
+
+<p>
+loading guest notes...
+</p>
+
+</div>
+
+
+<div class="guest-note-form">
+
+<div class="guest-note-form-title">
+leave a note!
+</div>
+
+
+<input
+type="text"
+id="guest-username"
+class="guest-input"
+maxlength="30"
+placeholder="your name (optional)"
+>
+
+
+<textarea
+id="guest-content"
+class="guest-textarea"
+maxlength="1000"
+placeholder="write something..."
+></textarea>
+
+
+<button
+type="button"
+class="guest-submit"
+onclick="submitGuestNote()"
+>
+LEAVE NOTE
+</button>
+
+
+<p id="guest-message"></p>
+
+</div>
+
+</section>
 
 
 </main>
@@ -1102,8 +1194,7 @@ and clicking it opens the image.
 </p>
 
 
-<p id="post-message">
-</p>
+<p id="post-message"></p>
 
 
 <div class="post-window-buttons">
@@ -1157,8 +1248,7 @@ placeholder="password"
 >
 
 
-<p id="tchan-message">
-</p>
+<p id="tchan-message"></p>
 
 
 <div class="post-window-buttons">
@@ -1458,11 +1548,6 @@ async function makeNormalPost() {
   let finalContent = content;
 
 
-  /*
-     Images are stored as a special
-     line beginning with [IMAGE].
-  */
-
   if (imageUrl) {
 
     finalContent +=
@@ -1661,6 +1746,12 @@ async function makeTchanPost() {
 
   try {
 
+    const password =
+      sessionStorage.getItem(
+        "tchan_password"
+      );
+
+
     const response =
       await fetch(
         WORKER_URL + "/tchan",
@@ -1674,18 +1765,14 @@ async function makeTchanPost() {
               "application/json",
 
             "X-TCHAN-PASSWORD":
-              sessionStorage.getItem(
-                "tchan_password"
-              )
+              password
 
           },
 
           body: JSON.stringify({
 
             password:
-              sessionStorage.getItem(
-                "tchan_password"
-              ),
+              password,
 
             content:
               finalContent
@@ -2007,11 +2094,6 @@ function addPostToPage(
     post.content || "";
 
 
-  /*
-     Split the post into normal text
-     and [IMAGE] links.
-  */
-
   const parts =
     rawContent.split(
       /(\[IMAGE\][^\s]+)/g
@@ -2080,13 +2162,9 @@ function addPostToPage(
   );
 
 
-  /*
-     Timestamp
-  */
-
   const timestamp =
-    post.timestamp ||
     post.created_at ||
+    post.timestamp ||
     post.createdAt ||
     post.date ||
     post.time;
@@ -2134,6 +2212,318 @@ function addPostToPage(
   container.appendChild(
     box
   );
+
+}
+
+
+/* =========================================
+   GUEST NOTES
+========================================= */
+
+async function loadGuestNotes() {
+
+  const container =
+    document.getElementById(
+      "guest-notes-container"
+    );
+
+
+  try {
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/guest-notes?t=" +
+        Date.now()
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "HTTP " +
+        response.status
+      );
+
+    }
+
+
+    const notes =
+      await response.json();
+
+
+    container.innerHTML = "";
+
+
+    if (
+      !Array.isArray(notes) ||
+      notes.length === 0
+    ) {
+
+      container.innerHTML =
+        "<p>no guest notes yet... be the first!</p>";
+
+      return;
+
+    }
+
+
+    notes.forEach(
+      function(note) {
+
+        addGuestNoteToPage(
+          container,
+          note
+        );
+
+      }
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "LOAD GUEST NOTES ERROR:",
+      error
+    );
+
+    container.innerHTML =
+      "<p>couldn't load guest notes!</p>";
+
+  }
+
+}
+
+
+/* =========================================
+   ADD GUEST NOTE
+========================================= */
+
+function addGuestNoteToPage(
+  container,
+  note
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+  box.className =
+    "guest-note";
+
+
+  const username =
+    document.createElement(
+      "div"
+    );
+
+  username.className =
+    "guest-note-name";
+
+  username.textContent =
+    (
+      note.username ||
+      "Anonymous"
+    ) + ":";
+
+
+  box.appendChild(
+    username
+  );
+
+
+  const content =
+    document.createElement(
+      "div"
+    );
+
+  content.textContent =
+    note.content || "";
+
+
+  box.appendChild(
+    content
+  );
+
+
+  const timestamp =
+    note.created_at ||
+    note.timestamp ||
+    note.createdAt ||
+    note.date ||
+    note.time;
+
+
+  if (timestamp) {
+
+    const time =
+      document.createElement(
+        "div"
+      );
+
+    time.className =
+      "guest-note-time";
+
+
+    const date =
+      new Date(timestamp);
+
+
+    if (
+      !isNaN(
+        date.getTime()
+      )
+    ) {
+
+      time.textContent =
+        date.toLocaleString();
+
+    } else {
+
+      time.textContent =
+        timestamp;
+
+    }
+
+    box.appendChild(
+      time
+    );
+
+  }
+
+
+  container.appendChild(
+    box
+  );
+
+}
+
+
+/* =========================================
+   SUBMIT GUEST NOTE
+========================================= */
+
+async function submitGuestNote() {
+
+  const usernameInput =
+    document.getElementById(
+      "guest-username"
+    );
+
+  const contentInput =
+    document.getElementById(
+      "guest-content"
+    );
+
+  const message =
+    document.getElementById(
+      "guest-message"
+    );
+
+
+  const username =
+    usernameInput.value.trim() ||
+    "Anonymous";
+
+  const content =
+    contentInput.value.trim();
+
+
+  if (!content) {
+
+    message.textContent =
+      "write something first!";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "leaving note...";
+
+
+  try {
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/guest-notes",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            username:
+              username,
+
+            content:
+              content
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      message.textContent =
+        result.error ||
+        "couldn't leave note.";
+
+      return;
+
+    }
+
+
+    usernameInput.value = "";
+    contentInput.value = "";
+
+
+    message.textContent =
+      "note posted!";
+
+
+    await loadGuestNotes();
+
+
+    setTimeout(
+      function() {
+
+        message.textContent = "";
+
+      },
+      2000
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "GUEST NOTE ERROR:",
+      error
+    );
+
+    message.textContent =
+      "cant connect to the server.";
+
+  }
 
 }
 
@@ -2231,11 +2621,6 @@ async function enterTchan() {
 
   try {
 
-    /*
-       Test the password against
-       the Worker before activating TCHAN.
-    */
-
     const response =
       await fetch(
         WORKER_URL + "/tchan",
@@ -2277,11 +2662,6 @@ async function enterTchan() {
 
     }
 
-
-    /*
-       Save authentication state
-       locally for this browser.
-    */
 
     localStorage.setItem(
       TCHAN_AUTH_KEY,
@@ -2327,29 +2707,17 @@ function activateTchan() {
   );
 
 
-  /*
-     Change banner
-  */
-
   document.getElementById(
     "banner"
   ).src =
     "darkangelbanner.jpeg";
 
 
-  /*
-     Change profile
-  */
-
   document.getElementById(
     "profile-picture"
   ).src =
     "madpfp.jpeg";
 
-
-  /*
-     Change text
-  */
 
   document.getElementById(
     "blog-subtitle"
@@ -2369,26 +2737,14 @@ function activateTchan() {
     "TCHAN";
 
 
-  /*
-     Hide normal intro
-  */
-
   document.getElementById(
     "normal-intro"
   ).style.display =
     "none";
 
 
-  /*
-     Load TCHAN posts
-  */
-
   loadTchanPosts();
 
-
-  /*
-     Switch music
-  */
 
   startTchanMusic();
 
@@ -2406,29 +2762,17 @@ function goHome() {
   );
 
 
-  /*
-     Restore banner
-  */
-
   document.getElementById(
     "banner"
   ).src =
     "kangel.jpeg";
 
 
-  /*
-     Restore profile
-  */
-
   document.getElementById(
     "profile-picture"
   ).src =
     "pfp.jpeg";
 
-
-  /*
-     Restore text
-  */
 
   document.getElementById(
     "blog-subtitle"
@@ -2448,26 +2792,14 @@ function goHome() {
     "tsukasAngel";
 
 
-  /*
-     Bring back normal intro
-  */
-
   document.getElementById(
     "normal-intro"
   ).style.display =
     "block";
 
 
-  /*
-     Load normal posts
-  */
-
   loadNormalPosts();
 
-
-  /*
-     Switch music back
-  */
 
   if (musicStarted) {
 
@@ -2529,19 +2861,10 @@ document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    /*
-       TCHAN mode does NOT automatically
-       activate on refresh.
-    */
-
     document.body.classList.remove(
       "tchan-mode"
     );
 
-
-    /*
-       Always start in normal mode.
-    */
 
     document.getElementById(
       "banner"
@@ -2579,11 +2902,9 @@ document.addEventListener(
       "block";
 
 
-    /*
-       Load public normal posts.
-    */
-
     loadNormalPosts();
+
+    loadGuestNotes();
 
   }
 );
