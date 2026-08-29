@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -355,16 +357,19 @@ nav a:hover {
 
   max-width: 100%;
 
+  width: auto;
+
+  height: auto;
+
   max-height: 500px;
 
-  width: auto;
-  height: auto;
+  object-fit: contain;
 
   margin-top: 10px;
 
   border: 3px solid #D8F3F5;
 
-  object-fit: contain;
+  image-rendering: auto;
 }
 
 /* ================================
@@ -389,8 +394,6 @@ nav a:hover {
   cursor: pointer;
 }
 
-/* NORMAL POST BUTTON */
-
 .open-post-button {
 
   right: 20px;
@@ -406,7 +409,7 @@ nav a:hover {
   border-bottom: 3px solid #808080;
 }
 
-/* TCHAN BUTTON */
+/* NORMAL TCHAN BUTTON */
 
 .tchan-button {
 
@@ -448,7 +451,9 @@ nav a:hover {
   background-color: rgba(0,0,0,0.25);
 }
 
-/* NORMAL POST WINDOW */
+/* ================================
+   NORMAL POST WINDOW
+================================ */
 
 .post-window {
 
@@ -482,7 +487,7 @@ nav a:hover {
 
 #post-password,
 #post-content,
-#post-image-url,
+#post-image,
 #tchan-password {
 
   width: 100%;
@@ -514,26 +519,11 @@ nav a:hover {
   font-size: 14px;
 }
 
-#post-image-url {
+#post-image {
 
   margin-top: 8px;
 
   font-size: 12px;
-}
-
-/* ================================
-   IMAGE URL LABEL
-================================ */
-
-.image-url-label {
-
-  display: block;
-
-  margin-top: 8px;
-
-  margin-bottom: 4px;
-
-  font-size: 11px;
 }
 
 /* ================================
@@ -885,6 +875,7 @@ footer {
 }
 
 </style>
+
 </head>
 
 <body>
@@ -893,8 +884,20 @@ footer {
      MUSIC
 ================================ -->
 
-<audio id="normal-music" src="happyver.mp3" loop preload="auto"></audio>
-<audio id="tchan-music" src="madver.mp3" loop preload="auto"></audio>
+<audio
+  id="normal-music"
+  src="happyver.mp3"
+  loop
+  preload="auto">
+</audio>
+
+<audio
+  id="tchan-music"
+  src="madver.mp3"
+  loop
+  preload="auto">
+</audio>
+
 
 <div class="page">
 
@@ -903,9 +906,9 @@ footer {
 <h1 class="title-image">
 
 <img
-id="banner"
-src="kangel.jpeg"
-alt="Kangel"
+  id="banner"
+  src="kangel.jpeg"
+  alt="Kangel"
 >
 
 </h1>
@@ -916,21 +919,29 @@ my blog!
 
 </header>
 
+
 <nav>
 
-<a href="#" onclick="return goHome();">
+<a
+  href="#"
+  onclick="return goHome();">
 wake up
 </a>
 
-<a href="#" onclick="openPostBox(); return false;">
+<a
+  href="#"
+  onclick="openPostBox(); return false;">
 write
 </a>
 
-<a href="#" onclick="goHome(); return false;">
+<a
+  href="#"
+  onclick="goHome(); return false;">
 go home
 </a>
 
 </nav>
+
 
 <div class="status">
 
@@ -942,7 +953,9 @@ online
 
 </div>
 
+
 <div class="content">
+
 
 <aside class="sidebar">
 
@@ -951,14 +964,15 @@ ABOUT
 </h2>
 
 <img
-id="profile-picture"
-src="pfp.jpeg"
-alt="profile picture"
+  id="profile-picture"
+  src="pfp.jpeg"
+  alt="profile picture"
 >
 
 <p id="about-text">
 this is lwky js my blog
 </p>
+
 
 <div class="links">
 
@@ -978,11 +992,13 @@ strawberry
 
 </aside>
 
+
 <main class="posts">
 
+
 <article
-class="post"
-id="normal-intro"
+  class="post"
+  id="normal-intro"
 >
 
 <div class="post-title">
@@ -999,6 +1015,7 @@ hmm this is one of my testing posts.. im trying to make this thing so i can actu
 
 </article>
 
+
 <div id="posts-container">
 
 <p>
@@ -1007,9 +1024,11 @@ loading posts
 
 </div>
 
+
 </main>
 
 </div>
+
 
 <footer id="footer-text">
 
@@ -1019,92 +1038,94 @@ tsukasAngel
 
 </div>
 
-<!-- NORMAL POST BUTTON -->
+
+<!-- ================================
+     NORMAL POST BUTTON
+================================ -->
 
 <button
-class="open-post-button"
-type="button"
-onclick="openPostBox()"
+  class="open-post-button"
+  type="button"
+  onclick="openPostBox()"
 >
 
 POST
 
 </button>
 
-<!-- TCHAN BUTTON -->
+
+<!-- ================================
+     TCHAN BUTTON
+================================ -->
 
 <button
-class="tchan-button"
-type="button"
-onclick="openTchanBox()"
+  class="tchan-button"
+  type="button"
+  onclick="openTchanBox()"
 >
 
 TCHAN
 
 </button>
 
+
 <!-- ================================
      NORMAL POST WINDOW
 ================================ -->
 
 <div
-id="post-modal"
-class="post-modal"
+  id="post-modal"
+  class="post-modal"
 >
 
 <div class="post-window">
+
 
 <div class="post-window-title">
 ehh sorry only i can post heree
 </div>
 
+
 <input
-type="password"
-id="post-password"
-placeholder="password"
+  type="password"
+  id="post-password"
+  placeholder="password"
 >
+
 
 <textarea
-id="post-content"
-placeholder="write something..."
+  id="post-content"
+  placeholder="write something..."
 ></textarea>
 
-<label
-class="image-url-label"
-for="post-image-url"
->
-
-image URL (optional)
-
-</label>
 
 <input
-type="url"
-id="post-image-url"
-placeholder="https://example.com/image.gif"
+  type="url"
+  id="post-image"
+  placeholder="image URL (optional)"
 >
 
-<p id="post-message">
+
+<p
+  id="post-message">
 </p>
+
 
 <div class="post-window-buttons">
 
 <button
-type="button"
-onclick="closePostBox()"
+  type="button"
+  onclick="closePostBox()"
 >
-
 CANCEL
-
 </button>
+
 
 <button
-type="button"
-onclick="submitPost()"
+  type="button"
+  onclick="submitPost()"
 >
-
 POST
-
 </button>
 
 </div>
@@ -1112,49 +1133,51 @@ POST
 </div>
 
 </div>
+
 
 <!-- ================================
      TCHAN PASSWORD WINDOW
 ================================ -->
 
 <div
-id="tchan-modal"
-class="post-modal"
+  id="tchan-modal"
+  class="post-modal"
 >
 
 <div class="tchan-window">
+
 
 <div class="tchan-title">
 TCHAN ACCESS
 </div>
 
+
 <input
-type="password"
-id="tchan-password"
-placeholder="password"
+  type="password"
+  id="tchan-password"
+  placeholder="password"
 >
+
 
 <p id="tchan-message">
 </p>
 
+
 <div class="post-window-buttons">
 
 <button
-type="button"
-onclick="closeTchanBox()"
+  type="button"
+  onclick="closeTchanBox()"
 >
-
 CANCEL
-
 </button>
+
 
 <button
-type="button"
-onclick="enterTchan()"
+  type="button"
+  onclick="enterTchan()"
 >
-
 ENTER
-
 </button>
 
 </div>
@@ -1162,6 +1185,7 @@ ENTER
 </div>
 
 </div>
+
 
 <script>
 
@@ -1193,9 +1217,6 @@ const POST_AUTH_KEY =
 
 const TCHAN_AUTH_KEY =
 "tsukasa_tchan_authenticated";
-
-const NORMAL_POSTS_KEY =
-"tsukasa_normal_posts";
 
 const TCHAN_POSTS_KEY =
 "tsukasa_tchan_posts";
@@ -1265,10 +1286,6 @@ function startTchanMusic() {
 
 }
 
-
-/*
-  Start music after the first click.
-*/
 
 document.addEventListener(
   "click",
@@ -1357,7 +1374,8 @@ function closePostBox() {
 
   document.getElementById(
     "post-message"
-  ).textContent = "";
+  ).textContent =
+    "";
 
 }
 
@@ -1401,9 +1419,9 @@ async function makeNormalPost() {
       "post-content"
     ).value.trim();
 
-  const imageUrl =
+  const image =
     document.getElementById(
-      "post-image-url"
+      "post-image"
     ).value.trim();
 
   const message =
@@ -1411,11 +1429,6 @@ async function makeNormalPost() {
       "post-message"
     );
 
-
-  /*
-    Password is only requested once
-    per browser/device.
-  */
 
   if (
     localStorage.getItem(
@@ -1446,38 +1459,12 @@ async function makeNormalPost() {
   }
 
 
-  /*
-    Need either text or image.
-  */
-
-  if (!content && !imageUrl) {
+  if (!content) {
 
     message.textContent =
-      "write something or add an image.";
+      "write something first.";
 
     return;
-
-  }
-
-
-  /*
-    Check image URL if supplied.
-  */
-
-  if (imageUrl) {
-
-    try {
-
-      new URL(imageUrl);
-
-    } catch {
-
-      message.textContent =
-        "that image URL isn't valid.";
-
-      return;
-
-    }
 
   }
 
@@ -1508,8 +1495,8 @@ async function makeNormalPost() {
             content:
               content,
 
-            image_url:
-              imageUrl
+            image:
+              image
 
           })
 
@@ -1560,7 +1547,6 @@ async function makeNormalPost() {
     if (!response.ok) {
 
       message.textContent =
-        result.error ||
         "server error: " +
         response.status;
 
@@ -1583,23 +1569,12 @@ async function makeNormalPost() {
     }
 
 
-    /*
-      Save local copy too.
-    */
-
-    saveLocalPost(
-      NORMAL_POSTS_KEY,
-      content,
-      imageUrl
-    );
-
-
     document.getElementById(
       "post-content"
     ).value = "";
 
     document.getElementById(
-      "post-image-url"
+      "post-image"
     ).value = "";
 
 
@@ -1635,9 +1610,9 @@ async function makeTchanPost() {
       "post-content"
     ).value.trim();
 
-  const imageUrl =
+  const image =
     document.getElementById(
-      "post-image-url"
+      "post-image"
     ).value.trim();
 
   const message =
@@ -1646,10 +1621,10 @@ async function makeTchanPost() {
     );
 
 
-  if (!content && !imageUrl) {
+  if (!content) {
 
     message.textContent =
-      "write something or add an image.";
+      "write something first.";
 
     return;
 
@@ -1671,77 +1646,35 @@ async function makeTchanPost() {
 
 
   /*
-    Check image URL.
+     TCHAN posts are still local for now.
+     Normal posts are public through D1.
   */
 
-  if (imageUrl) {
-
-    try {
-
-      new URL(imageUrl);
-
-    } catch {
-
-      message.textContent =
-        "that image URL isn't valid.";
-
-      return;
-
-    }
-
-  }
+  saveLocalPost(
+    TCHAN_POSTS_KEY,
+    content,
+    image
+  );
 
 
-  message.textContent =
-    "posting...";
+  document.getElementById(
+    "post-content"
+  ).value = "";
+
+  document.getElementById(
+    "post-image"
+  ).value = "";
 
 
-  try {
-
-    /*
-      TCHAN currently stays local,
-      just like your original version.
-    */
-
-    saveLocalPost(
-      TCHAN_POSTS_KEY,
-      content,
-      imageUrl
-    );
+  closePostBox();
 
 
+  loadLocalPosts(
+    TCHAN_POSTS_KEY,
     document.getElementById(
-      "post-content"
-    ).value = "";
-
-    document.getElementById(
-      "post-image-url"
-    ).value = "";
-
-
-    closePostBox();
-
-
-    loadLocalPosts(
-      TCHAN_POSTS_KEY,
-      document.getElementById(
-        "posts-container"
-      )
-    );
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "TCHAN POST ERROR:",
-      error
-    );
-
-    message.textContent =
-      "couldn't save TCHAN post.";
-
-  }
+      "posts-container"
+    )
+  );
 
 }
 
@@ -1753,7 +1686,7 @@ async function makeTchanPost() {
 function saveLocalPost(
   storageKey,
   content,
-  imageUrl = ""
+  image
 ) {
 
   const posts =
@@ -1772,8 +1705,8 @@ function saveLocalPost(
     content:
       content,
 
-    image_url:
-      imageUrl,
+    image:
+      image || "",
 
     timestamp:
       new Date().toISOString()
@@ -1922,7 +1855,7 @@ function loadLocalPosts(
 
 
 /* =========================================
-   ADD POST TO PAGE
+   ADD POST
 ========================================= */
 
 function addPostToPage(
@@ -1939,9 +1872,7 @@ function addPostToPage(
     "user-post";
 
 
-  /*
-    Username
-  */
+  /* USERNAME */
 
   const username =
     document.createElement(
@@ -1960,39 +1891,34 @@ function addPostToPage(
   );
 
 
-  /*
-    Text
-  */
+  /* CONTENT */
 
-  if (post.content) {
-
-    const content =
-      document.createElement(
-        "div"
-      );
-
-    content.textContent =
-      post.content;
-
-    box.appendChild(
-      content
+  const content =
+    document.createElement(
+      "div"
     );
 
-  }
+  content.textContent =
+    post.content || "";
 
 
-  /*
-    IMAGE
-  */
+  box.appendChild(
+    content
+  );
 
-  const imageUrl =
+
+  /* =====================================
+     IMAGE
+  ===================================== */
+
+  const imageURL =
+    post.image ||
     post.image_url ||
     post.imageUrl ||
-    post.image ||
     "";
 
 
-  if (imageUrl) {
+  if (imageURL) {
 
     const image =
       document.createElement(
@@ -2003,7 +1929,7 @@ function addPostToPage(
       "user-post-image";
 
     image.src =
-      imageUrl;
+      imageURL;
 
     image.alt =
       "image attached to post";
@@ -2011,16 +1937,13 @@ function addPostToPage(
     image.loading =
       "lazy";
 
-    /*
-      If an image URL breaks,
-      hide the broken image icon.
-    */
+    image.referrerPolicy =
+      "no-referrer";
 
     image.onerror =
       function() {
 
-        image.style.display =
-          "none";
+        image.remove();
 
       };
 
@@ -2032,13 +1955,12 @@ function addPostToPage(
   }
 
 
-  /*
-    Timestamp
-  */
+  /* =====================================
+     TIMESTAMP
+  ===================================== */
 
   const timestamp =
     post.timestamp ||
-    post.created_at ||
     post.createdAt ||
     post.created_at ||
     post.date ||
@@ -2051,6 +1973,7 @@ function addPostToPage(
       document.createElement(
         "div"
       );
+
 
     time.className =
       "user-post-time";
@@ -2097,11 +2020,6 @@ function addPostToPage(
 
 function openTchanBox() {
 
-  /*
-    If already authenticated,
-    activate immediately.
-  */
-
   if (
     localStorage.getItem(
       TCHAN_AUTH_KEY
@@ -2123,7 +2041,8 @@ function openTchanBox() {
 
   document.getElementById(
     "tchan-password"
-  ).value = "";
+  ).value =
+    "";
 
 
   document.getElementById(
@@ -2143,7 +2062,8 @@ function closeTchanBox() {
 
   document.getElementById(
     "tchan-message"
-  ).textContent = "";
+  ).textContent =
+    "";
 
 }
 
@@ -2203,29 +2123,17 @@ function activateTchan() {
   );
 
 
-  /*
-    Banner
-  */
-
   document.getElementById(
     "banner"
   ).src =
     "darkangelbanner.jpeg";
 
 
-  /*
-    Profile
-  */
-
   document.getElementById(
     "profile-picture"
   ).src =
     "madpfp.jpeg";
 
-
-  /*
-    Text
-  */
 
   document.getElementById(
     "blog-subtitle"
@@ -2245,19 +2153,11 @@ function activateTchan() {
     "TCHAN";
 
 
-  /*
-    Hide normal intro
-  */
-
   document.getElementById(
     "normal-intro"
   ).style.display =
     "none";
 
-
-  /*
-    Load TCHAN posts
-  */
 
   loadLocalPosts(
     TCHAN_POSTS_KEY,
@@ -2267,17 +2167,13 @@ function activateTchan() {
   );
 
 
-  /*
-    Switch music
-  */
-
   startTchanMusic();
 
 }
 
 
 /* =========================================
-   EXIT TCHAN / GO HOME
+   GO HOME
 ========================================= */
 
 function goHome() {
@@ -2287,29 +2183,17 @@ function goHome() {
   );
 
 
-  /*
-    Restore banner
-  */
-
   document.getElementById(
     "banner"
   ).src =
     "kangel.jpeg";
 
 
-  /*
-    Restore profile
-  */
-
   document.getElementById(
     "profile-picture"
   ).src =
     "pfp.jpeg";
 
-
-  /*
-    Restore text
-  */
 
   document.getElementById(
     "blog-subtitle"
@@ -2329,26 +2213,14 @@ function goHome() {
     "tsukasAngel";
 
 
-  /*
-    Bring back normal intro
-  */
-
   document.getElementById(
     "normal-intro"
   ).style.display =
     "block";
 
 
-  /*
-    Load normal posts
-  */
-
   loadNormalPosts();
 
-
-  /*
-    Switch music
-  */
 
   if (musicStarted) {
 
@@ -2411,8 +2283,7 @@ document.addEventListener(
   function() {
 
     /*
-      TCHAN mode does not automatically
-      activate after refresh.
+       Always start in normal mode.
     */
 
     localStorage.removeItem(
@@ -2424,10 +2295,6 @@ document.addEventListener(
       "tchan-mode"
     );
 
-
-    /*
-      Normal mode
-    */
 
     document.getElementById(
       "banner"
@@ -2464,10 +2331,6 @@ document.addEventListener(
     ).style.display =
       "block";
 
-
-    /*
-      Load public posts from D1.
-    */
 
     loadNormalPosts();
 
