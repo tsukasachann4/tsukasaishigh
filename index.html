@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,11 +34,6 @@ body {
   color: #808080;
 }
 
-
-/* ================================
-   MAIN PAGE
-================================ */
-
 .page {
   width: 850px;
   max-width: 90%;
@@ -52,7 +48,6 @@ body {
   position: relative;
   z-index: 1;
 }
-
 
 /* ================================
    HEADER
@@ -87,7 +82,6 @@ header p {
   margin: 8px;
   font-size: 14px;
 }
-
 
 /* ================================
    NAV
@@ -132,7 +126,6 @@ nav a:hover {
   background-color: #D8F3F5;
 }
 
-
 /* ================================
    STATUS
 ================================ */
@@ -152,7 +145,6 @@ nav a:hover {
   font-weight: bold;
 }
 
-
 /* ================================
    CONTENT
 ================================ */
@@ -164,7 +156,6 @@ nav a:hover {
 
   margin-top: 10px;
 }
-
 
 /* ================================
    SIDEBAR
@@ -213,6 +204,97 @@ nav a:hover {
   line-height: 1.5;
 }
 
+/* ================================
+   GUEST NOTES BUTTON
+================================ */
+
+.guest-button {
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 7px;
+
+  background-color: #FEE8FF;
+
+  color: #808080;
+
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+
+  font-family: "Pixel Operator", monospace;
+
+  cursor: pointer;
+
+  font-size: 12px;
+}
+
+.guest-button:hover {
+  background-color: #D8F3F5;
+}
+
+/* ================================
+   PINNED MESSAGES
+================================ */
+
+.pinned-section {
+  margin-top: 10px;
+
+  padding: 8px;
+
+  background-color: #D8F3F5;
+
+  border: 3px solid #C9C2E8;
+}
+
+.pinned-section h3 {
+  margin: 0 0 8px 0;
+
+  font-size: 14px;
+
+  color: #808080;
+
+  border-bottom: 2px dotted #C9C2E8;
+
+  padding-bottom: 5px;
+}
+
+.pinned-post {
+  margin-bottom: 7px;
+
+  padding: 7px;
+
+  background-color: #FEE8FF;
+
+  border: 2px solid #C9C2E8;
+
+  font-size: 11px;
+
+  line-height: 1.5;
+}
+
+.pinned-post:last-child {
+  margin-bottom: 0;
+}
+
+.pinned-post strong {
+  display: block;
+
+  margin-bottom: 3px;
+}
+
+.pinned-time {
+  display: block;
+
+  margin-top: 5px;
+
+  font-size: 9px;
+
+  opacity: 0.7;
+}
 
 /* ================================
    LINKS
@@ -240,7 +322,6 @@ nav a:hover {
   background-color: #D8F3F5;
 }
 
-
 /* ================================
    POSTS
 ================================ */
@@ -256,9 +337,6 @@ nav a:hover {
 
   padding-right: 6px;
 }
-
-
-/* scrollbar */
 
 .posts::-webkit-scrollbar {
   width: 12px;
@@ -279,11 +357,6 @@ nav a:hover {
 .posts::-webkit-scrollbar-thumb:hover {
   background: #D8F3F5;
 }
-
-
-/* ================================
-   POST BOX
-================================ */
 
 .post {
   margin-bottom: 12px;
@@ -318,13 +391,6 @@ nav a:hover {
 
   padding-bottom: 5px;
 }
-
-.post p {
-  line-height: 1.6;
-
-  font-size: 14px;
-}
-
 
 /* ================================
    USER POSTS
@@ -364,11 +430,6 @@ nav a:hover {
   opacity: 0.7;
 }
 
-
-/* ================================
-   IMAGE LINKS
-================================ */
-
 .image-link {
   display: inline-block;
 
@@ -386,7 +447,6 @@ nav a:hover {
 .image-link:hover {
   text-decoration: underline;
 }
-
 
 /* ================================
    BUTTONS
@@ -410,9 +470,6 @@ nav a:hover {
   cursor: pointer;
 }
 
-
-/* NORMAL POST BUTTON */
-
 .open-post-button {
 
   right: 20px;
@@ -428,9 +485,6 @@ nav a:hover {
   border-bottom: 3px solid #808080;
 }
 
-
-/* TCHAN BUTTON */
-
 .tchan-button {
 
   left: 20px;
@@ -445,7 +499,6 @@ nav a:hover {
   border-right: 3px solid #808080;
   border-bottom: 3px solid #808080;
 }
-
 
 /* ================================
    MODALS
@@ -471,9 +524,6 @@ nav a:hover {
 
   background-color: rgba(0,0,0,0.25);
 }
-
-
-/* NORMAL POST WINDOW */
 
 .post-window {
 
@@ -501,7 +551,6 @@ nav a:hover {
   font-size: 16px;
 }
 
-
 /* ================================
    INPUTS
 ================================ */
@@ -510,7 +559,7 @@ nav a:hover {
 #post-content,
 #image-url,
 #tchan-password,
-#guest-username,
+#guest-name,
 #guest-content {
 
   width: 100%;
@@ -529,7 +578,6 @@ nav a:hover {
 }
 
 #post-password {
-
   margin-bottom: 8px;
 }
 
@@ -549,22 +597,30 @@ nav a:hover {
   font-size: 12px;
 }
 
-#guest-username {
+/* ================================
+   PIN OPTION
+================================ */
 
-  margin-bottom: 8px;
+.pin-option {
 
-  font-size: 13px;
+  margin-top: 10px;
+
+  padding: 7px;
+
+  background-color: #D8F3F5;
+
+  border: 2px dashed #C9C2E8;
+
+  font-size: 12px;
 }
 
-#guest-content {
-
-  min-height: 100px;
-
-  resize: vertical;
-
-  font-size: 13px;
+.pin-option label {
+  cursor: pointer;
 }
 
+.pin-option input {
+  vertical-align: middle;
+}
 
 /* ================================
    WINDOW BUTTONS
@@ -600,6 +656,63 @@ nav a:hover {
   cursor: pointer;
 }
 
+/* ================================
+   GUEST NOTES WINDOW
+================================ */
+
+.guest-window {
+
+  width: 420px;
+
+  max-width: 85%;
+
+  padding: 12px;
+
+  background-color: #FEE8FF;
+
+  border: 4px solid #C9C2E8;
+}
+
+.guest-title {
+
+  margin: -12px -12px 12px -12px;
+
+  padding: 8px;
+
+  background-color: #D8F3F5;
+
+  border-bottom: 3px solid #C9C2E8;
+
+  font-size: 16px;
+}
+
+#guest-name {
+  margin-bottom: 8px;
+}
+
+#guest-content {
+
+  min-height: 100px;
+
+  resize: vertical;
+
+  font-size: 13px;
+}
+
+.guest-counter {
+
+  text-align: right;
+
+  margin-top: 4px;
+
+  font-size: 10px;
+
+  opacity: 0.7;
+}
+
+#guest-message {
+  font-size: 11px;
+}
 
 /* ================================
    TCHAN PASSWORD WINDOW
@@ -621,7 +734,6 @@ nav a:hover {
 }
 
 .tchan-window * {
-
   color: red;
 }
 
@@ -660,97 +772,6 @@ nav a:hover {
   cursor: pointer;
 }
 
-
-/* ================================
-   GUEST NOTES
-================================ */
-
-.guest-notes-window {
-
-  width: 500px;
-
-  max-width: 90%;
-
-  max-height: 80vh;
-
-  overflow: hidden;
-}
-
-.guest-notes-list {
-
-  max-height: 300px;
-
-  overflow-y: auto;
-
-  padding-right: 5px;
-
-  margin-top: 10px;
-
-  border-top: 2px dotted #C9C2E8;
-
-  padding-top: 8px;
-}
-
-.guest-note {
-
-  margin-bottom: 10px;
-
-  padding: 9px;
-
-  background-color: #FEE8FF;
-
-  border: 3px solid #D8F3F5;
-
-  color: #808080;
-
-  font-size: 13px;
-
-  line-height: 1.5;
-
-  overflow-wrap: anywhere;
-}
-
-.guest-note-name {
-
-  font-weight: bold;
-
-  margin-bottom: 4px;
-
-  color: #808080;
-}
-
-.guest-note-time {
-
-  font-size: 10px;
-
-  opacity: 0.65;
-
-  margin-top: 6px;
-}
-
-
-/* guest notes scrollbar */
-
-.guest-notes-list::-webkit-scrollbar {
-
-  width: 10px;
-}
-
-.guest-notes-list::-webkit-scrollbar-track {
-
-  background: #FEE8FF;
-
-  border: 2px solid #C9C2E8;
-}
-
-.guest-notes-list::-webkit-scrollbar-thumb {
-
-  background: #C9C2E8;
-
-  border: 2px solid #D8F3F5;
-}
-
-
 /* ================================
    TCHAN MODE
 ================================ */
@@ -779,7 +800,6 @@ body.tchan-mode header {
 }
 
 body.tchan-mode header p {
-
   color: red;
 }
 
@@ -800,7 +820,6 @@ body.tchan-mode nav a {
 }
 
 body.tchan-mode nav a:hover {
-
   background-color: #120000;
 }
 
@@ -826,16 +845,35 @@ body.tchan-mode .sidebar h2 {
 }
 
 body.tchan-mode .sidebar p {
-
   color: red;
 }
 
 body.tchan-mode .sidebar img {
-
   border-color: red;
 }
 
 body.tchan-mode .links a {
+
+  background-color: black;
+
+  color: red;
+
+  border-color: red;
+}
+
+body.tchan-mode .pinned-section {
+
+  background-color: #120000;
+
+  border-color: red;
+}
+
+body.tchan-mode .pinned-section h3 {
+  color: red;
+  border-color: red;
+}
+
+body.tchan-mode .pinned-post {
 
   background-color: black;
 
@@ -870,7 +908,6 @@ body.tchan-mode .post-info {
 }
 
 body.tchan-mode .post p {
-
   color: red;
 }
 
@@ -884,17 +921,14 @@ body.tchan-mode .user-post {
 }
 
 body.tchan-mode .user-post strong {
-
   color: red;
 }
 
 body.tchan-mode .user-post-time {
-
   color: red;
 }
 
 body.tchan-mode .image-link {
-
   color: red;
 }
 
@@ -925,10 +959,7 @@ body.tchan-mode .tchan-button {
   border-color: red;
 }
 
-
-/* TCHAN guest notes */
-
-body.tchan-mode .guest-notes-window {
+body.tchan-mode .guest-button {
 
   background-color: black;
 
@@ -936,52 +967,6 @@ body.tchan-mode .guest-notes-window {
 
   border-color: red;
 }
-
-body.tchan-mode .guest-notes-window .post-window-title {
-
-  background-color: #120000;
-
-  color: red;
-
-  border-color: red;
-}
-
-body.tchan-mode #guest-username,
-body.tchan-mode #guest-content {
-
-  background-color: black;
-
-  color: red;
-
-  border-color: red;
-}
-
-body.tchan-mode .guest-notes-list {
-
-  border-color: red;
-}
-
-body.tchan-mode .guest-note {
-
-  background-color: black;
-
-  color: red;
-
-  border-color: red;
-}
-
-body.tchan-mode .guest-note-name {
-
-  color: red;
-}
-
-body.tchan-mode .guest-note-time {
-
-  color: red;
-}
-
-
-/* TCHAN scrollbar */
 
 body.tchan-mode .posts::-webkit-scrollbar-track {
 
@@ -998,24 +983,8 @@ body.tchan-mode .posts::-webkit-scrollbar-thumb {
 }
 
 body.tchan-mode .posts::-webkit-scrollbar-thumb:hover {
-
   background: #ff3333;
 }
-
-body.tchan-mode .guest-notes-list::-webkit-scrollbar-track {
-
-  background: black;
-
-  border-color: red;
-}
-
-body.tchan-mode .guest-notes-list::-webkit-scrollbar-thumb {
-
-  background: red;
-
-  border-color: black;
-}
-
 
 /* ================================
    FOOTER
@@ -1036,7 +1005,6 @@ footer {
   font-size: 12px;
 }
 
-
 /* ================================
    MOBILE
 ================================ */
@@ -1044,7 +1012,6 @@ footer {
 @media (max-width: 700px) {
 
   .content {
-
     display: block;
   }
 
@@ -1063,7 +1030,6 @@ footer {
   }
 
   .posts {
-
     max-height: 500px;
   }
 
@@ -1080,17 +1046,6 @@ footer {
 
     bottom: 10px;
   }
-
-  .guest-notes-window {
-
-    max-height: 85vh;
-  }
-
-  .guest-notes-list {
-
-    max-height: 250px;
-  }
-
 }
 
 </style>
@@ -1099,37 +1054,24 @@ footer {
 
 <body>
 
-
 <!-- ================================
      MUSIC
 ================================ -->
 
-<audio
-  id="normal-music"
-  src="happyver.mp3"
-  loop
-  preload="auto">
-</audio>
-
-<audio
-  id="tchan-music"
-  src="madver.mp3"
-  loop
-  preload="auto">
-</audio>
+<audio id="normal-music" src="happyver.mp3" loop preload="auto"></audio>
+<audio id="tchan-music" src="madver.mp3" loop preload="auto"></audio>
 
 
 <div class="page">
-
 
 <header>
 
 <h1 class="title-image">
 
 <img
-  id="banner"
-  src="kangel.jpeg"
-  alt="Kangel"
+id="banner"
+src="kangel.jpeg"
+alt="Kangel"
 >
 
 </h1>
@@ -1143,27 +1085,19 @@ my blog!
 
 <nav>
 
-<a
-  href="#"
-  onclick="goHome(); return false;">
+<a href="#" onclick="goHome(); return false;">
 wake up
 </a>
 
-<a
-  href="#"
-  onclick="openPostBox(); return false;">
+<a href="#" onclick="openPostBox(); return false;">
 write
 </a>
 
-<a
-  href="#"
-  onclick="openGuestNotes(); return false;">
+<a href="#" onclick="openGuestNotes(); return false;">
 guest notes
 </a>
 
-<a
-  href="#"
-  onclick="goHome(); return false;">
+<a href="#" onclick="goHome(); return false;">
 go home
 </a>
 
@@ -1191,9 +1125,9 @@ ABOUT
 </h2>
 
 <img
-  id="profile-picture"
-  src="pfp.jpeg"
-  alt="profile picture"
+id="profile-picture"
+src="pfp.jpeg"
+alt="profile picture"
 >
 
 <p id="about-text">
@@ -1217,6 +1151,34 @@ strawberry
 
 </div>
 
+
+<!-- PINNED MESSAGES -->
+
+<div class="pinned-section">
+
+<h3>
+PINNED MESSAGES
+</h3>
+
+<div id="pinned-container">
+
+<p style="font-size:11px;">
+no pinned messages yet!
+</p>
+
+</div>
+
+</div>
+
+
+<button
+class="guest-button"
+type="button"
+onclick="openGuestNotes()"
+>
+leave a guest note
+</button>
+
 </aside>
 
 
@@ -1224,8 +1186,8 @@ strawberry
 
 
 <article
-  class="post"
-  id="normal-intro"
+class="post"
+id="normal-intro"
 >
 
 <div class="post-title">
@@ -1271,9 +1233,9 @@ tsukasAngel
 ================================ -->
 
 <button
-  class="open-post-button"
-  type="button"
-  onclick="openPostBox()"
+class="open-post-button"
+type="button"
+onclick="openPostBox()"
 >
 
 POST
@@ -1286,9 +1248,9 @@ POST
 ================================ -->
 
 <button
-  class="tchan-button"
-  type="button"
-  onclick="openTchanBox()"
+class="tchan-button"
+type="button"
+onclick="openTchanBox()"
 >
 
 TCHAN
@@ -1301,8 +1263,8 @@ TCHAN
 ================================ -->
 
 <div
-  id="post-modal"
-  class="post-modal"
+id="post-modal"
+class="post-modal"
 >
 
 <div class="post-window">
@@ -1313,22 +1275,22 @@ ehh sorry only i can post heree
 
 
 <input
-  type="password"
-  id="post-password"
-  placeholder="password"
+type="password"
+id="post-password"
+placeholder="password"
 >
 
 
 <textarea
-  id="post-content"
-  placeholder="write something..."
+id="post-content"
+placeholder="write something..."
 ></textarea>
 
 
 <input
-  type="url"
-  id="image-url"
-  placeholder="image/site here"
+type="url"
+id="image-url"
+placeholder="image/site here"
 >
 
 
@@ -1341,6 +1303,24 @@ and clicking it opens the image.
 </p>
 
 
+<!-- PIN OPTION -->
+
+<div class="pin-option">
+
+<label>
+
+<input
+type="checkbox"
+id="post-pinned"
+>
+
+pin this post in the sidebar
+
+</label>
+
+</div>
+
+
 <p id="post-message">
 </p>
 
@@ -1348,8 +1328,8 @@ and clicking it opens the image.
 <div class="post-window-buttons">
 
 <button
-  type="button"
-  onclick="closePostBox()"
+type="button"
+onclick="closePostBox()"
 >
 
 CANCEL
@@ -1358,11 +1338,90 @@ CANCEL
 
 
 <button
-  type="button"
-  onclick="submitPost()"
+type="button"
+onclick="submitPost()"
 >
 
 POST
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================================
+     GUEST NOTES WINDOW
+================================ -->
+
+<div
+id="guest-modal"
+class="post-modal"
+>
+
+<div class="guest-window">
+
+<div class="guest-title">
+leave a little note!
+</div>
+
+
+<input
+type="text"
+id="guest-name"
+maxlength="30"
+placeholder="name (optional)"
+>
+
+
+<textarea
+id="guest-content"
+maxlength="60"
+placeholder="write a note... (60 characters max)"
+></textarea>
+
+
+<div class="guest-counter">
+
+<span id="guest-count">
+0
+</span>
+/
+60
+
+</div>
+
+
+<p style="font-size:10px;">
+you can leave up to 5 notes per day.
+</p>
+
+
+<p id="guest-message">
+</p>
+
+
+<div class="post-window-buttons">
+
+<button
+type="button"
+onclick="closeGuestNotes()"
+>
+
+CANCEL
+
+</button>
+
+
+<button
+type="button"
+onclick="submitGuestNote()"
+>
+
+SEND
 
 </button>
 
@@ -1378,8 +1437,8 @@ POST
 ================================ -->
 
 <div
-  id="tchan-modal"
-  class="post-modal"
+id="tchan-modal"
+class="post-modal"
 >
 
 <div class="tchan-window">
@@ -1390,9 +1449,9 @@ TCHAN ACCESS
 
 
 <input
-  type="password"
-  id="tchan-password"
-  placeholder="password"
+type="password"
+id="tchan-password"
+placeholder="password"
 >
 
 
@@ -1403,8 +1462,8 @@ TCHAN ACCESS
 <div class="post-window-buttons">
 
 <button
-  type="button"
-  onclick="closeTchanBox()"
+type="button"
+onclick="closeTchanBox()"
 >
 
 CANCEL
@@ -1413,8 +1472,8 @@ CANCEL
 
 
 <button
-  type="button"
-  onclick="enterTchan()"
+type="button"
+onclick="enterTchan()"
 >
 
 ENTER
@@ -1428,86 +1487,7 @@ ENTER
 </div>
 
 
-<!-- ================================
-     GUEST NOTES PANEL
-================================ -->
-
-<div
-  id="guest-notes-modal"
-  class="post-modal"
->
-
-<div class="post-window guest-notes-window">
-
-<div class="post-window-title">
-guest notes ♡
-</div>
-
-
-<p style="font-size:12px;">
-leave something for me here!
-</p>
-
-
-<input
-  type="text"
-  id="guest-username"
-  placeholder="name (optional)"
-  maxlength="30"
->
-
-
-<textarea
-  id="guest-content"
-  placeholder="write a little note..."
-  maxlength="1000"
-></textarea>
-
-
-<p id="guest-message">
-</p>
-
-
-<div
-  class="guest-notes-list"
-  id="guest-notes-list"
->
-
-loading guest notes...
-
-</div>
-
-
-<div class="post-window-buttons">
-
-<button
-  type="button"
-  onclick="closeGuestNotes()"
->
-
-CLOSE
-
-</button>
-
-
-<button
-  type="button"
-  onclick="submitGuestNote()"
->
-
-SEND
-
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
 <script>
-
 
 /* =========================================
    WORKER
@@ -1518,7 +1498,7 @@ const WORKER_URL =
 
 
 /* =========================================
-   PASSWORD AUTH STORAGE
+   AUTH
 ========================================= */
 
 const POST_AUTH_KEY =
@@ -1562,6 +1542,7 @@ function startNormalMusic() {
       );
 
     });
+
 }
 
 
@@ -1586,6 +1567,7 @@ function startTchanMusic() {
       );
 
     });
+
 }
 
 
@@ -1725,6 +1707,11 @@ async function makeNormalPost() {
       "image-url"
     ).value.trim();
 
+  const pinned =
+    document.getElementById(
+      "post-pinned"
+    ).checked;
+
   const message =
     document.getElementById(
       "post-message"
@@ -1807,7 +1794,10 @@ async function makeNormalPost() {
               "velve1cake",
 
             content:
-              finalContent
+              finalContent,
+
+            pinned:
+              pinned
 
           })
 
@@ -1858,8 +1848,8 @@ async function makeNormalPost() {
     if (!response.ok) {
 
       message.textContent =
-        "server error: " +
-        response.status;
+        result.error ||
+        "server error.";
 
       return;
 
@@ -1887,6 +1877,10 @@ async function makeNormalPost() {
     document.getElementById(
       "image-url"
     ).value = "";
+
+    document.getElementById(
+      "post-pinned"
+    ).checked = false;
 
 
     closePostBox();
@@ -1932,11 +1926,13 @@ async function makeTchanPost() {
     );
 
 
-  if (
-    localStorage.getItem(
-      TCHAN_AUTH_KEY
-    ) !== "true"
-  ) {
+  const password =
+    sessionStorage.getItem(
+      "tchan_password"
+    );
+
+
+  if (!password) {
 
     message.textContent =
       "TCHAN access required.";
@@ -1988,18 +1984,14 @@ async function makeTchanPost() {
               "application/json",
 
             "X-TCHAN-PASSWORD":
-              sessionStorage.getItem(
-                "tchan_password"
-              )
+              password
 
           },
 
           body: JSON.stringify({
 
             password:
-              sessionStorage.getItem(
-                "tchan_password"
-              ),
+              password,
 
             content:
               finalContent
@@ -2090,6 +2082,11 @@ async function loadNormalPosts() {
       "posts-container"
     );
 
+  const pinnedContainer =
+    document.getElementById(
+      "pinned-container"
+    );
+
 
   try {
 
@@ -2117,6 +2114,8 @@ async function loadNormalPosts() {
 
     container.innerHTML = "";
 
+    pinnedContainer.innerHTML = "";
+
 
     if (
       !Array.isArray(posts) ||
@@ -2126,21 +2125,59 @@ async function loadNormalPosts() {
       container.innerHTML =
         "<p>no posts yet.</p>";
 
+      pinnedContainer.innerHTML =
+        "<p style='font-size:11px;'>no pinned messages yet!</p>";
+
       return;
 
     }
 
 
+    let pinnedCount = 0;
+
+
     posts.forEach(
       function(post) {
 
-        addPostToPage(
-          container,
-          post
-        );
+        if (
+          post.pinned === 1 ||
+          post.pinned === true
+        ) {
+
+          addPinnedPost(
+            pinnedContainer,
+            post
+          );
+
+          pinnedCount++;
+
+        } else {
+
+          addPostToPage(
+            container,
+            post
+          );
+
+        }
 
       }
     );
+
+
+    if (pinnedCount === 0) {
+
+      pinnedContainer.innerHTML =
+        "<p style='font-size:11px;'>no pinned messages yet!</p>";
+
+    }
+
+
+    if (!container.children.length) {
+
+      container.innerHTML =
+        "<p>no normal posts yet.</p>";
+
+    }
 
   }
 
@@ -2155,6 +2192,97 @@ async function loadNormalPosts() {
       "<p>couldn't load posts!</p>";
 
   }
+
+}
+
+
+/* =========================================
+   PINNED POST
+========================================= */
+
+function addPinnedPost(
+  container,
+  post
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+  box.className =
+    "pinned-post";
+
+
+  const username =
+    document.createElement(
+      "strong"
+    );
+
+  username.textContent =
+    (
+      post.username ||
+      "Tsukasachan"
+    ) + ":";
+
+
+  box.appendChild(
+    username
+  );
+
+
+  const content =
+    document.createElement(
+      "div"
+    );
+
+
+  addContentWithImages(
+    content,
+    post.content || ""
+  );
+
+
+  box.appendChild(
+    content
+  );
+
+
+  const timestamp =
+    post.created_at;
+
+
+  if (timestamp) {
+
+    const time =
+      document.createElement(
+        "span"
+      );
+
+    time.className =
+      "pinned-time";
+
+
+    const date =
+      new Date(timestamp);
+
+
+    time.textContent =
+      !isNaN(date.getTime())
+        ? date.toLocaleString()
+        : timestamp;
+
+
+    box.appendChild(
+      time
+    );
+
+  }
+
+
+  container.appendChild(
+    box
+  );
 
 }
 
@@ -2283,7 +2411,7 @@ async function loadTchanPosts() {
 
 
 /* =========================================
-   ADD POST TO PAGE
+   ADD NORMAL POST
 ========================================= */
 
 function addPostToPage(
@@ -2317,13 +2445,74 @@ function addPostToPage(
   );
 
 
-  const rawContent =
-    post.content || "";
+  const content =
+    document.createElement(
+      "div"
+    );
 
+
+  addContentWithImages(
+    content,
+    post.content || ""
+  );
+
+
+  box.appendChild(
+    content
+  );
+
+
+  const timestamp =
+    post.created_at;
+
+
+  if (timestamp) {
+
+    const time =
+      document.createElement(
+        "div"
+      );
+
+    time.className =
+      "user-post-time";
+
+
+    const date =
+      new Date(timestamp);
+
+
+    time.textContent =
+      !isNaN(date.getTime())
+        ? date.toLocaleString()
+        : timestamp;
+
+
+    box.appendChild(
+      time
+    );
+
+  }
+
+
+  container.appendChild(
+    box
+  );
+
+}
+
+
+/* =========================================
+   CONTENT + IMAGE LINKS
+========================================= */
+
+function addContentWithImages(
+  container,
+  rawContent
+) {
 
   const parts =
     rawContent.split(
-      /(\[IMAGE\][^\s]+)/g
+      /(\[IMAGE\]\S+)/g
     );
 
 
@@ -2335,9 +2524,7 @@ function addPostToPage(
       ) {
 
         const imageUrl =
-          part.substring(
-            7
-          ).trim();
+          part.substring(7).trim();
 
 
         if (
@@ -2366,7 +2553,7 @@ function addPostToPage(
             "image/site here";
 
 
-          box.appendChild(
+          container.appendChild(
             link
           );
 
@@ -2374,13 +2561,10 @@ function addPostToPage(
 
       } else if (part) {
 
-        const text =
+        container.appendChild(
           document.createTextNode(
             part
-          );
-
-        box.appendChild(
-          text
+          )
         );
 
       }
@@ -2388,63 +2572,261 @@ function addPostToPage(
     }
   );
 
-
-  const timestamp =
-    post.timestamp ||
-    post.created_at ||
-    post.createdAt ||
-    post.date ||
-    post.time;
+}
 
 
-  if (timestamp) {
+/* =========================================
+   GUEST NOTES
+========================================= */
 
-    const time =
-      document.createElement(
-        "div"
-      );
+function openGuestNotes() {
 
-    time.className =
-      "user-post-time";
-
-
-    const date =
-      new Date(timestamp);
+  document.getElementById(
+    "guest-modal"
+  ).style.display =
+    "flex";
 
 
-    if (
-      !isNaN(
-        date.getTime()
-      )
-    ) {
+  document.getElementById(
+    "guest-name"
+  ).focus();
 
-      time.textContent =
-        date.toLocaleString();
-
-    } else {
-
-      time.textContent =
-        timestamp;
-
-    }
+}
 
 
-    box.appendChild(
-      time
-    );
+function closeGuestNotes() {
 
-  }
+  document.getElementById(
+    "guest-modal"
+  ).style.display =
+    "none";
 
 
-  container.appendChild(
-    box
-  );
+  document.getElementById(
+    "guest-message"
+  ).textContent = "";
 
 }
 
 
 /* =========================================
-   TCHAN ACCESS WINDOW
+   GUEST CHARACTER COUNTER
+========================================= */
+
+document.getElementById(
+  "guest-content"
+).addEventListener(
+  "input",
+  function() {
+
+    document.getElementById(
+      "guest-count"
+    ).textContent =
+      this.value.length;
+
+  }
+);
+
+
+/* =========================================
+   SUBMIT GUEST NOTE
+========================================= */
+
+async function submitGuestNote() {
+
+  const name =
+    document.getElementById(
+      "guest-name"
+    ).value.trim();
+
+
+  const content =
+    document.getElementById(
+      "guest-content"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "guest-message"
+    );
+
+
+  if (!content) {
+
+    message.textContent =
+      "write a little note first!";
+
+    return;
+
+  }
+
+
+  if (content.length > 60) {
+
+    message.textContent =
+      "60 characters max!";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "sending...";
+
+
+  try {
+
+    const response =
+      await fetch(
+        WORKER_URL + "/guest-notes",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            username:
+              name || "Anonymous",
+
+            content:
+              content
+
+          })
+
+        }
+      );
+
+
+    const result =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      message.textContent =
+        result.error ||
+        "couldn't send note.";
+
+      return;
+
+    }
+
+
+    if (!result.saved) {
+
+      message.textContent =
+        result.error ||
+        "couldn't save note.";
+
+      return;
+
+    }
+
+
+    message.textContent =
+      "sent!";
+
+
+    document.getElementById(
+      "guest-name"
+    ).value = "";
+
+    document.getElementById(
+      "guest-content"
+    ).value = "";
+
+    document.getElementById(
+      "guest-count"
+    ).textContent =
+      "0";
+
+
+    await loadGuestNotes();
+
+
+    setTimeout(
+      closeGuestNotes,
+      700
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "GUEST NOTE ERROR:",
+      error
+    );
+
+    message.textContent =
+      "cant connect to the server.";
+
+  }
+
+}
+
+
+/* =========================================
+   LOAD GUEST NOTES
+========================================= */
+
+async function loadGuestNotes() {
+
+  try {
+
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/guest-notes?t=" +
+        Date.now()
+      );
+
+
+    if (!response.ok) {
+      return;
+    }
+
+
+    const notes =
+      await response.json();
+
+
+    /*
+
+       Guest notes are intentionally
+       kept separate from your posts.
+
+       They can be added to another
+       guest-note panel later without
+       mixing them with your timeline.
+
+    */
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "LOAD GUEST NOTES ERROR:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================
+   TCHAN ACCESS
 ========================================= */
 
 function openTchanBox() {
@@ -2667,7 +3049,7 @@ function activateTchan() {
 
 
 /* =========================================
-   EXIT TCHAN / GO HOME
+   GO HOME
 ========================================= */
 
 function goHome() {
@@ -2717,329 +3099,11 @@ function goHome() {
 
 
   if (musicStarted) {
-
     startNormalMusic();
-
   }
 
 
   return false;
-
-}
-
-
-/* =========================================
-   GUEST NOTES
-========================================= */
-
-function openGuestNotes() {
-
-  document.getElementById(
-    "guest-notes-modal"
-  ).style.display =
-    "flex";
-
-
-  document.getElementById(
-    "guest-message"
-  ).textContent = "";
-
-
-  loadGuestNotes();
-
-}
-
-
-function closeGuestNotes() {
-
-  document.getElementById(
-    "guest-notes-modal"
-  ).style.display =
-    "none";
-
-}
-
-
-/* =========================================
-   LOAD GUEST NOTES
-========================================= */
-
-async function loadGuestNotes() {
-
-  const container =
-    document.getElementById(
-      "guest-notes-list"
-    );
-
-
-  container.innerHTML =
-    "<p>loading guest notes...</p>";
-
-
-  try {
-
-    const response =
-      await fetch(
-        WORKER_URL +
-        "/guest-notes?t=" +
-        Date.now()
-      );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    const notes =
-      await response.json();
-
-
-    container.innerHTML = "";
-
-
-    if (
-      !Array.isArray(notes) ||
-      notes.length === 0
-    ) {
-
-      container.innerHTML =
-        "<p>no guest notes yet...</p>";
-
-      return;
-
-    }
-
-
-    notes.forEach(
-      function(note) {
-
-        const box =
-          document.createElement(
-            "div"
-          );
-
-        box.className =
-          "guest-note";
-
-
-        const name =
-          document.createElement(
-            "div"
-          );
-
-        name.className =
-          "guest-note-name";
-
-        name.textContent =
-          (
-            note.username ||
-            "Anonymous"
-          ) + ":";
-
-
-        const content =
-          document.createElement(
-            "div"
-          );
-
-        content.textContent =
-          note.content || "";
-
-
-        box.appendChild(
-          name
-        );
-
-        box.appendChild(
-          content
-        );
-
-
-        if (note.created_at) {
-
-          const time =
-            document.createElement(
-              "div"
-            );
-
-          time.className =
-            "guest-note-time";
-
-
-          const date =
-            new Date(
-              note.created_at
-            );
-
-
-          if (
-            !isNaN(
-              date.getTime()
-            )
-          ) {
-
-            time.textContent =
-              date.toLocaleString();
-
-          } else {
-
-            time.textContent =
-              note.created_at;
-
-          }
-
-
-          box.appendChild(
-            time
-          );
-
-        }
-
-
-        container.appendChild(
-          box
-        );
-
-      }
-    );
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "GUEST NOTES ERROR:",
-      error
-    );
-
-    container.innerHTML =
-      "<p>couldn't load guest notes.</p>";
-
-  }
-
-}
-
-
-/* =========================================
-   SUBMIT GUEST NOTE
-========================================= */
-
-async function submitGuestNote() {
-
-  const username =
-    document.getElementById(
-      "guest-username"
-    ).value.trim();
-
-
-  const content =
-    document.getElementById(
-      "guest-content"
-    ).value.trim();
-
-
-  const message =
-    document.getElementById(
-      "guest-message"
-    );
-
-
-  if (!content) {
-
-    message.textContent =
-      "write something first!";
-
-    return;
-
-  }
-
-
-  message.textContent =
-    "sending...";
-
-
-  try {
-
-    const response =
-      await fetch(
-        WORKER_URL +
-        "/guest-notes",
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "Content-Type":
-              "application/json"
-
-          },
-
-          body: JSON.stringify({
-
-            username:
-              username ||
-              "Anonymous",
-
-            content:
-              content
-
-          })
-
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      message.textContent =
-        result.error ||
-        "couldn't send note.";
-
-      return;
-
-    }
-
-
-    document.getElementById(
-      "guest-username"
-    ).value = "";
-
-
-    document.getElementById(
-      "guest-content"
-    ).value = "";
-
-
-    message.textContent =
-      "sent!";
-
-
-    await loadGuestNotes();
-
-  }
-
-  catch (error) {
-
-    console.error(
-      "GUEST NOTE POST ERROR:",
-      error
-    );
-
-    message.textContent =
-      "couldn't connect to the server.";
-
-  }
 
 }
 
@@ -3054,12 +3118,22 @@ document.getElementById(
   "click",
   function(event) {
 
-    if (
-      event.target === this
-    ) {
-
+    if (event.target === this) {
       closePostBox();
+    }
 
+  }
+);
+
+
+document.getElementById(
+  "guest-modal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (event.target === this) {
+      closeGuestNotes();
     }
 
   }
@@ -3072,30 +3146,8 @@ document.getElementById(
   "click",
   function(event) {
 
-    if (
-      event.target === this
-    ) {
-
+    if (event.target === this) {
       closeTchanBox();
-
-    }
-
-  }
-);
-
-
-document.getElementById(
-  "guest-notes-modal"
-).addEventListener(
-  "click",
-  function(event) {
-
-    if (
-      event.target === this
-    ) {
-
-      closeGuestNotes();
-
     }
 
   }
@@ -3160,3 +3212,4 @@ document.addEventListener(
 
 </body>
 </html>
+```
