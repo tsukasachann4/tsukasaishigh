@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,93 +19,90 @@
   font-family: "Pixel Operator", monospace;
 }
 
-html,
 body {
   margin: 0;
   padding: 0;
-  min-height: 100%;
-}
-
-body {
-  background: #FEE8FF url("websiteyay.jpeg") center center / cover fixed no-repeat;
+  background-color: #FEE8FF;
+  background-image: url("websiteyay.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
   color: #808080;
 }
 
-/* ==================================================
-   NORMAL SITE
-   ================================================== */
-
-#normal-site {
-  min-height: 100vh;
-  padding: 1px 0 90px;
-  background: transparent;
-}
-
-.normal-page {
+.page {
   width: 850px;
-  max-width: 92%;
+  max-width: 90%;
   margin: 40px auto;
   padding: 8px;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   border: 4px solid #C9C2E8;
+  position: relative;
+  z-index: 1;
 }
 
-.normal-header {
-  background: #D8F3F5;
+header {
+  background-color: #D8F3F5;
   border: 3px solid #C9C2E8;
   padding: 12px;
   text-align: center;
 }
 
-.normal-header img {
+.title-image img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: auto;
+  margin: 0 auto;
   image-rendering: pixelated;
 }
 
-.normal-header p {
+header p {
   margin: 8px;
   font-size: 14px;
 }
 
-.normal-nav {
+nav {
   margin-top: 8px;
   padding: 8px;
-  background: #C9C2E8;
+  background-color: #C9C2E8;
   border: 3px solid #D8F3F5;
   text-align: center;
 }
 
-.normal-nav button {
+nav a {
   display: inline-block;
-  margin: 3px 5px;
+  margin: 3px 8px;
   padding: 5px 10px;
   color: #808080;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   border-top: 2px solid white;
   border-left: 2px solid white;
   border-right: 2px solid #808080;
   border-bottom: 2px solid #808080;
+  text-decoration: none;
   font-weight: bold;
   font-size: 13px;
   cursor: pointer;
 }
 
-.normal-nav button:hover {
-  background: #D8F3F5;
+nav a:hover {
+  background-color: #D8F3F5;
 }
 
-.normal-status {
+.status {
   margin-top: 8px;
   padding: 7px;
-  background: #D8F3F5;
+  background-color: #D8F3F5;
   border: 2px dotted #C9C2E8;
   font-size: 13px;
 }
 
-.content-grid {
+.online {
+  font-weight: bold;
+}
+
+.content {
   display: flex;
   gap: 10px;
   margin-top: 10px;
@@ -113,7 +111,7 @@ body {
 .sidebar {
   width: 210px;
   flex-shrink: 0;
-  background: #C9C2E8;
+  background-color: #C9C2E8;
   border: 3px solid #D8F3F5;
   padding: 10px;
 }
@@ -144,7 +142,7 @@ body {
   display: block;
   padding: 4px;
   margin: 4px 0;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   border: 2px dashed #D8F3F5;
   color: #808080;
   text-decoration: none;
@@ -152,12 +150,33 @@ body {
 }
 
 .links a:hover {
-  background: #D8F3F5;
+  background-color: #D8F3F5;
 }
 
-.normal-main {
+.posts {
   flex: 1;
   min-width: 0;
+  max-height: 700px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.posts::-webkit-scrollbar {
+  width: 12px;
+}
+
+.posts::-webkit-scrollbar-track {
+  background: #D8F3F5;
+  border: 2px solid #C9C2E8;
+}
+
+.posts::-webkit-scrollbar-thumb {
+  background: #C9C2E8;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
 }
 
 .section {
@@ -167,38 +186,16 @@ body {
 .section-title {
   padding: 8px;
   margin-bottom: 8px;
-  background: #D8F3F5;
+  background-color: #D8F3F5;
   border: 3px solid #C9C2E8;
   font-size: 16px;
   font-weight: bold;
 }
 
-/* SCROLL AREAS */
-
-.post-scroll {
-  max-height: 360px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px;
-}
-
-.post-scroll::-webkit-scrollbar {
-  width: 12px;
-}
-
-.post-scroll::-webkit-scrollbar-track {
-  background: #C9C2E8;
-}
-
-.post-scroll::-webkit-scrollbar-thumb {
-  background: #D8F3F5;
-  border: 2px solid #C9C2E8;
-}
-
 .user-post {
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 10px;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   border: 3px solid #D8F3F5;
   color: #808080;
   font-size: 14px;
@@ -215,7 +212,7 @@ body {
 .user-post-time {
   font-size: 10px;
   margin-top: 8px;
-  opacity: .7;
+  opacity: 0.7;
 }
 
 .image-link {
@@ -224,19 +221,17 @@ body {
   text-decoration: none;
   font-weight: bold;
   margin-top: 6px;
-  word-break: break-all;
+  cursor: pointer;
 }
 
 .image-link:hover {
   text-decoration: underline;
 }
 
-/* POLLS */
-
 .poll {
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 10px;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   border: 3px solid #D8F3F5;
 }
 
@@ -249,8 +244,8 @@ body {
   display: block;
   width: 100%;
   margin: 5px 0;
-  padding: 7px;
-  background: #C9C2E8;
+  padding: 6px;
+  background-color: #C9C2E8;
   color: #808080;
   border-top: 2px solid white;
   border-left: 2px solid white;
@@ -261,7 +256,7 @@ body {
 }
 
 .poll-option:hover {
-  background: #D8F3F5;
+  background-color: #D8F3F5;
 }
 
 .poll-results {
@@ -269,258 +264,20 @@ body {
   margin-top: 8px;
 }
 
-/* NORMAL FOOTER */
-
-.normal-footer {
-  margin-top: 10px;
-  padding: 8px;
-  text-align: center;
-  background: #D8F3F5;
-  border: 3px solid #C9C2E8;
-  font-size: 12px;
-}
-
-/* ==================================================
-   TCHAN SITE
-   ================================================== */
-
-#tchan-site {
-  display: none;
-  min-height: 100vh;
-  padding: 1px 0 90px;
-  background: #000;
-  color: #ff0000;
-}
-
-#tchan-site.active {
-  display: block;
-}
-
-.tchan-page {
-  width: 850px;
-  max-width: 92%;
-  margin: 40px auto;
-  padding: 8px;
-  background: #000;
-  border: 4px solid #ff0000;
-}
-
-.tchan-header {
-  background: #090000;
-  border: 3px solid #ff0000;
-  padding: 12px;
-  text-align: center;
-}
-
-.tchan-header img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: auto;
-  image-rendering: pixelated;
-}
-
-.tchan-header p {
-  color: #ff0000;
-  margin: 8px;
-}
-
-.tchan-nav {
-  margin-top: 8px;
-  padding: 8px;
-  background: #090000;
-  border: 3px solid #ff0000;
-  text-align: center;
-}
-
-.tchan-nav button {
-  margin: 3px 5px;
-  padding: 5px 10px;
-  background: #000;
-  color: #ff0000;
-  border: 2px solid #ff0000;
-  cursor: pointer;
-  font-family: "Pixel Operator", monospace;
-}
-
-.tchan-nav button:hover {
-  background: #190000;
-}
-
-.tchan-status {
-  margin-top: 8px;
-  padding: 7px;
-  background: #090000;
-  border: 2px dotted #ff0000;
-  color: #ff0000;
-}
-
-.tchan-content {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.tchan-sidebar {
-  width: 210px;
-  flex-shrink: 0;
-  padding: 10px;
-  background: #090000;
-  border: 3px solid #ff0000;
-}
-
-.tchan-sidebar h2 {
-  color: #ff0000;
-  border-bottom: 2px dotted #ff0000;
-  padding-bottom: 5px;
-}
-
-.tchan-sidebar img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  display: block;
-  margin: auto;
-  border: 4px solid #ff0000;
-}
-
-.tchan-sidebar p {
-  color: #ff0000;
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.tchan-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.tchan-section {
-  margin-bottom: 12px;
-}
-
-.tchan-section-title {
-  padding: 8px;
-  margin-bottom: 8px;
-  background: #090000;
-  border: 3px solid #ff0000;
-  color: #ff0000;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.tchan-scroll {
-  max-height: 360px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px;
-}
-
-.tchan-scroll::-webkit-scrollbar {
-  width: 12px;
-}
-
-.tchan-scroll::-webkit-scrollbar-track {
-  background: #090000;
-}
-
-.tchan-scroll::-webkit-scrollbar-thumb {
-  background: #ff0000;
-  border: 2px solid #000;
-}
-
-.tchan-post {
-  margin: 8px 0;
-  padding: 10px;
-  background: #000;
-  border: 3px solid #ff0000;
-  color: #ff0000;
-  font-size: 14px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-}
-
-.tchan-post strong {
-  display: block;
-  margin-bottom: 5px;
-  color: #ff0000;
-}
-
-.tchan-time {
-  font-size: 10px;
-  margin-top: 8px;
-  opacity: .7;
-}
-
-.tchan-image-link {
-  display: inline-block;
-  color: #ff0000;
-  font-weight: bold;
-  margin-top: 6px;
-  word-break: break-all;
-}
-
-.tchan-poll {
-  margin: 8px 0;
-  padding: 10px;
-  background: #000;
-  border: 3px solid #ff0000;
-  color: #ff0000;
-}
-
-.tchan-poll-question {
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.tchan-poll-option {
-  display: block;
-  width: 100%;
-  margin: 5px 0;
-  padding: 7px;
-  background: #000;
-  color: #ff0000;
-  border: 2px solid #ff0000;
-  cursor: pointer;
-  text-align: left;
-}
-
-.tchan-poll-option:hover {
-  background: #190000;
-}
-
-.tchan-poll-results {
-  font-size: 11px;
-  margin-top: 8px;
-}
-
-.tchan-footer {
-  margin-top: 10px;
-  padding: 8px;
-  text-align: center;
-  background: #090000;
-  border: 3px solid #ff0000;
-  color: #ff0000;
-}
-
-/* ==================================================
-   BUTTONS
-   ================================================== */
-
-.fixed-button {
+.open-post-button,
+.tchan-button {
   position: fixed;
   bottom: 20px;
-  z-index: 900;
+  z-index: 1000;
   padding: 8px 14px;
   font-family: "Pixel Operator", monospace;
   font-size: 14px;
   cursor: pointer;
 }
 
-.post-launcher {
+.open-post-button {
   right: 20px;
-  background: #C9C2E8;
+  background-color: #C9C2E8;
   color: #808080;
   border-top: 3px solid white;
   border-left: 3px solid white;
@@ -528,9 +285,9 @@ body {
   border-bottom: 3px solid #808080;
 }
 
-.tchan-launcher {
+.tchan-button {
   left: 20px;
-  background: #C9C2E8;
+  background-color: #C9C2E8;
   color: #808080;
   border-top: 3px solid white;
   border-left: 3px solid white;
@@ -538,194 +295,338 @@ body {
   border-bottom: 3px solid #808080;
 }
 
-body.tchan-active .post-launcher {
-  background: #000;
-  color: #ff0000;
-  border: 3px solid #ff0000;
-}
-
-body.tchan-active .tchan-launcher {
-  background: #000;
-  color: #ff0000;
-  border: 3px solid #ff0000;
-}
-
-/* ==================================================
-   MODALS
-   ================================================== */
-
-.modal {
+.post-modal {
   display: none;
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 2000;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,.65);
+  background-color: rgba(0,0,0,0.25);
 }
 
-.modal.open {
-  display: flex;
-}
-
-.window {
-  width: 430px;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+.post-window {
+  width: 420px;
+  max-width: 85%;
   padding: 12px;
-  background: #FEE8FF;
-  color: #808080;
+  background-color: #FEE8FF;
   border: 4px solid #C9C2E8;
 }
 
-.window-title {
-  margin: -12px -12px 12px;
+.post-window-title {
+  margin: -12px -12px 12px -12px;
   padding: 8px;
-  background: #D8F3F5;
+  background-color: #D8F3F5;
   border-bottom: 3px solid #C9C2E8;
   font-size: 16px;
-  font-weight: bold;
 }
 
-.window input,
-.window textarea {
+input,
+textarea {
   width: 100%;
   padding: 8px;
-  margin-bottom: 8px;
-  background: #FEE8FF;
+  background-color: #FEE8FF;
   color: #808080;
   border: 3px solid #D8F3F5;
+  font-family: "Pixel Operator", monospace;
   outline: none;
 }
 
-.window textarea {
-  min-height: 120px;
+#post-password {
+  margin-bottom: 8px;
+}
+
+#post-content {
+  min-height: 130px;
   resize: vertical;
+  font-size: 14px;
 }
 
-.options {
-  margin-top: 5px;
-  padding: 8px;
-  background: #D8F3F5;
-  border: 2px dashed #C9C2E8;
-}
-
-.options label {
-  display: block;
-  margin: 6px 0;
+#image-url {
+  margin-top: 8px;
   font-size: 12px;
 }
 
-.options input[type="radio"] {
-  width: auto;
-  margin: 0 5px 0 0;
+.post-options {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #D8F3F5;
+  border: 2px dashed #C9C2E8;
 }
 
-.poll-fields {
-  display: none;
+.post-options strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.post-options label {
+  display: block;
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.post-options input[type="radio"] {
+  width: auto;
+}
+
+#poll-fields {
   margin-top: 8px;
 }
 
-.window-buttons {
+#poll-fields input {
+  margin-bottom: 6px;
+}
+
+.post-window-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 6px;
   margin-top: 8px;
 }
 
-.window button {
-  padding: 7px 12px;
-  background: #C9C2E8;
+.post-window button {
+  padding: 6px 12px;
+  background-color: #C9C2E8;
   color: #808080;
   border-top: 3px solid white;
   border-left: 3px solid white;
   border-right: 3px solid #808080;
   border-bottom: 3px solid #808080;
-  cursor: pointer;
   font-family: "Pixel Operator", monospace;
+  cursor: pointer;
 }
 
-.message {
-  min-height: 16px;
-  font-size: 11px;
+.guest-panel {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #FEE8FF;
+  border: 3px solid #D8F3F5;
 }
 
-/* TCHAN MODALS */
+.guest-note {
+  margin: 8px 0;
+  padding: 8px;
+  background-color: #FEE8FF;
+  border: 2px dashed #D8F3F5;
+  font-size: 13px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.guest-note strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.guest-note-time {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
 
 .tchan-window {
-  width: 430px;
-  max-width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
+  width: 350px;
+  max-width: 85%;
   padding: 12px;
-  background: #000;
+  background-color: #000000;
   color: #ff0000;
   border: 4px solid #ff0000;
 }
 
-.tchan-window .window-title {
-  background: #090000;
+.tchan-title {
+  margin: -12px -12px 12px -12px;
+  padding: 8px;
+  background-color: #120000;
   color: #ff0000;
-  border-color: #ff0000;
+  border-bottom: 3px solid #ff0000;
 }
 
-.tchan-window input,
-.tchan-window textarea {
-  background: #000;
+#tchan-password {
+  background-color: #000000;
   color: #ff0000;
-  border-color: #ff0000;
-}
-
-.tchan-window .options {
-  background: #090000;
   border-color: #ff0000;
 }
 
 .tchan-window button {
-  background: #000;
+  background-color: #000000;
   color: #ff0000;
   border: 2px solid #ff0000;
+  padding: 6px 12px;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
 }
 
-.tchan-window button:hover {
-  background: #190000;
+body.tchan-mode {
+  background-color: #000000 !important;
+  background-image: none !important;
+  color: #ff0000 !important;
 }
 
-/* ==================================================
-   MOBILE
-   ================================================== */
+body.tchan-mode .page {
+  background-color: #000000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode header,
+body.tchan-mode .section-title,
+body.tchan-mode footer {
+  background-color: #120000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode nav {
+  background-color: #120000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode nav a {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode nav a:hover {
+  background-color: #120000 !important;
+}
+
+body.tchan-mode .status {
+  background-color: #120000 !important;
+  border-color: #ff0000 !important;
+  color: #ff0000 !important;
+}
+
+body.tchan-mode .sidebar {
+  background-color: #120000 !important;
+  border-color: #ff0000 !important;
+  color: #ff0000 !important;
+}
+
+body.tchan-mode .sidebar h2,
+body.tchan-mode .sidebar p {
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .sidebar img {
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .links a {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .user-post,
+body.tchan-mode .poll,
+body.tchan-mode .guest-panel,
+body.tchan-mode .guest-note {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .poll-option {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .poll-option:hover {
+  background-color: #120000 !important;
+}
+
+body.tchan-mode .image-link {
+  color: #ff0000 !important;
+}
+
+body.tchan-mode .posts::-webkit-scrollbar-track {
+  background: #120000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .posts::-webkit-scrollbar-thumb {
+  background: #000000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode input,
+body.tchan-mode textarea {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .post-options {
+  background-color: #120000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .post-window {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .post-window-title {
+  background-color: #120000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .post-window button {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+body.tchan-mode .open-post-button,
+body.tchan-mode .tchan-button {
+  background-color: #000000 !important;
+  color: #ff0000 !important;
+  border-color: #ff0000 !important;
+}
+
+footer {
+  margin-top: 10px;
+  padding: 8px;
+  text-align: center;
+  background-color: #D8F3F5;
+  border: 3px solid #C9C2E8;
+  font-size: 12px;
+}
 
 @media (max-width: 700px) {
 
-  .content-grid,
-  .tchan-content {
+  .content {
     display: block;
   }
 
-  .sidebar,
-  .tchan-sidebar {
+  .sidebar {
     width: auto;
     margin-bottom: 10px;
   }
 
-  .normal-page,
-  .tchan-page {
+  .page {
     width: auto;
     max-width: 95%;
   }
 
-  .post-scroll,
-  .tchan-scroll {
-    max-height: 300px;
+  .posts {
+    max-height: 600px;
   }
 
-  .post-launcher {
+  .open-post-button {
     right: 10px;
     bottom: 10px;
   }
 
-  .tchan-launcher {
+  .tchan-button {
     left: 10px;
     bottom: 10px;
   }
@@ -739,456 +640,360 @@ body.tchan-active .tchan-launcher {
 <audio id="normal-music" src="happyver.mp3" loop preload="auto"></audio>
 <audio id="tchan-music" src="madver.mp3" loop preload="auto"></audio>
 
-<!-- ==================================================
-     NORMAL SITE
-     ================================================== -->
+<div class="page">
 
-<div id="normal-site">
+<header>
 
-  <div class="normal-page">
+<h1 class="title-image">
+<img id="banner" src="kangel.jpeg" alt="Kangel">
+</h1>
 
-    <header class="normal-header">
-      <img src="kangel.jpeg" alt="Kangel">
-      <p>my blog!</p>
-    </header>
+<p id="blog-subtitle">my blog!</p>
 
-    <nav class="normal-nav">
-      <button onclick="goHome()">wake up</button>
-      <button onclick="openPostBox()">write</button>
-      <button onclick="openGuestNotes()">guest notes</button>
-      <button onclick="scrollToNormal('pinned')">pinned</button>
-      <button onclick="scrollToNormal('polls')">polls</button>
-    </nav>
+</header>
 
-    <div class="normal-status">
-      status: <strong>online</strong>
-    </div>
+<nav>
 
-    <div class="content-grid">
+<a href="#" onclick="goHome(); return false;">wake up</a>
 
-      <aside class="sidebar">
+<a href="#" onclick="openPostBox(); return false;">write</a>
 
-        <h2>ABOUT</h2>
+<a href="#" onclick="openGuestNotes(); return false;">guest notes</a>
 
-        <img src="pfp.jpeg" alt="profile picture">
+</nav>
 
-        <p>
-          this is lwky js my blog
-        </p>
+<div class="status">
+status: <span class="online">online</span>
+</div>
 
-        <div class="links">
-          <a href="#">flowers</a>
-          <a href="#">pudding</a>
-          <a href="#">strawberry</a>
-        </div>
+<div class="content">
 
-      </aside>
+<aside class="sidebar">
 
-      <main class="normal-main">
+<h2>ABOUT</h2>
 
-        <section class="section" id="normal-pinned-section">
+<img id="profile-picture" src="pfp.jpeg" alt="profile picture">
 
-          <div class="section-title">
-            PINNED MESSAGES
-          </div>
+<p id="about-text">
+this is lwky js my blog
+</p>
 
-          <div class="post-scroll" id="normal-pinned-container">
-            <p>loading pinned messages...</p>
-          </div>
+<div class="links">
 
-        </section>
-
-        <section class="section">
-
-          <div class="section-title">
-            MY POSTS
-          </div>
-
-          <div class="post-scroll" id="normal-posts-container">
-
-            <article class="user-post">
-              <strong>Tsukasachan:</strong>
-              hmm this is one of my testing posts.. im trying to make this thing so i can actually post on here.
-            </article>
-
-          </div>
-
-        </section>
-
-        <section class="section" id="normal-guest-section">
-
-          <div class="section-title">
-            GUEST NOTES
-          </div>
-
-          <div class="post-scroll" id="normal-guest-container">
-            <p>loading guest notes...</p>
-          </div>
-
-        </section>
-
-        <section class="section" id="normal-polls-section">
-
-          <div class="section-title">
-            POLLS
-          </div>
-
-          <div class="post-scroll" id="normal-polls-container">
-            <p>loading polls...</p>
-          </div>
-
-        </section>
-
-      </main>
-
-    </div>
-
-    <footer class="normal-footer">
-      tsukasAngel
-    </footer>
-
-  </div>
+<a href="#">flowers</a>
+<a href="#">pudding</a>
+<a href="#">strawberry</a>
 
 </div>
 
-<!-- ==================================================
-     TCHAN SITE
-     ================================================== -->
+</aside>
 
-<div id="tchan-site">
+<main class="posts">
 
-  <div class="tchan-page">
+<section class="section">
 
-    <header class="tchan-header">
-      <img src="darkangelbanner.jpeg" alt="TCHAN">
-      <p>secret entries.</p>
-    </header>
+<div class="section-title">
+PINNED MESSAGES
+</div>
 
-    <nav class="tchan-nav">
-      <button onclick="exitTchan()">leave TCHAN</button>
-      <button onclick="openPostBox()">write</button>
-      <button onclick="scrollToTchan('tchan-pinned')">pinned</button>
-      <button onclick="scrollToTchan('tchan-polls')">polls</button>
-    </nav>
+<div id="pinned-container">
+<p>loading pinned messages...</p>
+</div>
 
-    <div class="tchan-status">
-      status: ONLINE
-    </div>
+</section>
 
-    <div class="tchan-content">
+<section class="section">
 
-      <aside class="tchan-sidebar">
+<div class="section-title">
+MY POSTS
+</div>
 
-        <h2>TCHAN</h2>
+<article class="user-post" id="normal-intro">
 
-        <img src="madpfp.jpeg" alt="TCHAN profile">
+<strong>Tsukasachan:</strong>
 
-        <p>
-          you should not be here.
-        </p>
+hmm this is one of my testing posts.. im trying to make this thing so i can actually post on here.
 
-      </aside>
+</article>
 
-      <main class="tchan-main">
+<div id="posts-container">
+<p>loading posts...</p>
+</div>
 
-        <section class="tchan-section" id="tchan-pinned">
+</section>
 
-          <div class="tchan-section-title">
-            TCHAN PINNED
-          </div>
+<section class="section">
 
-          <div class="tchan-scroll" id="tchan-pinned-container">
-            <p>loading...</p>
-          </div>
+<div class="section-title">
+POLLS
+</div>
 
-        </section>
+<div id="polls-container">
+<p>loading polls...</p>
+</div>
 
-        <section class="tchan-section">
+</section>
 
-          <div class="tchan-section-title">
-            TCHAN POSTS
-          </div>
+<section class="section">
 
-          <div class="tchan-scroll" id="tchan-posts-container">
-            <p>loading...</p>
-          </div>
+<div class="section-title">
+GUEST NOTES
+</div>
 
-        </section>
+<div class="guest-panel" id="guest-notes-container">
+<p>guest notes are loading...</p>
+</div>
 
-        <section class="tchan-section" id="tchan-polls">
+</section>
 
-          <div class="tchan-section-title">
-            TCHAN POLLS
-          </div>
-
-          <div class="tchan-scroll" id="tchan-polls-container">
-            <p>loading...</p>
-          </div>
-
-        </section>
-
-      </main>
-
-    </div>
-
-    <footer class="tchan-footer">
-      TCHAN
-    </footer>
-
-  </div>
+</main>
 
 </div>
 
-<!-- ==================================================
-     NORMAL/TCHAN POST WINDOW
-     ================================================== -->
-
-<div id="post-modal" class="modal">
-
-  <div class="window">
-
-    <div class="window-title">
-      write a post
-    </div>
-
-    <input
-      type="password"
-      id="post-password"
-      placeholder="posting password">
-
-    <textarea
-      id="post-content"
-      maxlength="5000"
-      placeholder="write something..."></textarea>
-
-    <input
-      type="url"
-      id="image-url"
-      placeholder="image/site URL (optional)">
-
-    <div class="options">
-
-      <strong>OPTIONS</strong>
-
-      <label>
-        <input
-          type="radio"
-          name="post-type"
-          value="normal"
-          checked>
-        normal post
-      </label>
-
-      <label>
-        <input
-          type="radio"
-          name="post-type"
-          value="pinned">
-        pinned message
-      </label>
-
-      <label>
-        <input
-          type="radio"
-          name="post-type"
-          value="poll">
-        host a poll
-      </label>
-
-    </div>
-
-    <div id="poll-fields" class="poll-fields">
-
-      <input
-        id="poll-question"
-        type="text"
-        maxlength="300"
-        placeholder="poll question">
-
-      <input
-        id="poll-a"
-        type="text"
-        maxlength="200"
-        placeholder="option A">
-
-      <input
-        id="poll-b"
-        type="text"
-        maxlength="200"
-        placeholder="option B">
-
-      <input
-        id="poll-c"
-        type="text"
-        maxlength="200"
-        placeholder="option C (optional)">
-
-      <input
-        id="poll-d"
-        type="text"
-        maxlength="200"
-        placeholder="option D (optional)">
-
-    </div>
-
-    <p style="font-size:11px;">
-      paste an image or website URL if you want it attached to the post.
-    </p>
-
-    <p id="post-message" class="message"></p>
-
-    <div class="window-buttons">
-
-      <button onclick="closePostBox()">
-        CANCEL
-      </button>
-
-      <button onclick="submitPost()">
-        POST
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ==================================================
-     GUEST NOTES
-     ================================================== -->
-
-<div id="guest-modal" class="modal">
-
-  <div class="window">
-
-    <div class="window-title">
-      guest notes
-    </div>
-
-    <input
-      id="guest-username"
-      type="text"
-      maxlength="30"
-      placeholder="name (optional)">
-
-    <textarea
-      id="guest-content"
-      maxlength="60"
-      placeholder="leave a little note..."></textarea>
-
-    <p style="font-size:11px;">
-      60 characters maximum.<br>
-      5 messages per IP per day.
-    </p>
-
-    <p id="guest-message" class="message"></p>
-
-    <div class="window-buttons">
-
-      <button onclick="closeGuestNotes()">
-        CANCEL
-      </button>
-
-      <button onclick="submitGuestNote()">
-        SEND
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-<!-- ==================================================
-     TCHAN ACCESS
-     ================================================== -->
-
-<div id="tchan-access-modal" class="modal">
-
-  <div class="tchan-window">
-
-    <div class="window-title">
-      TCHAN ACCESS
-    </div>
-
-    <input
-      id="tchan-access-password"
-      type="password"
-      placeholder="password">
-
-    <p id="tchan-access-message" class="message"></p>
-
-    <div class="window-buttons">
-
-      <button onclick="closeTchanAccess()">
-        CANCEL
-      </button>
-
-      <button onclick="enterTchan()">
-        ENTER
-      </button>
-
-    </div>
-
-  </div>
+<footer id="footer-text">
+tsukasAngel
+</footer>
 
 </div>
 
 <button
-  class="fixed-button post-launcher"
-  onclick="openPostBox()">
-  POST
+class="open-post-button"
+type="button"
+onclick="openPostBox()">
+POST
 </button>
 
 <button
-  class="fixed-button tchan-launcher"
-  onclick="openTchanAccess()">
-  TCHAN
+class="tchan-button"
+type="button"
+onclick="openTchanBox()">
+TCHAN
 </button>
+
+
+<!-- POST WINDOW -->
+
+<div id="post-modal" class="post-modal">
+
+<div class="post-window">
+
+<div class="post-window-title">
+write a post
+</div>
+
+<input
+type="password"
+id="post-password"
+placeholder="password">
+
+<textarea
+id="post-content"
+placeholder="write something..."></textarea>
+
+<input
+type="url"
+id="image-url"
+placeholder="image/site here">
+
+<div class="post-options">
+
+<strong>OPTIONS</strong>
+
+<label>
+<input
+type="radio"
+name="post-type"
+value="normal"
+checked>
+normal post
+</label>
+
+<label>
+<input
+type="radio"
+name="post-type"
+value="pinned">
+pinned message
+</label>
+
+<label>
+<input
+type="radio"
+name="post-type"
+value="poll">
+host a poll
+</label>
+
+</div>
+
+<div id="poll-fields" style="display:none;">
+
+<input
+type="text"
+id="poll-question"
+placeholder="poll question">
+
+<input
+type="text"
+id="poll-a"
+placeholder="option A">
+
+<input
+type="text"
+id="poll-b"
+placeholder="option B">
+
+<input
+type="text"
+id="poll-c"
+placeholder="option C (optional)">
+
+<input
+type="text"
+id="poll-d"
+placeholder="option D (optional)">
+
+</div>
+
+<p style="font-size:11px;">
+optional: paste an image/site URL. It appears as
+<span style="color:#816E8A;">image/site here</span>
+and opens when clicked.
+</p>
+
+<p id="post-message"></p>
+
+<div class="post-window-buttons">
+
+<button
+type="button"
+onclick="closePostBox()">
+CANCEL
+</button>
+
+<button
+type="button"
+onclick="submitPost()">
+POST
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- GUEST NOTES WINDOW -->
+
+<div id="guest-modal" class="post-modal">
+
+<div class="post-window">
+
+<div class="post-window-title">
+guest notes
+</div>
+
+<input
+type="text"
+id="guest-username"
+maxlength="30"
+placeholder="name (optional)">
+
+<textarea
+id="guest-content"
+maxlength="60"
+placeholder="leave a little note..."></textarea>
+
+<p style="font-size:11px;">
+60 characters maximum.<br>
+5 guest notes per person per day.
+</p>
+
+<p id="guest-message"></p>
+
+<div class="post-window-buttons">
+
+<button
+type="button"
+onclick="closeGuestNotes()">
+CANCEL
+</button>
+
+<button
+type="button"
+onclick="submitGuestNote()">
+SEND
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- TCHAN ACCESS -->
+
+<div id="tchan-modal" class="post-modal">
+
+<div class="tchan-window">
+
+<div class="tchan-title">
+TCHAN ACCESS
+</div>
+
+<input
+type="password"
+id="tchan-password"
+placeholder="password">
+
+<p id="tchan-message"></p>
+
+<div class="post-window-buttons">
+
+<button
+type="button"
+onclick="closeTchanBox()">
+CANCEL
+</button>
+
+<button
+type="button"
+onclick="enterTchan()">
+ENTER
+</button>
+
+</div>
+
+</div>
+
+</div>
+
 
 <script>
 
-/* ==================================================
-   WORKER
-   ================================================== */
-
 const WORKER_URL =
-  "https://secretblogapi.floweringsakuratree.workers.dev";
+"https://secretblogapi.floweringsakuratree.workers.dev";
 
-
-/* ==================================================
-   SESSION STORAGE
-   ================================================== */
-
-const NORMAL_PASSWORD_KEY =
-  "tsukasa_normal_post_password";
+const POST_PASSWORD_KEY =
+"tsukasa_post_password";
 
 const TCHAN_PASSWORD_KEY =
-  "tsukasa_tchan_post_password";
-
-const TCHAN_ACCESS_KEY =
-  "tsukasa_tchan_access";
+"tsukasa_tchan_password";
 
 
-/* ==================================================
-   ELEMENT HELPERS
-   ================================================== */
+/* MUSIC */
 
-function $(id) {
-  return document.getElementById(id);
-}
+const normalMusic =
+document.getElementById("normal-music");
 
+const tchanMusic =
+document.getElementById("tchan-music");
 
-/* ==================================================
-   MUSIC
-   ================================================== */
+let musicStarted = false;
 
-const normalMusic = $("normal-music");
-const tchanMusic = $("tchan-music");
-
-let musicUnlocked = false;
-
-function playNormalMusic() {
+function startNormalMusic() {
 
   tchanMusic.pause();
   tchanMusic.currentTime = 0;
@@ -1197,12 +1002,13 @@ function playNormalMusic() {
 
   normalMusic.play()
     .then(() => {
-      musicUnlocked = true;
+      musicStarted = true;
     })
     .catch(() => {});
+
 }
 
-function playTchanMusic() {
+function startTchanMusic() {
 
   normalMusic.pause();
   normalMusic.currentTime = 0;
@@ -1211,488 +1017,445 @@ function playTchanMusic() {
 
   tchanMusic.play()
     .then(() => {
-      musicUnlocked = true;
+      musicStarted = true;
     })
     .catch(() => {});
-}
 
-document.addEventListener("click", function startMusicOnce() {
-
-  if (musicUnlocked) return;
-
-  if ($("tchan-site").classList.contains("active")) {
-    playTchanMusic();
-  } else {
-    playNormalMusic();
-  }
-
-}, { once: true });
-
-
-/* ==================================================
-   FETCH HELPER
-   ================================================== */
-
-async function api(path, options = {}) {
-
-  const response =
-    await fetch(
-      WORKER_URL +
-      path +
-      (path.includes("?") ? "&" : "?") +
-      "_=" +
-      Date.now(),
-      options
-    );
-
-  let data = null;
-
-  try {
-    data = await response.json();
-  } catch {
-    data = {};
-  }
-
-  if (!response.ok) {
-    const error =
-      new Error(
-        data.error ||
-        "Server request failed."
-      );
-
-    error.status = response.status;
-    error.data = data;
-
-    throw error;
-  }
-
-  return data;
 }
 
 
-/* ==================================================
-   MODALS
-   ================================================== */
-
-function openModal(id) {
-  $(id).classList.add("open");
-}
-
-function closeModal(id) {
-  $(id).classList.remove("open");
-}
-
-
-/* ==================================================
-   POST WINDOW
-   ================================================== */
+/* POST WINDOW */
 
 function openPostBox() {
 
-  const savedNormal =
-    sessionStorage.getItem(
-      NORMAL_PASSWORD_KEY
-    );
-
-  const savedTchan =
-    sessionStorage.getItem(
-      TCHAN_PASSWORD_KEY
-    );
-
-  const tchanMode =
-    $("tchan-site").classList.contains("active");
-
   const passwordBox =
-    $("post-password");
+    document.getElementById("post-password");
 
-  if (
-    (tchanMode && savedTchan) ||
-    (!tchanMode && savedNormal)
-  ) {
+  const savedPassword =
+    sessionStorage.getItem(POST_PASSWORD_KEY);
+
+  if (savedPassword) {
+
     passwordBox.style.display = "none";
+
   } else {
+
     passwordBox.style.display = "block";
     passwordBox.value = "";
+
   }
 
-  $("post-message").textContent = "";
+  document.getElementById("post-modal")
+    .style.display = "flex";
 
-  openModal("post-modal");
 }
-
 
 function closePostBox() {
-  closeModal("post-modal");
-  $("post-message").textContent = "";
+
+  document.getElementById("post-modal")
+    .style.display = "none";
+
+  document.getElementById("post-message")
+    .textContent = "";
+
 }
 
 
-/* ==================================================
-   POST TYPE
-   ================================================== */
+/* POST OPTIONS */
 
-document
-  .querySelectorAll(
-    'input[name="post-type"]'
-  )
-  .forEach(function(radio) {
+document.querySelectorAll(
+  'input[name="post-type"]'
+).forEach(function(radio) {
 
-    radio.addEventListener("change", function() {
+  radio.addEventListener("change", function() {
 
-      $("poll-fields").style.display =
-        this.value === "poll"
-          ? "block"
-          : "none";
+    const pollFields =
+      document.getElementById("poll-fields");
 
-    });
+    pollFields.style.display =
+      this.value === "poll"
+        ? "block"
+        : "none";
 
   });
 
-
-/* ==================================================
-   PASSWORD
-   ================================================== */
-
-function getPostingPassword() {
-
-  const tchanMode =
-    $("tchan-site").classList.contains("active");
-
-  const key =
-    tchanMode
-      ? TCHAN_PASSWORD_KEY
-      : NORMAL_PASSWORD_KEY;
-
-  const saved =
-    sessionStorage.getItem(key);
-
-  if (saved) {
-    return saved;
-  }
-
-  const input =
-    $("post-password").value.trim();
-
-  return input || null;
-}
+});
 
 
-/* ==================================================
-   SAVE PASSWORD
-   ================================================== */
-
-function savePostingPassword(password) {
-
-  const tchanMode =
-    $("tchan-site").classList.contains("active");
-
-  const key =
-    tchanMode
-      ? TCHAN_PASSWORD_KEY
-      : NORMAL_PASSWORD_KEY;
-
-  sessionStorage.setItem(
-    key,
-    password
-  );
-
-  $("post-password").style.display =
-    "none";
-}
-
-
-/* ==================================================
-   SUBMIT POST
-   ================================================== */
+/* SUBMIT */
 
 async function submitPost() {
 
-  const tchanMode =
-    $("tchan-site").classList.contains("active");
+  if (
+    document.body.classList.contains("tchan-mode")
+  ) {
+
+    await makeTchanPost();
+    return;
+
+  }
 
   const type =
     document.querySelector(
       'input[name="post-type"]:checked'
     ).value;
 
-  if (tchanMode) {
-
-    if (type === "poll") {
-      await createTchanPoll();
-      return;
-    }
-
-    if (type === "pinned") {
-      await createTchanPinned();
-      return;
-    }
-
-    await createTchanPost();
-    return;
-  }
-
   if (type === "poll") {
-    await createNormalPoll();
-    return;
+
+    await makePoll();
+
+  } else if (type === "pinned") {
+
+    await makePinnedPost();
+
+  } else {
+
+    await makeNormalPost();
+
   }
 
-  if (type === "pinned") {
-    await createNormalPinned();
-    return;
-  }
-
-  await createNormalPost();
 }
 
 
-/* ==================================================
-   CONTENT
-   ================================================== */
+/* GET POST PASSWORD */
 
-function buildContent() {
+function getPostPassword() {
 
-  const text =
-    $("post-content")
-      .value
-      .trim();
+  const saved =
+    sessionStorage.getItem(
+      POST_PASSWORD_KEY
+    );
 
-  const url =
-    $("image-url")
-      .value
-      .trim();
+  if (saved) {
+    return saved;
+  }
 
-  if (!text && !url) {
+  const input =
+    document.getElementById("post-password");
+
+  const password =
+    input.value.trim();
+
+  if (!password) {
     return null;
   }
 
-  let result = text;
+  return password;
 
-  if (url) {
-
-    try {
-      new URL(url);
-    } catch {
-      throw new Error(
-        "That URL doesn't look valid."
-      );
-    }
-
-    result +=
-      (result ? "\n\n" : "") +
-      "[URL]" +
-      url;
-  }
-
-  return result;
 }
 
 
-/* ==================================================
-   NORMAL POST
-   ================================================== */
+/* NORMAL POST */
 
-async function createNormalPost() {
+async function makeNormalPost() {
 
-  const message = $("post-message");
+  const message =
+    document.getElementById("post-message");
 
-  let password;
+  const password =
+    getPostPassword();
 
-  try {
-    password = getPostingPassword();
-
-    if (!password) {
-      message.textContent =
-        "enter your posting password.";
-
-      $("post-password").focus();
-
-      return;
-    }
-
-    const content =
-      buildContent();
-
-    if (!content) {
-      message.textContent =
-        "write something or add a URL.";
-
-      return;
-    }
+  if (!password) {
 
     message.textContent =
-      "posting...";
+      "enter your password.";
 
-    await api("/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        content,
-        pinned: false
-      })
-    });
+    document.getElementById(
+      "post-password"
+    ).focus();
 
-    savePostingPassword(password);
+    return;
 
-    clearPostFields();
+  }
+
+  const content =
+    document.getElementById("post-content")
+      .value.trim();
+
+  const imageUrl =
+    document.getElementById("image-url")
+      .value.trim();
+
+  if (!content && !imageUrl) {
+
+    message.textContent =
+      "write something or add an image.";
+
+    return;
+
+  }
+
+  let finalContent = content;
+
+  if (imageUrl) {
+
+    finalContent +=
+      (finalContent ? "\n\n" : "") +
+      "[IMAGE]" +
+      imageUrl;
+
+  }
+
+  message.textContent = "posting...";
+
+  try {
+
+    const response =
+      await fetch(WORKER_URL, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          password: password,
+          content: finalContent,
+          pinned: false
+        })
+
+      });
+
+    const result =
+      await response.json();
+
+    if (response.status === 401) {
+
+      sessionStorage.removeItem(
+        POST_PASSWORD_KEY
+      );
+
+      document.getElementById(
+        "post-password"
+      ).style.display = "block";
+
+      message.textContent =
+        "wrong password.";
+
+      return;
+
+    }
+
+    if (!response.ok) {
+
+      message.textContent =
+        result.error || "post failed.";
+
+      return;
+
+    }
+
+    sessionStorage.setItem(
+      POST_PASSWORD_KEY,
+      password
+    );
+
+    document.getElementById(
+      "post-password"
+    ).style.display = "none";
+
+    document.getElementById(
+      "post-content"
+    ).value = "";
+
+    document.getElementById(
+      "image-url"
+    ).value = "";
+
     closePostBox();
 
     await loadNormalPosts();
 
   } catch (error) {
 
-    if (error.status === 401) {
-      sessionStorage.removeItem(
-        NORMAL_PASSWORD_KEY
-      );
-
-      $("post-password").style.display =
-        "block";
-
-      message.textContent =
-        "wrong password.";
-
-      return;
-    }
+    console.error(error);
 
     message.textContent =
-      error.message ||
-      "couldn't connect to the server.";
+      "can't connect to the server.";
 
   }
+
 }
 
 
-/* ==================================================
-   NORMAL PINNED
-   ================================================== */
+/* PINNED */
 
-async function createNormalPinned() {
+async function makePinnedPost() {
 
-  const message = $("post-message");
+  const message =
+    document.getElementById("post-message");
 
-  let password;
+  const password =
+    getPostPassword();
+
+  if (!password) {
+
+    message.textContent =
+      "enter your password.";
+
+    document.getElementById(
+      "post-password"
+    ).focus();
+
+    return;
+
+  }
+
+  const content =
+    document.getElementById("post-content")
+      .value.trim();
+
+  const imageUrl =
+    document.getElementById("image-url")
+      .value.trim();
+
+  if (!content && !imageUrl) {
+
+    message.textContent =
+      "write something or add an image.";
+
+    return;
+
+  }
+
+  let finalContent = content;
+
+  if (imageUrl) {
+
+    finalContent +=
+      (finalContent ? "\n\n" : "") +
+      "[IMAGE]" +
+      imageUrl;
+
+  }
+
+  message.textContent = "pinning...";
 
   try {
 
-    password =
-      getPostingPassword();
+    const response =
+      await fetch(WORKER_URL, {
 
-    if (!password) {
-      message.textContent =
-        "enter your posting password.";
+        method: "POST",
 
-      $("post-password").focus();
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-      return;
-    }
+        body: JSON.stringify({
+          password: password,
+          content: finalContent,
+          pinned: true
+        })
 
-    const content =
-      buildContent();
+      });
 
-    if (!content) {
-      message.textContent =
-        "write something or add a URL.";
+    const result =
+      await response.json();
 
-      return;
-    }
-
-    message.textContent =
-      "pinning...";
-
-    await api("/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        content,
-        pinned: true
-      })
-    });
-
-    savePostingPassword(password);
-
-    clearPostFields();
-    closePostBox();
-
-    await Promise.all([
-      loadNormalPosts(),
-      loadNormalPinned()
-    ]);
-
-  } catch (error) {
-
-    if (error.status === 401) {
+    if (response.status === 401) {
 
       sessionStorage.removeItem(
-        NORMAL_PASSWORD_KEY
+        POST_PASSWORD_KEY
       );
 
-      $("post-password").style.display =
-        "block";
+      document.getElementById(
+        "post-password"
+      ).style.display = "block";
 
       message.textContent =
         "wrong password.";
 
       return;
+
     }
 
+    if (!response.ok) {
+
+      message.textContent =
+        result.error || "couldn't pin message.";
+
+      return;
+
+    }
+
+    sessionStorage.setItem(
+      POST_PASSWORD_KEY,
+      password
+    );
+
+    document.getElementById(
+      "post-password"
+    ).style.display = "none";
+
+    document.getElementById(
+      "post-content"
+    ).value = "";
+
+    document.getElementById(
+      "image-url"
+    ).value = "";
+
+    closePostBox();
+
+    await loadNormalPosts();
+    await loadPinnedPosts();
+
+  } catch (error) {
+
+    console.error(error);
+
     message.textContent =
-      error.message ||
-      "couldn't pin the post.";
+      "can't connect to the server.";
 
   }
+
 }
 
 
-/* ==================================================
-   NORMAL POLL
-   ================================================== */
+/* POLL */
 
-async function createNormalPoll() {
+async function makePoll() {
 
-  const message = $("post-message");
+  const message =
+    document.getElementById("post-message");
 
   const password =
-    getPostingPassword();
+    getPostPassword();
 
   if (!password) {
-    message.textContent =
-      "enter your posting password.";
 
-    $("post-password").focus();
+    message.textContent =
+      "enter your password.";
+
+    document.getElementById(
+      "post-password"
+    ).focus();
 
     return;
+
   }
 
   const question =
-    $("poll-question")
-      .value
-      .trim();
+    document.getElementById("poll-question")
+      .value.trim();
 
   const a =
-    $("poll-a")
-      .value
-      .trim();
+    document.getElementById("poll-a")
+      .value.trim();
 
   const b =
-    $("poll-b")
-      .value
-      .trim();
+    document.getElementById("poll-b")
+      .value.trim();
 
   const c =
-    $("poll-c")
-      .value
-      .trim();
+    document.getElementById("poll-c")
+      .value.trim();
 
   const d =
-    $("poll-d")
-      .value
-      .trim();
+    document.getElementById("poll-d")
+      .value.trim();
 
   if (!question || !a || !b) {
 
@@ -1700,121 +1463,212 @@ async function createNormalPoll() {
       "you need a question and at least two options.";
 
     return;
+
   }
+
+  message.textContent =
+    "hosting poll...";
 
   try {
 
-    message.textContent =
-      "hosting poll...";
+    const response =
+      await fetch(
+        WORKER_URL + "/polls",
+        {
+          method: "POST",
 
-    await api("/polls", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        question,
-        option_a: a,
-        option_b: b,
-        option_c: c,
-        option_d: d
-      })
-    });
+          headers: {
+            "Content-Type": "application/json"
+          },
 
-    savePostingPassword(password);
+          body: JSON.stringify({
 
-    clearPostFields();
-    closePostBox();
+            password: password,
 
-    await loadNormalPolls();
+            question: question,
 
-  } catch (error) {
+            option_a: a,
+            option_b: b,
+            option_c: c || "",
+            option_d: d || ""
 
-    if (error.status === 401) {
+          })
 
-      sessionStorage.removeItem(
-        NORMAL_PASSWORD_KEY
+        }
       );
 
-      $("post-password").style.display =
-        "block";
+    const result =
+      await response.json();
+
+    if (response.status === 401) {
+
+      sessionStorage.removeItem(
+        POST_PASSWORD_KEY
+      );
+
+      document.getElementById(
+        "post-password"
+      ).style.display = "block";
 
       message.textContent =
         "wrong password.";
 
       return;
+
     }
 
+    if (!response.ok) {
+
+      message.textContent =
+        result.error ||
+        "couldn't create poll.";
+
+      return;
+
+    }
+
+    sessionStorage.setItem(
+      POST_PASSWORD_KEY,
+      password
+    );
+
+    document.getElementById(
+      "poll-question"
+    ).value = "";
+
+    document.getElementById(
+      "poll-a"
+    ).value = "";
+
+    document.getElementById(
+      "poll-b"
+    ).value = "";
+
+    document.getElementById(
+      "poll-c"
+    ).value = "";
+
+    document.getElementById(
+      "poll-d"
+    ).value = "";
+
+    closePostBox();
+
+    await loadPolls();
+
+  } catch (error) {
+
+    console.error(error);
+
     message.textContent =
-      error.message ||
-      "couldn't create poll.";
+      "couldn't connect to the server.";
 
   }
+
 }
 
 
-/* ==================================================
-   GUEST NOTES
-   ================================================== */
+/* GUEST NOTES */
 
 function openGuestNotes() {
-  openModal("guest-modal");
-  loadGuestNotes();
+
+  document.getElementById(
+    "guest-modal"
+  ).style.display = "flex";
+
 }
 
 function closeGuestNotes() {
-  closeModal("guest-modal");
-  $("guest-message").textContent = "";
+
+  document.getElementById(
+    "guest-modal"
+  ).style.display = "none";
+
+  document.getElementById(
+    "guest-message"
+  ).textContent = "";
+
 }
 
 async function submitGuestNote() {
 
-  const message =
-    $("guest-message");
-
   const username =
-    $("guest-username")
-      .value
-      .trim();
+    document.getElementById(
+      "guest-username"
+    ).value.trim();
 
   const content =
-    $("guest-content")
-      .value
-      .trim();
+    document.getElementById(
+      "guest-content"
+    ).value.trim();
+
+  const message =
+    document.getElementById(
+      "guest-message"
+    );
 
   if (!content) {
+
     message.textContent =
       "write something first.";
 
     return;
+
   }
 
   if (content.length > 60) {
+
     message.textContent =
       "60 characters maximum.";
 
     return;
+
   }
+
+  message.textContent =
+    "sending...";
 
   try {
 
-    message.textContent =
-      "sending...";
+    const response =
+      await fetch(
+        WORKER_URL + "/guest-notes",
+        {
 
-    await api("/guest-notes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        username:
-          username || "Anonymous",
-        content
-      })
-    });
+          method: "POST",
 
-    $("guest-content").value = "";
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            username:
+              username || "Anonymous",
+
+            content: content
+
+          })
+
+        }
+      );
+
+    const result =
+      await response.json();
+
+    if (!response.ok) {
+
+      message.textContent =
+        result.error ||
+        "couldn't send note.";
+
+      return;
+
+    }
+
+    document.getElementById(
+      "guest-content"
+    ).value = "";
 
     closeGuestNotes();
 
@@ -1822,155 +1676,197 @@ async function submitGuestNote() {
 
   } catch (error) {
 
+    console.error(error);
+
     message.textContent =
-      error.message ||
-      "couldn't send note.";
+      "couldn't connect to the server.";
 
   }
+
 }
 
 
-/* ==================================================
-   LOAD NORMAL POSTS
-   ================================================== */
+/* NORMAL POSTS */
 
 async function loadNormalPosts() {
 
   const container =
-    $("normal-posts-container");
+    document.getElementById(
+      "posts-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL + "?t=" + Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const posts =
-      await api("/");
+      await response.json();
 
     container.innerHTML = "";
 
-    const normal =
+    const normalPosts =
       posts.filter(
-        post => !Boolean(post.pinned)
+        post => !Number(post.pinned)
       );
 
-    if (!normal.length) {
+    if (!normalPosts.length) {
 
       container.innerHTML =
         "<p>no posts yet.</p>";
 
       return;
+
     }
 
-    normal.forEach(post =>
-      addNormalPost(
-        container,
-        post
-      )
+    normalPosts.forEach(
+      post => addPostToPage(container, post)
     );
 
   } catch (error) {
 
-    container.innerHTML =
-      "<p>couldn't load posts.</p>";
-
     console.error(error);
 
+    container.innerHTML =
+      "<p>couldn't load posts!</p>";
+
   }
+
 }
 
 
-/* ==================================================
-   LOAD NORMAL PINNED
-   ================================================== */
+/* NORMAL PINNED */
 
-async function loadNormalPinned() {
+async function loadPinnedPosts() {
 
   const container =
-    $("normal-pinned-container");
+    document.getElementById(
+      "pinned-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/pinned?t=" +
+        Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const posts =
-      await api("/pinned");
+      await response.json();
 
     container.innerHTML = "";
 
-    if (!posts.length) {
+    if (!Array.isArray(posts) || !posts.length) {
 
       container.innerHTML =
-        "<p>no pinned messages yet.</p>";
+        "<p>no pinned messages.</p>";
 
       return;
+
     }
 
-    posts.forEach(post =>
-      addNormalPost(
-        container,
-        post
-      )
+    posts.forEach(
+      post => addPostToPage(container, post)
     );
 
   } catch (error) {
 
-    container.innerHTML =
-      "<p>couldn't load pinned messages.</p>";
-
     console.error(error);
 
+    container.innerHTML =
+      "<p>couldn't load pinned messages!</p>";
+
   }
+
 }
 
 
-/* ==================================================
-   LOAD GUEST NOTES
-   ================================================== */
+/* GUEST NOTES */
 
 async function loadGuestNotes() {
 
   const container =
-    $("normal-guest-container");
+    document.getElementById(
+      "guest-notes-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/guest-notes?t=" +
+        Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const notes =
-      await api("/guest-notes");
+      await response.json();
 
     container.innerHTML = "";
 
-    if (!notes.length) {
+    if (!Array.isArray(notes) || !notes.length) {
 
       container.innerHTML =
         "<p>no guest notes yet.</p>";
 
       return;
+
     }
 
-    notes.forEach(note => {
+    notes.forEach(function(note) {
 
       const box =
         document.createElement("div");
 
-      box.className =
-        "user-post";
+      box.className = "guest-note";
 
-      const name =
+      const username =
         document.createElement("strong");
 
-      name.textContent =
-        (note.username || "Anonymous") +
-        ":";
+      username.textContent =
+        (note.username || "Anonymous") + ":";
 
-      box.appendChild(name);
+      box.appendChild(username);
 
-      const text =
+      const content =
         document.createTextNode(
           note.content || ""
         );
 
-      box.appendChild(text);
+      box.appendChild(content);
 
-      addTime(
-        box,
-        note.created_at
-      );
+      if (note.created_at) {
+
+        const time =
+          document.createElement("div");
+
+        time.className =
+          "guest-note-time";
+
+        const date =
+          new Date(note.created_at);
+
+        time.textContent =
+          !isNaN(date.getTime())
+            ? date.toLocaleString()
+            : note.created_at;
+
+        box.appendChild(time);
+
+      }
 
       container.appendChild(box);
 
@@ -1978,62 +1874,180 @@ async function loadGuestNotes() {
 
   } catch (error) {
 
+    console.error(error);
+
     container.innerHTML =
       "<p>couldn't load guest notes.</p>";
 
-    console.error(error);
-
   }
+
 }
 
 
-/* ==================================================
-   LOAD NORMAL POLLS
-   ================================================== */
+/* POLLS */
 
-async function loadNormalPolls() {
+async function loadPolls() {
 
   const container =
-    $("normal-polls-container");
+    document.getElementById(
+      "polls-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/polls?t=" +
+        Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const polls =
-      await api("/polls");
+      await response.json();
 
     container.innerHTML = "";
 
-    if (!polls.length) {
+    if (!Array.isArray(polls) || !polls.length) {
 
       container.innerHTML =
         "<p>no polls yet.</p>";
 
       return;
+
     }
 
-    polls.forEach(poll =>
-      addNormalPoll(
-        container,
-        poll
-      )
-    );
+    polls.forEach(function(poll) {
+
+      const box =
+        document.createElement("div");
+
+      box.className = "poll";
+
+      const question =
+        document.createElement("div");
+
+      question.className =
+        "poll-question";
+
+      question.textContent =
+        poll.question;
+
+      box.appendChild(question);
+
+      ["a","b","c","d"].forEach(
+        function(option) {
+
+          const text =
+            poll["option_" + option];
+
+          if (!text)
+            return;
+
+          const button =
+            document.createElement("button");
+
+          button.className =
+            "poll-option";
+
+          button.type = "button";
+
+          button.textContent =
+            text;
+
+          button.onclick =
+            function() {
+              votePoll(
+                poll.id,
+                option
+              );
+            };
+
+          box.appendChild(button);
+
+        }
+      );
+
+      const results =
+        document.createElement("div");
+
+      results.className =
+        "poll-results";
+
+      results.textContent =
+        "votes: " +
+        (
+          Number(poll.votes_a || 0) +
+          Number(poll.votes_b || 0) +
+          Number(poll.votes_c || 0) +
+          Number(poll.votes_d || 0)
+        );
+
+      box.appendChild(results);
+
+      container.appendChild(box);
+
+    });
 
   } catch (error) {
+
+    console.error("POLL ERROR:", error);
 
     container.innerHTML =
       "<p>couldn't load polls.</p>";
 
-    console.error(error);
-
   }
+
 }
 
 
-/* ==================================================
-   NORMAL POST RENDER
-   ================================================== */
+/* VOTE */
 
-function addNormalPost(container, post) {
+async function votePoll(id, option) {
+
+  try {
+
+    const response =
+      await fetch(
+        WORKER_URL + "/poll-vote",
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            poll_id: id,
+            option: option
+
+          })
+
+        }
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
+    await loadPolls();
+
+  } catch (error) {
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* ADD POST */
+
+function addPostToPage(container, post) {
 
   const box =
     document.createElement("div");
@@ -2041,128 +2055,42 @@ function addNormalPost(container, post) {
   box.className =
     "user-post";
 
-  const name =
+  const username =
     document.createElement("strong");
 
-  name.textContent =
-    (post.username || "Tsukasachan") +
-    ":";
+  username.textContent =
+    (post.username || "Tsukasachan") + ":";
 
-  box.appendChild(name);
+  box.appendChild(username);
 
-  appendSafeContent(
-    box,
-    post.content || "",
-    false
-  );
+  const rawContent =
+    post.content || "";
 
-  addTime(
-    box,
-    post.created_at
-  );
-
-  container.appendChild(box);
-}
-
-
-/* ==================================================
-   TCHAN POST RENDER
-   ================================================== */
-
-function addTchanPost(container, post) {
-
-  const box =
-    document.createElement("div");
-
-  box.className =
-    "tchan-post";
-
-  const name =
-    document.createElement("strong");
-
-  name.textContent =
-    (post.username || "Tsukasachan") +
-    ":";
-
-  box.appendChild(name);
-
-  appendSafeContent(
-    box,
-    post.content || "",
-    true
-  );
-
-  const time =
-    document.createElement("div");
-
-  time.className =
-    "tchan-time";
-
-  if (post.created_at) {
-
-    const date =
-      new Date(post.created_at);
-
-    time.textContent =
-      isNaN(date.getTime())
-        ? post.created_at
-        : date.toLocaleString();
-
-  }
-
-  box.appendChild(time);
-
-  container.appendChild(box);
-}
-
-
-/* ==================================================
-   SAFE URL/IMAGE CONTENT
-   ================================================== */
-
-function appendSafeContent(
-  box,
-  content,
-  isTchan
-) {
-
-  const pieces =
-    content.split(
-      /(\[(?:URL|IMAGE)\]https?:\/\/[^\s]+)/g
+  const parts =
+    rawContent.split(
+      /(\[IMAGE\][^\s]+)/g
     );
 
-  pieces.forEach(part => {
+  parts.forEach(function(part) {
 
-    if (
-      part.startsWith("[URL]") ||
-      part.startsWith("[IMAGE]")
-    ) {
+    if (part.startsWith("[IMAGE]")) {
 
-      const prefix =
-        part.startsWith("[URL]")
-          ? "[URL]"
-          : "[IMAGE]";
+      const imageUrl =
+        part.substring(7).trim();
 
-      const url =
-        part.slice(prefix.length);
-
-      try {
-
-        const parsed =
-          new URL(url);
-
-        if (
-          parsed.protocol !== "http:" &&
-          parsed.protocol !== "https:"
-        ) {
-          throw new Error();
-        }
+      if (
+        imageUrl.startsWith("http://") ||
+        imageUrl.startsWith("https://")
+      ) {
 
         const link =
           document.createElement("a");
 
+        link.className =
+          "image-link";
+
         link.href =
-          parsed.href;
+          imageUrl;
 
         link.target =
           "_blank";
@@ -2171,26 +2099,13 @@ function appendSafeContent(
           "noopener noreferrer";
 
         link.textContent =
-          isTchan
-            ? "open site"
-            : "image/site here";
-
-        link.className =
-          isTchan
-            ? "tchan-image-link"
-            : "image-link";
+          "image/site here";
 
         box.appendChild(link);
 
-      } catch {
-
-        box.appendChild(
-          document.createTextNode(part)
-        );
-
       }
 
-    } else {
+    } else if (part) {
 
       box.appendChild(
         document.createTextNode(part)
@@ -2199,246 +2114,84 @@ function appendSafeContent(
     }
 
   });
-}
 
+  if (post.created_at) {
 
-/* ==================================================
-   TIME
-   ================================================== */
+    const time =
+      document.createElement("div");
 
-function addTime(box, timestamp) {
+    time.className =
+      "user-post-time";
 
-  if (!timestamp) return;
+    const date =
+      new Date(post.created_at);
 
-  const time =
-    document.createElement("div");
+    time.textContent =
+      !isNaN(date.getTime())
+        ? date.toLocaleString()
+        : post.created_at;
 
-  time.className =
-    "user-post-time";
-
-  const date =
-    new Date(timestamp);
-
-  time.textContent =
-    isNaN(date.getTime())
-      ? timestamp
-      : date.toLocaleString();
-
-  box.appendChild(time);
-}
-
-
-/* ==================================================
-   POLL RENDER
-   ================================================== */
-
-function addNormalPoll(container, poll) {
-
-  const box =
-    document.createElement("div");
-
-  box.className =
-    "poll";
-
-  const question =
-    document.createElement("div");
-
-  question.className =
-    "poll-question";
-
-  question.textContent =
-    poll.question;
-
-  box.appendChild(question);
-
-  ["a", "b", "c", "d"].forEach(option => {
-
-    const text =
-      poll["option_" + option];
-
-    if (!text) return;
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "poll-option";
-
-    button.textContent =
-      text;
-
-    button.onclick =
-      () =>
-        voteNormalPoll(
-          poll.id,
-          option
-        );
-
-    box.appendChild(button);
-
-  });
-
-  const results =
-    document.createElement("div");
-
-  results.className =
-    "poll-results";
-
-  results.textContent =
-    "votes: " +
-    totalVotes(poll);
-
-  box.appendChild(results);
-
-  container.appendChild(box);
-}
-
-
-function addTchanPoll(container, poll) {
-
-  const box =
-    document.createElement("div");
-
-  box.className =
-    "tchan-poll";
-
-  const question =
-    document.createElement("div");
-
-  question.className =
-    "tchan-poll-question";
-
-  question.textContent =
-    poll.question;
-
-  box.appendChild(question);
-
-  ["a", "b", "c", "d"].forEach(option => {
-
-    const text =
-      poll["option_" + option];
-
-    if (!text) return;
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "tchan-poll-option";
-
-    button.textContent =
-      text;
-
-    button.onclick =
-      () =>
-        voteTchanPoll(
-          poll.id,
-          option
-        );
-
-    box.appendChild(button);
-
-  });
-
-  const results =
-    document.createElement("div");
-
-  results.className =
-    "tchan-poll-results";
-
-  results.textContent =
-    "votes: " +
-    totalVotes(poll);
-
-  box.appendChild(results);
-
-  container.appendChild(box);
-}
-
-
-function totalVotes(poll) {
-
-  return (
-    Number(poll.votes_a || 0) +
-    Number(poll.votes_b || 0) +
-    Number(poll.votes_c || 0) +
-    Number(poll.votes_d || 0)
-  );
-}
-
-
-/* ==================================================
-   NORMAL VOTE
-   ================================================== */
-
-async function voteNormalPoll(id, option) {
-
-  try {
-
-    await api("/poll-vote", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        poll_id: id,
-        option
-      })
-    });
-
-    await loadNormalPolls();
-
-  } catch (error) {
-
-    console.error(error);
+    box.appendChild(time);
 
   }
+
+  container.appendChild(box);
+
 }
 
 
-/* ==================================================
-   TCHAN ACCESS
-   ================================================== */
+/* TCHAN ACCESS */
 
-function openTchanAccess() {
+function openTchanBox() {
 
-  if (
+  const savedPassword =
     sessionStorage.getItem(
-      TCHAN_ACCESS_KEY
-    ) === "true"
-  ) {
+      TCHAN_PASSWORD_KEY
+    );
+
+  if (savedPassword) {
+
     activateTchan();
     return;
+
   }
 
-  $("tchan-access-password").value = "";
+  document.getElementById(
+    "tchan-modal"
+  ).style.display = "flex";
 
-  $("tchan-access-message").textContent = "";
+  document.getElementById(
+    "tchan-password"
+  ).value = "";
 
-  openModal(
-    "tchan-access-modal"
-  );
+  document.getElementById(
+    "tchan-password"
+  ).focus();
 
-  $("tchan-access-password").focus();
+}
+
+function closeTchanBox() {
+
+  document.getElementById(
+    "tchan-modal"
+  ).style.display = "none";
+
 }
 
 
-function closeTchanAccess() {
-  closeModal(
-    "tchan-access-modal"
-  );
-}
-
+/* ENTER TCHAN */
 
 async function enterTchan() {
 
   const password =
-    $("tchan-access-password")
-      .value
-      .trim();
+    document.getElementById(
+      "tchan-password"
+    ).value.trim();
 
   const message =
-    $("tchan-access-message");
+    document.getElementById(
+      "tchan-message"
+    );
 
   if (!password) {
 
@@ -2446,661 +2199,411 @@ async function enterTchan() {
       "enter a password.";
 
     return;
-  }
-
-  try {
-
-    message.textContent =
-      "checking...";
-
-    await api("/tchan-access", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password
-      })
-    });
-
-    sessionStorage.setItem(
-      TCHAN_ACCESS_KEY,
-      "true"
-    );
-
-    closeTchanAccess();
-
-    activateTchan();
-
-  } catch (error) {
-
-    message.textContent =
-      error.status === 401
-        ? "wrong password."
-        : error.message;
 
   }
+
+  /*
+   * The TCHAN access password is checked
+   * locally against the password intended
+   * for TCHAN posting/access.
+   */
+
+  if (password !== "velve1cake") {
+
+    message.textContent =
+      "wrong password.";
+
+    return;
+
+  }
+
+  sessionStorage.setItem(
+    TCHAN_PASSWORD_KEY,
+    password
+  );
+
+  closeTchanBox();
+
+  activateTchan();
+
 }
 
 
-/* ==================================================
-   ACTIVATE TCHAN
-   ================================================== */
+/* ACTIVATE TCHAN */
 
-async function activateTchan() {
-
-  $("normal-site").style.display =
-    "none";
-
-  $("tchan-site").classList.add(
-    "active"
-  );
+function activateTchan() {
 
   document.body.classList.add(
-    "tchan-active"
+    "tchan-mode"
   );
 
-  playTchanMusic();
+  document.getElementById(
+    "banner"
+  ).src =
+    "darkangelbanner.jpeg";
 
-  await Promise.all([
-    loadTchanPosts(),
-    loadTchanPinned(),
-    loadTchanPolls()
-  ]);
+  document.getElementById(
+    "profile-picture"
+  ).src =
+    "madpfp.jpeg";
+
+  document.getElementById(
+    "blog-subtitle"
+  ).textContent =
+    "secret entries.";
+
+  document.getElementById(
+    "about-text"
+  ).textContent =
+    "you should not be here.";
+
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    "TCHAN";
+
+  document.getElementById(
+    "normal-intro"
+  ).style.display =
+    "none";
+
+  loadTchanPosts();
+  loadTchanPinned();
+
+  startTchanMusic();
+
 }
 
 
-/* ==================================================
-   EXIT TCHAN
-   ================================================== */
+/* TCHAN POST */
 
-function exitTchan() {
-
-  $("tchan-site").classList.remove(
-    "active"
-  );
-
-  $("normal-site").style.display =
-    "block";
-
-  document.body.classList.remove(
-    "tchan-active"
-  );
-
-  playNormalMusic();
-
-  loadNormalPosts();
-  loadNormalPinned();
-  loadNormalPolls();
-  loadGuestNotes();
-}
-
-
-/* ==================================================
-   TCHAN POST
-   ================================================== */
-
-async function createTchanPost() {
+async function makeTchanPost() {
 
   const message =
-    $("post-message");
+    document.getElementById(
+      "post-message"
+    );
 
   const password =
-    getPostingPassword();
+    sessionStorage.getItem(
+      TCHAN_PASSWORD_KEY
+    );
 
   if (!password) {
 
     message.textContent =
-      "enter the TCHAN posting password.";
-
-    $("post-password").focus();
+      "enter TCHAN first.";
 
     return;
+
   }
 
-  let content;
+  const content =
+    document.getElementById(
+      "post-content"
+    ).value.trim();
+
+  const imageUrl =
+    document.getElementById(
+      "image-url"
+    ).value.trim();
+
+  if (!content && !imageUrl) {
+
+    message.textContent =
+      "write something or add an image.";
+
+    return;
+
+  }
+
+  let finalContent =
+    content;
+
+  if (imageUrl) {
+
+    finalContent +=
+      (finalContent ? "\n\n" : "") +
+      "[IMAGE]" +
+      imageUrl;
+
+  }
+
+  message.textContent =
+    "posting...";
 
   try {
-    content = buildContent();
-  } catch (error) {
-    message.textContent =
-      error.message;
-    return;
-  }
 
-  if (!content) {
+    const response =
+      await fetch(
+        WORKER_URL + "/tchan",
+        {
 
-    message.textContent =
-      "write something or add a URL.";
+          method: "POST",
 
-    return;
-  }
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
 
-  try {
+          body: JSON.stringify({
 
-    message.textContent =
-      "posting...";
+            password:
+              password,
 
-    await api("/tchan", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        content
-      })
-    });
+            content:
+              finalContent
 
-    savePostingPassword(password);
+          })
 
-    clearPostFields();
+        }
+      );
+
+    const result =
+      await response.json();
+
+    if (!response.ok) {
+
+      message.textContent =
+        result.error ||
+        "TCHAN post failed.";
+
+      return;
+
+    }
+
+    document.getElementById(
+      "post-content"
+    ).value = "";
+
+    document.getElementById(
+      "image-url"
+    ).value = "";
+
     closePostBox();
 
     await loadTchanPosts();
 
   } catch (error) {
 
-    if (error.status === 401) {
-
-      sessionStorage.removeItem(
-        TCHAN_PASSWORD_KEY
-      );
-
-      $("post-password").style.display =
-        "block";
-
-      message.textContent =
-        "wrong TCHAN posting password.";
-
-      return;
-    }
+    console.error(error);
 
     message.textContent =
-      error.message ||
-      "couldn't post to TCHAN.";
+      "couldn't connect to TCHAN.";
 
   }
+
 }
 
 
-/* ==================================================
-   TCHAN PINNED
-   ================================================== */
-
-async function createTchanPinned() {
-
-  const message =
-    $("post-message");
-
-  const password =
-    getPostingPassword();
-
-  if (!password) {
-
-    message.textContent =
-      "enter the TCHAN posting password.";
-
-    $("post-password").focus();
-
-    return;
-  }
-
-  let content;
-
-  try {
-    content = buildContent();
-  } catch (error) {
-    message.textContent =
-      error.message;
-    return;
-  }
-
-  if (!content) {
-
-    message.textContent =
-      "write something or add a URL.";
-
-    return;
-  }
-
-  try {
-
-    message.textContent =
-      "pinning...";
-
-    await api("/tchan-pinned", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        content
-      })
-    });
-
-    savePostingPassword(password);
-
-    clearPostFields();
-    closePostBox();
-
-    await loadTchanPinned();
-
-  } catch (error) {
-
-    if (error.status === 401) {
-
-      sessionStorage.removeItem(
-        TCHAN_PASSWORD_KEY
-      );
-
-      $("post-password").style.display =
-        "block";
-
-      message.textContent =
-        "wrong TCHAN posting password.";
-
-      return;
-    }
-
-    message.textContent =
-      error.message ||
-      "couldn't pin TCHAN message.";
-
-  }
-}
-
-
-/* ==================================================
-   TCHAN POLL
-   ================================================== */
-
-async function createTchanPoll() {
-
-  const message =
-    $("post-message");
-
-  const password =
-    getPostingPassword();
-
-  if (!password) {
-
-    message.textContent =
-      "enter the TCHAN posting password.";
-
-    $("post-password").focus();
-
-    return;
-  }
-
-  const question =
-    $("poll-question").value.trim();
-
-  const a =
-    $("poll-a").value.trim();
-
-  const b =
-    $("poll-b").value.trim();
-
-  const c =
-    $("poll-c").value.trim();
-
-  const d =
-    $("poll-d").value.trim();
-
-  if (!question || !a || !b) {
-
-    message.textContent =
-      "you need a question and at least two options.";
-
-    return;
-  }
-
-  try {
-
-    message.textContent =
-      "hosting TCHAN poll...";
-
-    await api("/tchan-polls", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        password,
-        question,
-        option_a: a,
-        option_b: b,
-        option_c: c,
-        option_d: d
-      })
-    });
-
-    savePostingPassword(password);
-
-    clearPostFields();
-    closePostBox();
-
-    await loadTchanPolls();
-
-  } catch (error) {
-
-    if (error.status === 401) {
-
-      sessionStorage.removeItem(
-        TCHAN_PASSWORD_KEY
-      );
-
-      $("post-password").style.display =
-        "block";
-
-      message.textContent =
-        "wrong TCHAN posting password.";
-
-      return;
-    }
-
-    message.textContent =
-      error.message ||
-      "couldn't create TCHAN poll.";
-
-  }
-}
-
-
-/* ==================================================
-   TCHAN LOAD POSTS
-   ================================================== */
+/* TCHAN POSTS */
 
 async function loadTchanPosts() {
 
   const container =
-    $("tchan-posts-container");
+    document.getElementById(
+      "posts-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/tchan?t=" +
+        Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const posts =
-      await api("/tchan");
+      await response.json();
 
     container.innerHTML = "";
 
-    if (!posts.length) {
+    if (!Array.isArray(posts) || !posts.length) {
 
       container.innerHTML =
         "<p>no secret posts yet.</p>";
 
       return;
+
     }
 
-    posts.forEach(post =>
-      addTchanPost(
-        container,
-        post
-      )
+    posts.forEach(
+      post => addPostToPage(container, post)
     );
 
   } catch (error) {
+
+    console.error(error);
 
     container.innerHTML =
       "<p>couldn't load TCHAN posts.</p>";
 
-    console.error(error);
-
   }
+
 }
 
 
-/* ==================================================
-   TCHAN LOAD PINNED
-   ================================================== */
+/* TCHAN PINNED */
 
 async function loadTchanPinned() {
 
   const container =
-    $("tchan-pinned-container");
+    document.getElementById(
+      "pinned-container"
+    );
 
   try {
 
+    const response =
+      await fetch(
+        WORKER_URL +
+        "/tchan-pinned?t=" +
+        Date.now()
+      );
+
+    if (!response.ok)
+      throw new Error(response.status);
+
     const posts =
-      await api("/tchan-pinned");
+      await response.json();
 
     container.innerHTML = "";
 
-    if (!posts.length) {
+    if (!Array.isArray(posts) || !posts.length) {
 
       container.innerHTML =
-        "<p>no secret pinned messages yet.</p>";
+        "<p>no secret pinned messages.</p>";
 
       return;
+
     }
 
-    posts.forEach(post =>
-      addTchanPost(
-        container,
-        post
-      )
+    posts.forEach(
+      post => addPostToPage(container, post)
     );
 
   } catch (error) {
+
+    console.error(error);
 
     container.innerHTML =
       "<p>couldn't load TCHAN pinned messages.</p>";
 
-    console.error(error);
-
   }
+
 }
 
 
-/* ==================================================
-   TCHAN LOAD POLLS
-   ================================================== */
-
-async function loadTchanPolls() {
-
-  const container =
-    $("tchan-polls-container");
-
-  try {
-
-    const polls =
-      await api("/tchan-polls");
-
-    container.innerHTML = "";
-
-    if (!polls.length) {
-
-      container.innerHTML =
-        "<p>no TCHAN polls yet.</p>";
-
-      return;
-    }
-
-    polls.forEach(poll =>
-      addTchanPoll(
-        container,
-        poll
-      )
-    );
-
-  } catch (error) {
-
-    container.innerHTML =
-      "<p>couldn't load TCHAN polls.</p>";
-
-    console.error(error);
-
-  }
-}
-
-
-/* ==================================================
-   TCHAN VOTE
-   ================================================== */
-
-async function voteTchanPoll(id, option) {
-
-  try {
-
-    await api("/tchan-poll-vote", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        poll_id: id,
-        option
-      })
-    });
-
-    await loadTchanPolls();
-
-  } catch (error) {
-
-    console.error(error);
-
-  }
-}
-
-
-/* ==================================================
-   CLEAR POST FORM
-   ================================================== */
-
-function clearPostFields() {
-
-  $("post-content").value = "";
-  $("image-url").value = "";
-
-  $("poll-question").value = "";
-  $("poll-a").value = "";
-  $("poll-b").value = "";
-  $("poll-c").value = "";
-  $("poll-d").value = "";
-
-  document
-    .querySelector(
-      'input[name="post-type"][value="normal"]'
-    )
-    .checked = true;
-
-  $("poll-fields").style.display =
-    "none";
-
-  $("post-message").textContent =
-    "";
-}
-
-
-/* ==================================================
-   NAVIGATION
-   ================================================== */
-
-function scrollToNormal(id) {
-
-  if (
-    $("tchan-site").classList.contains("active")
-  ) {
-    return;
-  }
-
-  const target =
-    $(id === "pinned"
-      ? "normal-pinned-section"
-      : id === "polls"
-        ? "normal-polls-section"
-        : "normal-guest-section");
-
-  if (target) {
-    target.scrollIntoView({
-      behavior: "smooth"
-    });
-  }
-}
-
-
-function scrollToTchan(id) {
-
-  if (
-    !$("tchan-site").classList.contains("active")
-  ) {
-    return;
-  }
-
-  const target =
-    $(id);
-
-  if (target) {
-    target.scrollIntoView({
-      behavior: "smooth"
-    });
-  }
-}
-
+/* GO HOME / WAKE UP */
 
 function goHome() {
 
-  if (
-    $("tchan-site").classList.contains("active")
-  ) {
-    exitTchan();
-  }
+  document.body.classList.remove(
+    "tchan-mode"
+  );
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  document.getElementById(
+    "banner"
+  ).src =
+    "kangel.jpeg";
+
+  document.getElementById(
+    "profile-picture"
+  ).src =
+    "pfp.jpeg";
+
+  document.getElementById(
+    "blog-subtitle"
+  ).textContent =
+    "my blog!";
+
+  document.getElementById(
+    "about-text"
+  ).textContent =
+    "this is lwky js my blog";
+
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    "tsukasAngel";
+
+  document.getElementById(
+    "normal-intro"
+  ).style.display =
+    "block";
+
+  loadNormalPosts();
+  loadPinnedPosts();
+  loadPolls();
+  loadGuestNotes();
+
+  startNormalMusic();
+
+  return false;
+
 }
 
 
-/* ==================================================
-   OUTSIDE CLICK
-   ================================================== */
+/* MODAL OUTSIDE CLICK */
 
-[
-  "post-modal",
-  "guest-modal",
-  "tchan-access-modal"
-].forEach(id => {
+document.getElementById(
+  "post-modal"
+).addEventListener(
+  "click",
+  function(event) {
 
-  $(id).addEventListener(
-    "click",
-    function(event) {
-
-      if (event.target === this) {
-        closeModal(id);
-      }
-
+    if (event.target === this) {
+      closePostBox();
     }
-  );
 
-});
+  }
+);
+
+document.getElementById(
+  "guest-modal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (event.target === this) {
+      closeGuestNotes();
+    }
+
+  }
+);
+
+document.getElementById(
+  "tchan-modal"
+).addEventListener(
+  "click",
+  function(event) {
+
+    if (event.target === this) {
+      closeTchanBox();
+    }
+
+  }
+);
 
 
-/* ==================================================
-   START
-   ================================================== */
+/* START */
 
 window.addEventListener(
-  "DOMContentLoaded",
+  "load",
   function() {
 
-    $("normal-site").style.display =
-      "block";
-
-    $("tchan-site").classList.remove(
-      "active"
-    );
-
     document.body.classList.remove(
-      "tchan-active"
+      "tchan-mode"
     );
 
     loadNormalPosts();
-    loadNormalPinned();
+    loadPinnedPosts();
+    loadPolls();
     loadGuestNotes();
-    loadNormalPolls();
 
   }
 );
