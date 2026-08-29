@@ -1,8 +1,10 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,40 +12,71 @@
 
 <style>
 
+/* =========================================
+   PIXEL OPERATOR FONT
+========================================= */
+
 @font-face {
+
   font-family: "Pixel Operator";
-  src: url("PixelOperator8.ttf") format("truetype");
+
+  src: url("PixelOperator8.ttf")
+       format("truetype");
+
 }
+
 
 * {
+
   box-sizing: border-box;
-  font-family: "Pixel Operator", monospace;
+
+  font-family:
+    "Pixel Operator",
+    monospace;
+
 }
 
+
+/* =========================================
+   NORMAL WEBSITE
+========================================= */
+
 body {
+
   margin: 0;
+
   padding: 0;
 
   background-color: #FEE8FF;
-  background-image: url("websiteyay.jpeg");
+
+  background-image:
+    url("websiteyay.jpeg");
+
   background-size: cover;
+
   background-repeat: no-repeat;
+
   background-position: center center;
+
   background-attachment: fixed;
 
   color: #808080;
+
 }
 
 
-/* ================================
+/* =========================================
    MAIN PAGE
-================================ */
+========================================= */
 
 .page {
+
   width: 850px;
+
   max-width: 90%;
 
   margin: 40px auto;
+
   padding: 8px;
 
   background-color: #FEE8FF;
@@ -51,15 +84,18 @@ body {
   border: 4px solid #C9C2E8;
 
   position: relative;
+
   z-index: 1;
+
 }
 
 
-/* ================================
+/* =========================================
    HEADER
-================================ */
+========================================= */
 
 header {
+
   background-color: #D8F3F5;
 
   border: 3px solid #C9C2E8;
@@ -67,35 +103,51 @@ header {
   padding: 12px;
 
   text-align: center;
+
 }
+
 
 .title-image {
+
   margin: 0;
+
   padding: 0;
+
 }
 
+
 .title-image img {
+
   max-width: 100%;
+
   height: auto;
 
   display: block;
+
   margin: 0 auto;
 
   image-rendering: pixelated;
+
 }
+
 
 header p {
+
   margin: 8px;
+
   font-size: 14px;
+
 }
 
 
-/* ================================
-   NAV
-================================ */
+/* =========================================
+   NAVIGATION
+========================================= */
 
 nav {
+
   margin-top: 8px;
+
   padding: 8px;
 
   background-color: #C9C2E8;
@@ -103,12 +155,16 @@ nav {
   border: 3px solid #D8F3F5;
 
   text-align: center;
+
 }
 
+
 nav a {
+
   display: inline-block;
 
   margin: 3px 8px;
+
   padding: 5px 10px;
 
   color: #808080;
@@ -116,28 +172,37 @@ nav a {
   background-color: #FEE8FF;
 
   border-top: 2px solid white;
+
   border-left: 2px solid white;
 
   border-right: 2px solid #808080;
+
   border-bottom: 2px solid #808080;
 
   text-decoration: none;
 
   font-weight: bold;
+
   font-size: 13px;
+
 }
+
 
 nav a:hover {
+
   background-color: #D8F3F5;
+
 }
 
 
-/* ================================
+/* =========================================
    STATUS
-================================ */
+========================================= */
 
 .status {
+
   margin-top: 8px;
+
   padding: 7px;
 
   background-color: #D8F3F5;
@@ -145,31 +210,38 @@ nav a:hover {
   border: 2px dotted #C9C2E8;
 
   font-size: 13px;
+
 }
+
 
 .online {
+
   font-weight: bold;
+
 }
 
 
-/* ================================
+/* =========================================
    CONTENT
-================================ */
+========================================= */
 
 .content {
+
   display: flex;
 
   gap: 10px;
 
   margin-top: 10px;
+
 }
 
 
-/* ================================
+/* =========================================
    SIDEBAR
-================================ */
+========================================= */
 
 .sidebar {
+
   width: 210px;
 
   flex-shrink: 0;
@@ -179,22 +251,30 @@ nav a:hover {
   border: 3px solid #D8F3F5;
 
   padding: 10px;
+
 }
 
+
 .sidebar h2 {
+
   margin-top: 0;
 
   font-size: 18px;
 
   color: #808080;
 
-  border-bottom: 2px dotted #D8F3F5;
+  border-bottom:
+    2px dotted #D8F3F5;
 
   padding-bottom: 5px;
+
 }
 
+
 .sidebar img {
+
   width: 150px;
+
   height: 150px;
 
   object-fit: cover;
@@ -204,20 +284,25 @@ nav a:hover {
   display: block;
 
   margin: auto;
+
 }
 
+
 .sidebar p {
+
   font-size: 13px;
 
   line-height: 1.5;
+
 }
 
 
-/* ================================
+/* =========================================
    LINKS
-================================ */
+========================================= */
 
 .links a {
+
   display: block;
 
   padding: 4px;
@@ -233,24 +318,32 @@ nav a:hover {
   text-decoration: none;
 
   font-size: 12px;
+
 }
+
 
 .links a:hover {
+
   background-color: #D8F3F5;
+
 }
 
 
-/* ================================
+/* =========================================
    POSTS
-================================ */
+========================================= */
 
 .posts {
+
   flex: 1;
 
   min-width: 0;
+
 }
 
+
 .post {
+
   margin-bottom: 12px;
 
   padding: 10px;
@@ -258,44 +351,57 @@ nav a:hover {
   background-color: #FEE8FF;
 
   border: 4px solid #D8F3F5;
+
 }
 
+
 .post-title {
+
   margin: -10px -10px 8px -10px;
 
   padding: 7px;
 
   background-color: #D8F3F5;
 
-  border-bottom: 3px solid #C9C2E8;
+  border-bottom:
+    3px solid #C9C2E8;
 
   font-weight: bold;
 
   font-size: 17px;
+
 }
 
+
 .post-info {
+
   font-size: 11px;
 
   margin-bottom: 8px;
 
-  border-bottom: 1px dotted #808080;
+  border-bottom:
+    1px dotted #808080;
 
   padding-bottom: 5px;
+
 }
 
+
 .post p {
+
   line-height: 1.6;
 
   font-size: 14px;
+
 }
 
 
-/* ================================
+/* =========================================
    USER POSTS
-================================ */
+========================================= */
 
 .user-post {
+
   margin: 10px 0;
 
   padding: 10px;
@@ -313,26 +419,33 @@ nav a:hover {
   white-space: pre-wrap;
 
   overflow-wrap: anywhere;
+
 }
 
+
 .user-post strong {
+
   display: block;
 
   margin-bottom: 5px;
+
 }
 
+
 .user-post-time {
+
   font-size: 10px;
 
   margin-top: 8px;
 
   opacity: 0.7;
+
 }
 
 
-/* ================================
-   BUTTONS
-================================ */
+/* =========================================
+   FIXED BUTTONS
+========================================= */
 
 .open-post-button,
 .tchan-button {
@@ -345,11 +458,14 @@ nav a:hover {
 
   padding: 8px 14px;
 
-  font-family: "Pixel Operator", monospace;
+  font-family:
+    "Pixel Operator",
+    monospace;
 
   font-size: 14px;
 
   cursor: pointer;
+
 }
 
 
@@ -364,14 +480,28 @@ nav a:hover {
   color: #808080;
 
   border-top: 3px solid white;
+
   border-left: 3px solid white;
 
-  border-right: 3px solid #808080;
-  border-bottom: 3px solid #808080;
+  border-right:
+    3px solid #808080;
+
+  border-bottom:
+    3px solid #808080;
+
 }
 
 
-/* TCHAN BUTTON */
+.open-post-button:hover {
+
+  background-color: #D8F3F5;
+
+}
+
+
+/* =========================================
+   TCHAN BUTTON
+========================================= */
 
 .tchan-button {
 
@@ -382,12 +512,20 @@ nav a:hover {
   color: red;
 
   border: 3px solid red;
+
 }
 
 
-/* ================================
+.tchan-button:hover {
+
+  background-color: #120000;
+
+}
+
+
+/* =========================================
    MODALS
-================================ */
+========================================= */
 
 .post-modal {
 
@@ -396,9 +534,11 @@ nav a:hover {
   position: fixed;
 
   top: 0;
+
   left: 0;
 
   width: 100vw;
+
   height: 100vh;
 
   z-index: 2000;
@@ -407,11 +547,15 @@ nav a:hover {
 
   justify-content: center;
 
-  background-color: rgba(0,0,0,0.25);
+  background-color:
+    rgba(0,0,0,0.25);
+
 }
 
 
-/* NORMAL POST WINDOW */
+/* =========================================
+   NORMAL POST WINDOW
+========================================= */
 
 .post-window {
 
@@ -424,7 +568,9 @@ nav a:hover {
   background-color: #FEE8FF;
 
   border: 4px solid #C9C2E8;
+
 }
+
 
 .post-window-title {
 
@@ -434,15 +580,17 @@ nav a:hover {
 
   background-color: #D8F3F5;
 
-  border-bottom: 3px solid #C9C2E8;
+  border-bottom:
+    3px solid #C9C2E8;
 
   font-size: 16px;
+
 }
 
 
-/* ================================
+/* =========================================
    INPUTS
-================================ */
+========================================= */
 
 #post-password,
 #post-content,
@@ -458,15 +606,21 @@ nav a:hover {
 
   border: 3px solid #D8F3F5;
 
-  font-family: "Pixel Operator", monospace;
+  font-family:
+    "Pixel Operator",
+    monospace;
 
   outline: none;
+
 }
+
 
 #post-password {
 
   margin-bottom: 8px;
+
 }
+
 
 #post-content {
 
@@ -475,12 +629,13 @@ nav a:hover {
   resize: vertical;
 
   font-size: 14px;
+
 }
 
 
-/* ================================
-   WINDOW BUTTONS
-================================ */
+/* =========================================
+   BUTTONS INSIDE WINDOWS
+========================================= */
 
 .post-window-buttons {
 
@@ -491,7 +646,9 @@ nav a:hover {
   gap: 6px;
 
   margin-top: 8px;
+
 }
+
 
 .post-window button {
 
@@ -502,20 +659,27 @@ nav a:hover {
   color: #808080;
 
   border-top: 3px solid white;
+
   border-left: 3px solid white;
 
-  border-right: 3px solid #808080;
-  border-bottom: 3px solid #808080;
+  border-right:
+    3px solid #808080;
 
-  font-family: "Pixel Operator", monospace;
+  border-bottom:
+    3px solid #808080;
+
+  font-family:
+    "Pixel Operator",
+    monospace;
 
   cursor: pointer;
+
 }
 
 
-/* ================================
+/* =========================================
    TCHAN PASSWORD WINDOW
-================================ */
+========================================= */
 
 .tchan-window {
 
@@ -530,12 +694,16 @@ nav a:hover {
   color: red;
 
   border: 4px solid red;
+
 }
+
 
 .tchan-window * {
 
   color: red;
+
 }
+
 
 .tchan-title {
 
@@ -546,7 +714,9 @@ nav a:hover {
   background-color: #120000;
 
   border-bottom: 3px solid red;
+
 }
+
 
 #tchan-password {
 
@@ -555,7 +725,9 @@ nav a:hover {
   color: red;
 
   border-color: red;
+
 }
+
 
 .tchan-window button {
 
@@ -567,15 +739,18 @@ nav a:hover {
 
   padding: 6px 12px;
 
-  font-family: "Pixel Operator", monospace;
+  font-family:
+    "Pixel Operator",
+    monospace;
 
   cursor: pointer;
+
 }
 
 
-/* ================================
+/* =========================================
    TCHAN MODE
-================================ */
+========================================= */
 
 body.tchan-mode {
 
@@ -584,40 +759,43 @@ body.tchan-mode {
   background-image: none;
 
   color: red;
+
 }
+
 
 body.tchan-mode .page {
 
   background-color: black;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode header {
 
   background-color: #120000;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode header p {
 
   color: red;
+
 }
 
-body.tchan-mode .status {
-
-  background-color: #120000;
-
-  border-color: red;
-}
 
 body.tchan-mode nav {
 
   background-color: #120000;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode nav a {
 
@@ -626,33 +804,52 @@ body.tchan-mode nav a {
   color: red;
 
   border-color: red;
+
 }
+
+
+body.tchan-mode .status {
+
+  background-color: #120000;
+
+  border-color: red;
+
+  color: red;
+
+}
+
 
 body.tchan-mode .sidebar {
 
   background-color: #120000;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .sidebar h2 {
 
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .sidebar p {
 
   color: red;
+
 }
+
 
 body.tchan-mode .sidebar img {
 
-  content: url("madpfp.jpeg");
-
   border-color: red;
+
 }
+
 
 body.tchan-mode .links a {
 
@@ -661,7 +858,9 @@ body.tchan-mode .links a {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .post {
 
@@ -670,7 +869,9 @@ body.tchan-mode .post {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .post-title {
 
@@ -679,19 +880,25 @@ body.tchan-mode .post-title {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .post-info {
 
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .post p {
 
   color: red;
+
 }
+
 
 body.tchan-mode .user-post {
 
@@ -700,17 +907,23 @@ body.tchan-mode .user-post {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .user-post strong {
 
   color: red;
+
 }
+
 
 body.tchan-mode .user-post-time {
 
   color: red;
+
 }
+
 
 body.tchan-mode footer {
 
@@ -719,7 +932,9 @@ body.tchan-mode footer {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .open-post-button {
 
@@ -728,92 +943,118 @@ body.tchan-mode .open-post-button {
   color: red;
 
   border-color: red;
+
 }
+
 
 body.tchan-mode .tchan-button {
 
   background-color: red;
 
   color: black;
+
 }
 
 
-/* ================================
+/* =========================================
    MOBILE
-================================ */
+========================================= */
 
 @media (max-width: 700px) {
 
   .content {
 
     display: block;
+
   }
+
 
   .sidebar {
 
     width: auto;
 
     margin-bottom: 10px;
+
   }
+
 
   .page {
 
     width: auto;
 
     max-width: 95%;
+
   }
+
 
   .open-post-button {
 
     right: 10px;
 
     bottom: 10px;
+
   }
+
 
   .tchan-button {
 
     left: 10px;
 
     bottom: 10px;
+
   }
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="page">
 
+
 <header>
+
 
 <h1 class="title-image">
 
 <img
-id="banner"
-src="kangel.jpeg"
-alt="Kangel"
-
+  id="banner"
+  src="kangel.jpeg"
+  alt="Kangel"
 >
 
 </h1>
+
 
 <p id="blog-subtitle">
 my blog!
 </p>
 
+
 </header>
+
 
 <nav>
 
-<a href="#">wake up</a>
+<a href="#">
+wake up
+</a>
 
-<a href="#">write</a>
+<a href="#">
+write
+</a>
 
-<a href="#">go home</a>
+<a href="#">
+go home
+</a>
 
 </nav>
+
 
 <div class="status">
 
@@ -825,24 +1066,29 @@ online
 
 </div>
 
+
 <div class="content">
 
+
 <aside class="sidebar">
+
 
 <h2>
 ABOUT
 </h2>
 
-<img
-id="profile-picture"
-src="pfp.jpeg"
-alt="profile picture"
 
+<img
+  id="profile-picture"
+  src="pfp.jpeg"
+  alt="profile picture"
 >
+
 
 <p id="about-text">
 this is lwky js my blog
 </p>
+
 
 <div class="links">
 
@@ -860,9 +1106,12 @@ strawberry
 
 </div>
 
+
 </aside>
 
+
 <main class="posts">
+
 
 <article
   class="post"
@@ -873,15 +1122,19 @@ strawberry
 #1 angel
 </div>
 
+
 <div class="post-info">
 Tsukasachan
 </div>
+
 
 <p>
 hmm this is one of my testing posts.. im trying to make this thing so i can actually post on here.
 </p>
 
+
 </article>
+
 
 <div id="posts-container">
 
@@ -891,9 +1144,12 @@ loading posts
 
 </div>
 
+
 </main>
 
+
 </div>
+
 
 <footer id="footer-text">
 
@@ -901,29 +1157,35 @@ tsukasAngel
 
 </footer>
 
+
 </div>
+
 
 <!-- NORMAL POST BUTTON -->
 
 <button
-class="open-post-button"
-type="button"
-onclick="openPostBox()"
-
+  class="open-post-button"
+  type="button"
+  onclick="openPostBox()"
 >
 
-POST </button>
+POST
+
+</button>
+
 
 <!-- TCHAN BUTTON -->
 
 <button
-class="tchan-button"
-type="button"
-onclick="openTchanBox()"
-
+  class="tchan-button"
+  type="button"
+  onclick="openTchanBox()"
 >
 
-TCHAN </button>
+TCHAN
+
+</button>
+
 
 <!-- NORMAL POST WINDOW -->
 
@@ -932,50 +1194,65 @@ TCHAN </button>
   class="post-modal"
 >
 
+
 <div class="post-window">
 
+
 <div class="post-window-title">
+
 ehh sorry only i can post heree
+
 </div>
 
-<input
-type="password"
-id="post-password"
-placeholder="password"
 
+<input
+  type="password"
+  id="post-password"
+  placeholder="password"
 >
+
 
 <textarea
   id="post-content"
   placeholder="write something..."
 ></textarea>
 
+
 <p id="post-message">
 </p>
 
+
 <div class="post-window-buttons">
 
-<button
-type="button"
-onclick="closePostBox()"
-
->
-
-CANCEL </button>
 
 <button
-type="button"
-onclick="makePost()"
-
+  type="button"
+  onclick="closePostBox()"
 >
 
-POST </button>
+CANCEL
+
+</button>
+
+
+<button
+  type="button"
+  id="post-submit-button"
+  onclick="handlePostButton()"
+>
+
+POST
+
+</button>
+
+
+</div>
+
 
 </div>
 
 </div>
 
-</div>
 
 <!-- TCHAN PASSWORD WINDOW -->
 
@@ -984,97 +1261,161 @@ POST </button>
   class="post-modal"
 >
 
+
 <div class="tchan-window">
 
+
 <div class="tchan-title">
+
 TCHAN ACCESS
+
 </div>
 
-<input
-type="password"
-id="tchan-password"
-placeholder="password"
 
+<input
+  type="password"
+  id="tchan-password"
+  placeholder="password"
 >
+
 
 <p id="tchan-message">
 </p>
 
+
 <div class="post-window-buttons">
 
-<button
-type="button"
-onclick="closeTchanBox()"
-
->
-
-CANCEL </button>
 
 <button
-type="button"
-onclick="enterTchan()"
-
+  type="button"
+  onclick="closeTchanBox()"
 >
 
-ENTER </button>
+CANCEL
+
+</button>
+
+
+<button
+  type="button"
+  onclick="enterTchan()"
+>
+
+ENTER
+
+</button>
+
+
+</div>
+
 
 </div>
 
 </div>
 
-</div>
 
 <script>
 
 
 /* =========================================
-   WORKER URL
+   CLOUDFLARE WORKER
 ========================================= */
 
 const WORKER_URL =
-"https://secretblogapi.floweringsakuratree.workers.dev";
+  "https://secretblogapi.floweringsakuratree.workers.dev";
 
 
 /* =========================================
    PASSWORDS
 ========================================= */
 
+/*
+   NORMAL POST PASSWORD
+*/
+
 const POST_PASSWORD =
-"Ultrasecretblog";
+  "Ultrasecretblog";
+
+
+/*
+   TCHAN UNLOCK PASSWORD
+
+   IMPORTANT:
+   This is velve1cake, NOT hunghigh.
+*/
 
 const TCHAN_PASSWORD =
-"hunghigh";
+  "velve1cake";
 
 
 /* =========================================
-   STORAGE KEYS
+   LOCAL STORAGE KEYS
 ========================================= */
 
 const POST_AUTH_KEY =
-"tsukasa_post_authenticated";
+  "tsukasa_post_authenticated";
+
 
 const TCHAN_AUTH_KEY =
-"tsukasa_tchan_authenticated";
+  "tsukasa_tchan_authenticated";
 
-
-const NORMAL_POSTS_KEY =
-"tsukasa_normal_posts";
 
 const TCHAN_POSTS_KEY =
-"tsukasa_tchan_posts";
+  "tsukasa_tchan_posts";
 
 
 /* =========================================
-   POST LOGIN
+   OPEN NORMAL POST WINDOW
 ========================================= */
 
 function openPostBox() {
+
+  const modal =
+    document.getElementById(
+      "post-modal"
+    );
+
 
   const passwordBox =
     document.getElementById(
       "post-password"
     );
 
+
+  const contentBox =
+    document.getElementById(
+      "post-content"
+    );
+
+
+  /*
+     If TCHAN is active, the normal
+     password should NOT be requested
+     again.
+  */
+
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
+
+    passwordBox.style.display =
+      "none";
+
+    modal.style.display =
+      "flex";
+
+    contentBox.focus();
+
+    return;
+
+  }
+
+
+  /*
+     Normal mode authentication
+  */
 
   if (
     localStorage.getItem(
@@ -1085,43 +1426,39 @@ function openPostBox() {
     passwordBox.style.display =
       "none";
 
-  } else {
+    modal.style.display =
+      "flex";
+
+    contentBox.focus();
+
+  }
+
+  else {
 
     passwordBox.style.display =
       "block";
 
-  }
-
-
-  document.getElementById(
-    "post-modal"
-  ).style.display = "flex";
-
-
-  if (
-    localStorage.getItem(
-      POST_AUTH_KEY
-    ) !== "true"
-  ) {
+    modal.style.display =
+      "flex";
 
     passwordBox.focus();
-
-  } else {
-
-    document.getElementById(
-      "post-content"
-    ).focus();
 
   }
 
 }
 
 
+/* =========================================
+   CLOSE NORMAL POST WINDOW
+========================================= */
+
 function closePostBox() {
 
   document.getElementById(
     "post-modal"
-  ).style.display = "none";
+  ).style.display =
+    "none";
+
 
   document.getElementById(
     "post-message"
@@ -1131,7 +1468,32 @@ function closePostBox() {
 
 
 /* =========================================
-   MAKE POST
+   HANDLE POST BUTTON
+========================================= */
+
+function handlePostButton() {
+
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
+
+    makeTchanPost();
+
+  }
+
+  else {
+
+    makePost();
+
+  }
+
+}
+
+
+/* =========================================
+   NORMAL POST
 ========================================= */
 
 async function makePost() {
@@ -1140,6 +1502,7 @@ async function makePost() {
     document.getElementById(
       "post-password"
     );
+
 
   const content =
     document.getElementById(
@@ -1153,7 +1516,11 @@ async function makePost() {
     );
 
 
-  /* Check password once */
+  /*
+     Check normal password only
+     when the browser has not
+     authenticated yet.
+  */
 
   if (
     localStorage.getItem(
@@ -1198,7 +1565,6 @@ async function makePost() {
 
   try {
 
-
     const response =
       await fetch(
         WORKER_URL,
@@ -1207,19 +1573,22 @@ async function makePost() {
           method: "POST",
 
           headers: {
+
             "Content-Type":
               "application/json"
+
           },
 
-          body: JSON.stringify({
+          body:
+            JSON.stringify({
 
-            password:
-              POST_PASSWORD,
+              password:
+                POST_PASSWORD,
 
-            content:
-              content
+              content:
+                content
 
-          })
+            })
 
         }
       );
@@ -1237,7 +1606,9 @@ async function makePost() {
       result =
         JSON.parse(text);
 
-    } catch {
+    }
+
+    catch {
 
       throw new Error(
         "Invalid worker response: " +
@@ -1245,6 +1616,12 @@ async function makePost() {
       );
 
     }
+
+
+    console.log(
+      "POST RESPONSE:",
+      result
+    );
 
 
     if (
@@ -1255,8 +1632,10 @@ async function makePost() {
         POST_AUTH_KEY
       );
 
+
       passwordInput.style.display =
         "block";
+
 
       message.textContent =
         "server says wrong password.";
@@ -1292,20 +1671,17 @@ async function makePost() {
 
 
     /*
-       Store a local copy so normal
-       and TCHAN posts stay separate
-       visually.
+       Clear form
     */
 
-    saveLocalPost(
-      NORMAL_POSTS_KEY,
-      content
-    );
+    passwordInput.value =
+      "";
 
 
     document.getElementById(
       "post-content"
-    ).value = "";
+    ).value =
+      "";
 
 
     closePostBox();
@@ -1333,18 +1709,15 @@ async function makePost() {
 
 
 /* =========================================
-   SAVE LOCAL POST
+   SAVE TCHAN POST LOCALLY
 ========================================= */
 
-function saveLocalPost(
-  storageKey,
-  content
-) {
+function saveTchanPost(content) {
 
   const posts =
     JSON.parse(
       localStorage.getItem(
-        storageKey
+        TCHAN_POSTS_KEY
       ) || "[]"
     );
 
@@ -1352,7 +1725,7 @@ function saveLocalPost(
   posts.push({
 
     username:
-      "Tsukasachan",
+      "TCHAN",
 
     content:
       content,
@@ -1364,9 +1737,86 @@ function saveLocalPost(
 
 
   localStorage.setItem(
-    storageKey,
+    TCHAN_POSTS_KEY,
     JSON.stringify(posts)
   );
+
+}
+
+
+/* =========================================
+   TCHAN POST
+========================================= */
+
+function makeTchanPost() {
+
+  const content =
+    document.getElementById(
+      "post-content"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "post-message"
+    );
+
+
+  if (!content) {
+
+    message.textContent =
+      "write something first.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "posting...";
+
+
+  try {
+
+    /*
+       TCHAN posts are stored
+       separately from normal posts.
+
+       They do NOT contact the
+       normal Worker.
+    */
+
+    saveTchanPost(
+      content
+    );
+
+
+    document.getElementById(
+      "post-content"
+    ).value =
+      "";
+
+
+    closePostBox();
+
+
+    loadLocalTchanPosts();
+
+  }
+
+
+  catch (error) {
+
+    console.error(
+      "TCHAN POST ERROR:",
+      error
+    );
+
+
+    message.textContent =
+      "couldn't save secret post.";
+
+  }
 
 }
 
@@ -1377,15 +1827,9 @@ function saveLocalPost(
 
 async function loadPosts() {
 
-  const container =
-    document.getElementById(
-      "posts-container"
-    );
-
-
   /*
-     If we're in TCHAN mode,
-     load the TCHAN collection instead.
+     If TCHAN is active,
+     don't load normal posts.
   */
 
   if (
@@ -1394,14 +1838,17 @@ async function loadPosts() {
     )
   ) {
 
-    loadLocalPosts(
-      TCHAN_POSTS_KEY,
-      container
-    );
+    loadLocalTchanPosts();
 
     return;
 
   }
+
+
+  const container =
+    document.getElementById(
+      "posts-container"
+    );
 
 
   try {
@@ -1410,7 +1857,16 @@ async function loadPosts() {
       await fetch(
         WORKER_URL +
         "?t=" +
-        Date.now()
+        Date.now(),
+        {
+
+          method:
+            "GET",
+
+          cache:
+            "no-store"
+
+        }
       );
 
 
@@ -1428,7 +1884,8 @@ async function loadPosts() {
       await response.json();
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+      "";
 
 
     if (
@@ -1436,8 +1893,20 @@ async function loadPosts() {
       posts.length === 0
     ) {
 
-      container.innerHTML =
-        "<p>no posts yet.</p>";
+      const empty =
+        document.createElement(
+          "p"
+        );
+
+
+      empty.textContent =
+        "no posts yet.";
+
+
+      container.appendChild(
+        empty
+      );
+
 
       return;
 
@@ -1455,7 +1924,6 @@ async function loadPosts() {
       }
     );
 
-
   }
 
 
@@ -1468,7 +1936,22 @@ async function loadPosts() {
 
 
     container.innerHTML =
-      "<p>couldn't load posts!</p>";
+      "";
+
+
+    const errorText =
+      document.createElement(
+        "p"
+      );
+
+
+    errorText.textContent =
+      "couldn't load posts!";
+
+
+    container.appendChild(
+      errorText
+    );
 
   }
 
@@ -1476,36 +1959,45 @@ async function loadPosts() {
 
 
 /* =========================================
-   LOAD LOCAL POSTS
+   LOAD TCHAN POSTS
 ========================================= */
 
-function loadLocalPosts(
-  storageKey,
-  container
-) {
+function loadLocalTchanPosts() {
+
+  const container =
+    document.getElementById(
+      "posts-container"
+    );
+
 
   const posts =
     JSON.parse(
       localStorage.getItem(
-        storageKey
+        TCHAN_POSTS_KEY
       ) || "[]"
     );
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   if (posts.length === 0) {
 
     const empty =
-      document.createElement("p");
+      document.createElement(
+        "p"
+      );
+
 
     empty.textContent =
       "no secret posts yet.";
 
+
     container.appendChild(
       empty
     );
+
 
     return;
 
@@ -1555,7 +2047,8 @@ function addPostToPage(
     (
       post.username ||
       "Tsukasachan"
-    ) + ":";
+    ) +
+    ":";
 
 
   box.appendChild(
@@ -1570,13 +2063,18 @@ function addPostToPage(
 
 
   content.textContent =
-    post.content || "";
+    post.content ||
+    "";
 
 
   box.appendChild(
     content
   );
 
+
+  /*
+     Timestamp
+  */
 
   const timestamp =
     post.timestamp ||
@@ -1611,7 +2109,9 @@ function addPostToPage(
       time.textContent =
         date.toLocaleString();
 
-    } else {
+    }
+
+    else {
 
       time.textContent =
         timestamp;
@@ -1634,10 +2134,33 @@ function addPostToPage(
 
 
 /* =========================================
-   TCHAN ACCESS
+   OPEN TCHAN
 ========================================= */
 
 function openTchanBox() {
+
+  /*
+     If already in TCHAN mode,
+     clicking TCHAN exits it.
+  */
+
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
+
+    exitTchan();
+
+    return;
+
+  }
+
+
+  /*
+     If TCHAN was already unlocked,
+     enter immediately.
+  */
 
   if (
     localStorage.getItem(
@@ -1652,6 +2175,10 @@ function openTchanBox() {
   }
 
 
+  /*
+     Otherwise show password window.
+  */
+
   document.getElementById(
     "tchan-modal"
   ).style.display =
@@ -1665,6 +2192,10 @@ function openTchanBox() {
 }
 
 
+/* =========================================
+   CLOSE TCHAN PASSWORD WINDOW
+========================================= */
+
 function closeTchanBox() {
 
   document.getElementById(
@@ -1675,7 +2206,14 @@ function closeTchanBox() {
 
   document.getElementById(
     "tchan-message"
-  ).textContent = "";
+  ).textContent =
+    "";
+
+
+  document.getElementById(
+    "tchan-password"
+  ).value =
+    "";
 
 }
 
@@ -1711,6 +2249,10 @@ function enterTchan() {
   }
 
 
+  /*
+     Remember TCHAN authentication.
+  */
+
   localStorage.setItem(
     TCHAN_AUTH_KEY,
     "true"
@@ -1736,7 +2278,9 @@ function activateTchan() {
   );
 
 
-  /* Change banner */
+  /*
+     Change banner
+  */
 
   document.getElementById(
     "banner"
@@ -1744,7 +2288,9 @@ function activateTchan() {
     "darkangelbanner.jpeg";
 
 
-  /* Change profile picture */
+  /*
+     Change profile picture
+  */
 
   document.getElementById(
     "profile-picture"
@@ -1752,7 +2298,9 @@ function activateTchan() {
     "madpfp.jpeg";
 
 
-  /* Change subtitle */
+  /*
+     Change subtitle
+  */
 
   document.getElementById(
     "blog-subtitle"
@@ -1760,7 +2308,9 @@ function activateTchan() {
     "secret entries.";
 
 
-  /* Change about section */
+  /*
+     Change ABOUT text
+  */
 
   document.getElementById(
     "about-text"
@@ -1768,7 +2318,9 @@ function activateTchan() {
     "you should not be here.";
 
 
-  /* Change footer */
+  /*
+     Change footer
+  */
 
   document.getElementById(
     "footer-text"
@@ -1776,7 +2328,9 @@ function activateTchan() {
     "TCHAN";
 
 
-  /* Change normal intro */
+  /*
+     Hide normal intro
+  */
 
   document.getElementById(
     "normal-intro"
@@ -1784,173 +2338,97 @@ function activateTchan() {
     "none";
 
 
-  /* Load the separate TCHAN posts */
+  /*
+     Show TCHAN posts
+  */
 
-  loadLocalPosts(
-    TCHAN_POSTS_KEY,
-    document.getElementById(
-      "posts-container"
-    )
+  loadLocalTchanPosts();
+
+}
+
+
+/* =========================================
+   EXIT TCHAN
+========================================= */
+
+function exitTchan() {
+
+  document.body.classList.remove(
+    "tchan-mode"
   );
 
-}
+
+  /*
+     Restore normal banner
+  */
+
+  document.getElementById(
+    "banner"
+  ).src =
+    "kangel.jpeg";
 
 
-/* =========================================
-   TCHAN POST OVERRIDE
-========================================= */
+  /*
+     Restore normal profile picture
+  */
 
-const originalMakePost =
-  makePost;
-
-
-/*
-   When TCHAN is active, replace the
-   normal post function with a TCHAN
-   version using the same password.
-*/
-
-async function makeTchanPost() {
-
-  const content =
-    document.getElementById(
-      "post-content"
-    ).value.trim();
+  document.getElementById(
+    "profile-picture"
+  ).src =
+    "pfp.jpeg";
 
 
-  const message =
-    document.getElementById(
-      "post-message"
-    );
+  /*
+     Restore subtitle
+  */
+
+  document.getElementById(
+    "blog-subtitle"
+  ).textContent =
+    "my blog!";
 
 
-  if (!content) {
+  /*
+     Restore ABOUT text
+  */
 
-    message.textContent =
-      "write something first.";
-
-    return;
-
-  }
-
-
-  message.textContent =
-    "posting...";
+  document.getElementById(
+    "about-text"
+  ).textContent =
+    "this is lwky js my blog";
 
 
-  try {
+  /*
+     Restore footer
+  */
 
-    /*
-       The same Worker receives the
-       post password, but this post is
-       separately stored in the browser
-       as a TCHAN entry.
-    */
-
-    const response =
-      await fetch(
-        WORKER_URL,
-        {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-
-            password:
-              POST_PASSWORD,
-
-            content:
-              content
-
-          })
-
-        }
-      );
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    "tsukasAngel";
 
 
-    if (!response.ok) {
+  /*
+     Restore normal intro
+  */
 
-      throw new Error(
-        "HTTP " +
-        response.status
-      );
-
-    }
-
-
-    saveLocalPost(
-      TCHAN_POSTS_KEY,
-      content
-    );
+  document.getElementById(
+    "normal-intro"
+  ).style.display =
+    "block";
 
 
-    document.getElementById(
-      "post-content"
-    ).value = "";
+  /*
+     Load normal posts again
+  */
 
-
-    closePostBox();
-
-
-    loadLocalPosts(
-      TCHAN_POSTS_KEY,
-      document.getElementById(
-        "posts-container"
-      )
-    );
-
-  }
-
-
-  catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    message.textContent =
-      "cant connect to the server.";
-
-  }
+  loadPosts();
 
 }
 
 
 /* =========================================
-   DECIDE WHICH POST FUNCTION TO USE
-========================================= */
-
-document
-  .querySelector(
-    '.post-window button[onclick="makePost()"]'
-  )
-  .onclick = function() {
-
-    if (
-      document.body.classList.contains(
-        "tchan-mode"
-      )
-    ) {
-
-      makeTchanPost();
-
-    } else {
-
-      makePost();
-
-    }
-
-  };
-
-
-/* =========================================
-   CLOSE MODALS
+   CLOSE MODALS BY CLICKING OUTSIDE
 ========================================= */
 
 document.getElementById(
@@ -1990,7 +2468,7 @@ document.getElementById(
 
 
 /* =========================================
-   START
+   START WEBSITE
 ========================================= */
 
 document.addEventListener(
@@ -1998,7 +2476,8 @@ document.addEventListener(
   function() {
 
     /*
-       Remember TCHAN after reload.
+       Restore TCHAN mode after reload
+       if it was already unlocked.
     */
 
     if (
@@ -2009,7 +2488,9 @@ document.addEventListener(
 
       activateTchan();
 
-    } else {
+    }
+
+    else {
 
       loadPosts();
 
@@ -2020,5 +2501,8 @@ document.addEventListener(
 
 </script>
 
+
 </body>
+
 </html>
+```
