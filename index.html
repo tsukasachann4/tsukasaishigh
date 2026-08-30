@@ -2956,7 +2956,39 @@ window.addEventListener(
 
   }
 );
+  /* =========================================================
+   START MUSIC AFTER FIRST USER INTERACTION
+   ========================================================= */
 
+function startMusicFromInteraction() {
+
+  if (musicStarted) return;
+
+  if (document.body.classList.contains("tchan-mode")) {
+    startTchanMusic();
+  } else {
+    startNormalMusic();
+  }
+
+}
+
+document.addEventListener(
+  "click",
+  startMusicFromInteraction,
+  { once: true }
+);
+
+document.addEventListener(
+  "keydown",
+  startMusicFromInteraction,
+  { once: true }
+);
+
+document.addEventListener(
+  "touchstart",
+  startMusicFromInteraction,
+  { once: true }
+);
 </script>
 
 </body>
