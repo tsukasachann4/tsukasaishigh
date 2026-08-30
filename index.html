@@ -57,98 +57,13 @@ header {
   image-rendering: pixelated;
 }
 
-/* =========================================
-   BANNER CLICK STICKERS
-   ========================================= */
+  <script>
+const banner = document.getElementById("banner");
 
-.banner-click-sticker {
-  position: fixed;
-  width: 70px;
-  height: 70px;
-  object-fit: contain;
-  pointer-events: none;
-  z-index: 3000;
-
-  animation: stickerFall 1s ease-in forwards;
-  transform-origin: center center;
-}
-
-@keyframes stickerFall {
-  0% {
-    opacity: 0;
-    transform:
-      translate(-50%, -50%)
-      scale(0.2)
-      rotate(0deg);
-  }
-
-  12% {
-    opacity: 1;
-    transform:
-      translate(-50%, -50%)
-      scale(1.15)
-      rotate(var(--start-rotation));
-  }
-
-  25% {
-    transform:
-      translate(
-        calc(-50% + var(--drift-1)),
-        calc(-50% + 10px)
-      )
-      scale(1)
-      rotate(calc(var(--start-rotation) + 15deg));
-  }
-
-  55% {
-    transform:
-      translate(
-        calc(-50% + var(--drift-2)),
-        calc(-50% + 55px)
-      )
-      scale(0.95)
-      rotate(var(--mid-rotation));
-  }
-
-  80% {
-    opacity: 0.8;
-    transform:
-      translate(
-        calc(-50% + var(--drift-3)),
-        calc(-50% + 105px)
-      )
-      scale(0.9)
-      rotate(var(--end-rotation));
-  }
-
-  100% {
-    opacity: 0;
-    transform:
-      translate(
-        calc(-50% + var(--drift-4)),
-        calc(-50% + 155px)
-      )
-      scale(0.75)
-      rotate(var(--final-rotation));
-  }
-}
-
-/* little click squash on the banner itself */
-
-#banner {
-  cursor: pointer;
-  transition: transform 0.08s ease;
-}
-
-#banner.banner-clicked {
-  transform: scale(0.96);
-}
-  
-header p {
-  margin: 8px;
-  font-size: 14px;
-}
-
+banner.addEventListener("click", function() {
+  location.reload();
+});
+</script>
 /* =========================================================
    TOP TABS
    ========================================================= */
@@ -3077,176 +2992,14 @@ document.addEventListener(
   { once: true }
 );
  /* =========================================
-   BANNER CLICK STICKERS
+/* =========================================
+   BANNER CLICK = HARD RESET
    ========================================= */
 
 const banner = document.getElementById("banner");
 
-const bannerStickers = [
-  "lfstkr.png",
-  "heartstkr.png",
-  "wingstkr.png"
-];
-
-banner.addEventListener("click", function(event) {
-
-  /* clicking animation */
-  banner.classList.remove("banner-clicked");
-
-  /* force the animation to restart */
-  void banner.offsetWidth;
-
-  banner.classList.add("banner-clicked");
-
-  setTimeout(function() {
-    banner.classList.remove("banner-clicked");
-  }, 100);
-
-
-  /* find the CENTER of the actual banner */
-  const rect = banner.getBoundingClientRect();
-
-  const centerX =
-    rect.left + rect.width / 2;
-
-  const centerY =
-    rect.top + rect.height / 2;
-
-
-  /* create the stickers */
-  bannerStickers.forEach(function(sticker, index) {
-
-    const element =
-      document.createElement("img");
-
-    element.src = sticker;
-    element.className =
-      "banner-click-sticker";
-
-    /*
-      Slightly different movement for each sticker
-      so they don't look like three identical objects
-      falling in formation.
-    */
-
-    const driftSets = [
-      {
-        d1: "-18px",
-        d2: "-35px",
-        d3: "-15px",
-        d4: "-45px"
-      },
-      {
-        d1: "12px",
-        d2: "35px",
-        d3: "55px",
-        d4: "30px"
-      },
-      {
-        d1: "3px",
-        d2: "-5px",
-        d3: "20px",
-        d4: "5px"
-      }
-    ];
-
-    const drift =
-      driftSets[index];
-
-    const startRotation =
-      (Math.random() * 30) - 15;
-
-    const midRotation =
-      startRotation +
-      ((Math.random() * 80) - 40);
-
-    const endRotation =
-      midRotation +
-      ((Math.random() * 100) - 50);
-
-    const finalRotation =
-      endRotation +
-      ((Math.random() * 100) - 50);
-
-
-    element.style.left =
-      centerX + "px";
-
-    element.style.top =
-      centerY + "px";
-
-    element.style.setProperty(
-      "--drift-1",
-      drift.d1
-    );
-
-    element.style.setProperty(
-      "--drift-2",
-      drift.d2
-    );
-
-    element.style.setProperty(
-      "--drift-3",
-      drift.d3
-    );
-
-    element.style.setProperty(
-      "--drift-4",
-      drift.d4
-    );
-
-    element.style.setProperty(
-      "--start-rotation",
-      startRotation + "deg"
-    );
-
-    element.style.setProperty(
-      "--mid-rotation",
-      midRotation + "deg"
-    );
-
-    element.style.setProperty(
-      "--end-rotation",
-      endRotation + "deg"
-    );
-
-    element.style.setProperty(
-      "--final-rotation",
-      finalRotation + "deg"
-    );
-
-
-    /*
-      Slightly different timing makes them
-      emerge naturally instead of moving as a group.
-    */
-
-    element.style.animationDuration =
-      (0.9 + Math.random() * 0.25) + "s";
-
-    element.style.animationDelay =
-      (index * 0.025) + "s";
-
-
-    document.body.appendChild(element);
-
-
-    /*
-      Remove it after the animation finishes
-      so clicking the banner repeatedly doesn't
-      fill the page with invisible elements.
-    */
-
-    setTimeout(function() {
-
-      if (element.parentNode) {
-        element.parentNode.removeChild(element);
-      }
-
-    }, 1300);
-
-  });
-
+banner.addEventListener("click", function() {
+  location.reload();
 });
 </script>
 
