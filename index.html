@@ -57,6 +57,48 @@ header {
   image-rendering: pixelated;
 }
 
+  /* =========================================================
+   BANNER CLICK STICKERS
+   ========================================================= */
+
+.title-image {
+  position: relative;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.banner-sticker {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 50;
+  animation: sticker-pop 1s ease-out forwards;
+}
+
+@keyframes sticker-pop {
+
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.5) rotate(0deg);
+  }
+
+  25% {
+    opacity: 1;
+    transform: translate(var(--x), -25px) scale(1.1) rotate(var(--rotation));
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(var(--x) * 1.5),
+      80px
+    ) scale(0.8) rotate(var(--rotation));
+  }
+
+}
+  
 header p {
   margin: 8px;
   font-size: 14px;
@@ -2989,6 +3031,61 @@ document.addEventListener(
   startMusicFromInteraction,
   { once: true }
 );
+  /* =========================================================
+   BANNER CLICK STICKERS
+   ========================================================= */
+
+const bannerTitle = document.querySelector(".title-image");
+
+const stickerImages = [
+  "lfstkr.png",
+  "heartstkr.png",
+  "wingstkr.png"
+];
+
+bannerTitle.addEventListener("click", function(event) {
+
+  stickerImages.forEach(function(image, index) {
+
+    const sticker = document.createElement("img");
+
+    sticker.src = image;
+    sticker.className = "banner-sticker";
+
+    const offsets = [
+      "-70px",
+      "0px",
+      "70px"
+    ];
+
+    const rotations = [
+      "-20deg",
+      "5deg",
+      "20deg"
+    ];
+
+    sticker.style.left = "50%";
+    sticker.style.top = "50%";
+
+    sticker.style.setProperty(
+      "--x",
+      offsets[index]
+    );
+
+    sticker.style.setProperty(
+      "--rotation",
+      rotations[index]
+    );
+
+    bannerTitle.appendChild(sticker);
+
+    setTimeout(function() {
+      sticker.remove();
+    }, 1000);
+
+  });
+
+});
 </script>
 
 </body>
