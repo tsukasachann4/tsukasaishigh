@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1999,140 +1999,90 @@ function applyTchanText() {
 }
 
 
-/* ==================================================
+/* =========================================================
    JAPANESE TRANSLATION
-   ================================================== */
+   ========================================================= */
 
-if (
-  request.method === "POST" &&
-  path === "/translate"
-) {
+async function translateCurrentText() {
+
+  const text =
+    document.getElementById("post-content")
+      .value.trim();
+
+  const preview =
+    document.getElementById("translation-preview");
+
+  const button =
+    document.querySelector(".translate-button");
+
+  if (!text) {
+
+    preview.textContent =
+      "write something first.";
+
+    preview.classList.add("visible");
+
+    return;
+
+  }
+
+  button.disabled = true;
+  button.textContent = "TRANSLATING...";
+
+  preview.textContent = "translating...";
+  preview.classList.add("visible");
 
   try {
 
-    const body =
-      await request.json();
-
-    const text =
-      String(body?.text || "")
-        .trim()
-        .slice(0, 5000);
-
-    if (!text) {
-
-      return json({
-        translated: false,
-        error: "No text to translate."
-      }, 400);
-
-    }
-
-
-    const apiKey =
-      env.GOOGLE_TRANSLATE_API_KEY;
-
-    if (!apiKey) {
-
-      return json({
-        translated: false,
-        error:
-          "Google translation is not configured on this Worker yet."
-      }, 500);
-
-    }
-
-
-    const response =
-      await fetch(
-        "https://translation.googleapis.com/language/translate/v2?key=" +
-        encodeURIComponent(apiKey),
+    const result =
+      await api(
+        "/translate",
         {
           method: "POST",
-
           headers: {
-            "Content-Type":
-              "application/json"
+            "Content-Type": "application/json"
           },
-
-          body:
-            JSON.stringify({
-
-              q: text,
-
-              source: "en",
-
-              target: "ja",
-
-              format: "text"
-
-            })
+          body: JSON.stringify({
+            text: text
+          })
         }
       );
 
-
-    const data =
-      await response
-        .json()
-        .catch(
-          () => ({})
-        );
-
-
-    if (!response.ok) {
-
-      return json({
-        translated: false,
-        error:
-          data?.error?.message ||
-          `Google Translation returned HTTP ${response.status}.`
-      }, 502);
-
+    if (!result || !result.translation) {
+      throw new Error(
+        result?.error ||
+        "Translation service returned no translation."
+      );
     }
 
-
-    const translation =
-      String(
-        data?.data?.translations?.[0]?.translatedText ||
-        ""
-      ).trim();
-
-
-    if (!translation) {
-
-      return json({
-        translated: false,
-        error:
-          "Google Translation returned no translation."
-      }, 502);
-
-    }
-
-
-    return json({
-
-      translated:
-        true,
-
-      translation:
-        translation
-
-    });
-
+    preview.textContent =
+      result.translation;
 
   } catch (error) {
 
-    return json({
+    preview.textContent =
+      error?.message ||
+      "couldn't translate.";
 
-      translated:
-        false,
+  } finally {
 
-      error:
-        error?.message ||
-        "Translation request failed."
-
-    }, 500);
+    button.disabled = false;
+    button.textContent = "日本語にする";
 
   }
+
+}
+
+
+function clearTranslationPreview() {
+
+  const preview =
+    document.getElementById("translation-preview");
+
+  if (!preview) return;
+
+  preview.textContent = "";
+  preview.classList.remove("visible");
 
 }
 
