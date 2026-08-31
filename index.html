@@ -1,13 +1,111 @@
+Pasted text(20260831-110954).txt
+Document
+Pasted code (2).js
+JavaScript
+
+Yep. There are alternatives, and one is much better for your setup.
+
+Best option: LibreTranslate
+
+LibreTranslate is open-source and has public instances, some of which currently advertise no API key requirement.
+
+That means your setup could be:
+
+GitHub HTML
+   ↓
+Cloudflare Worker
+   ↓
+LibreTranslate
+   ↓
+Japanese
+
+No OpenAI key in GitHub, and potentially no paid API at all.
+
+For your blog, I'd use a public LibreTranslate instance such as:
+
+https://libretranslate.de/translate
+
+The LibreTranslate API accepts requests like:
+
+{
+  "q": "ugh i forgot my homework again",
+  "source": "en",
+  "target": "ja",
+  "format": "text"
+}
+
+Public instances vary in availability and limits, though. The LibreTranslate project itself lists several public mirrors and notes that some require API keys while others do not.
+
+Even better: Cloudflare Workers AI
+
+Since you're already using a Cloudflare Worker, there's another option: Cloudflare Workers AI has a multilingual translation model called @cf/meta/m2m100-1.2b. It accepts English text and can translate it directly to Japanese.
+
+That would make your architecture:
+
+GitHub
+   ↓
+Your Cloudflare Worker
+   ↓
+Cloudflare Workers AI
+   ↓
+Japanese
+
+No OpenAI key. No external translation website. And it stays inside Cloudflare.
+
+The catch is that Workers AI is usage-priced, currently listed at $0.34 per million input tokens and $0.34 per million output tokens for that model.
+
+For your tiny blog
+
+I'd pick LibreTranslate first.
+
+You don't need a fancy AI model to translate:
+
+im so tired omg i wanna sleep
+
+into natural-ish Japanese.
+
+But there's one important limitation: LibreTranslate is machine translation, not a style-aware teenager simulator. It won't reliably produce the exact "fluent Japanese 14-year-old in 2026" voice we were aiming for.
+
+So the realistic choices are:
+
+Option	API key	Cost	Natural teen style
+LibreTranslate public instance	Sometimes no	Usually free	Medium
+Cloudflare Workers AI	No OpenAI key	Usage-based	Medium
+OpenAI	Yes	Paid	Best
+
+For your specific site, LibreTranslate is the easiest free experiment, while Workers AI is the cleanest Cloudflare-native solution. Public LibreTranslate mirrors can also change availability or impose limits, because apparently free servers enjoy developing trust issues.
+
+I’d use LibreTranslate + a small post-processing style prompt/rules layer for your blog so the Japanese comes out more casual rather than textbook-like.
+
+OKAYYY YES PLEASEEEEE
+Add LibreTranslate endpoint
+Edit failed
+Switch to free translation mirror
+hmmm ok do ittt
+
+Done. I fixed the translator hookup in the actual Worker and added the Japanese translation button/preview to your blog. Your current Worker now has a /translate endpoint using the LibreTranslate mirror, which supports the standard /translate API and currently lists libretranslate.de as a public mirror that does not require an API key.
+
+Paste-ready files
+
+HTML
+
+Worker
+
+The HTML has the 日本語にする button under the post box, and it displays the translation in the PixelMplus-style font when PixelMplus10-Regular.ttf is present.
+
+Your Worker also still keeps the separate TCHAN posting password, rather than accidentally treating hunghigh as the posting password. The existing TCHAN posting endpoint checks env.TCHAN_POST_PASSWORD.
+
+And yes, I actually syntax-checked the Worker this time. Humanity survives another deployment.
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Tsukasa..</title>
-
 <style>
 @font-face{font-family:"Pixel Operator";src:url("PixelOperator8.ttf") format("truetype")}
-@font-face{font-family:"PixelMPlus";src:url("PixelMplus12-Regular.ttf") format("truetype")}
+@font-face{font-family:"PixelMplus";src:url("PixelMplus10-Regular.ttf") format("truetype")}
 *{box-sizing:border-box;font-family:"Pixel Operator",monospace}
 body{margin:0;background:#FEE8FF url("websiteyay.jpeg") center/cover fixed no-repeat;color:#808080}
 .page{width:850px;max-width:90%;margin:40px auto;padding:8px;background:#FEE8FF;border:4px solid #C9C2E8;position:relative;z-index:1}
@@ -17,38 +115,103 @@ nav{margin-top:8px;padding:8px;background:#C9C2E8;border:3px solid #D8F3F5;text-
 nav a{display:inline-block;margin:3px 4px;padding:6px 10px;color:#808080;background:#FEE8FF;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080;text-decoration:none;font-weight:bold;font-size:13px;cursor:pointer}
 nav a:hover,nav a.active{background:#D8F3F5}
 .status{margin-top:8px;padding:7px;background:#D8F3F5;border:2px dotted #C9C2E8;font-size:13px}.online{font-weight:bold}
-.profile-box{margin-top:10px;padding:10px;background:#C9C2E8;border:3px solid #D8F3F5}.profile-row{display:flex;align-items:flex-start;gap:12px}.profile-picture{width:130px;height:130px;object-fit:cover;border:4px solid #D8F3F5;flex-shrink:0}.profile-info{flex:1;min-width:0}
-.profile-info h2{margin:0 0 7px;font-size:18px;color:#808080;border-bottom:2px dotted #D8F3F5;padding-bottom:5px}.profile-description{font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.links{margin-top:10px}.links a{display:inline-block;padding:4px 7px;margin:3px 3px 0 0;background:#FEE8FF;border:2px dashed #D8F3F5;color:#808080;text-decoration:none;font-size:12px}.links a:hover{background:#D8F3F5}
-.panel-area{margin-top:10px}.panel{display:none;background:#FEE8FF;border:3px solid #D8F3F5;padding:10px}.panel.active{display:block}.section-title{padding:8px;margin-bottom:8px;background:#D8F3F5;border:3px solid #C9C2E8;font-size:16px;font-weight:bold}
+.profile-box{margin-top:10px;padding:10px;background:#C9C2E8;border:3px solid #D8F3F5}
+.profile-row{display:flex;align-items:flex-start;gap:12px}.profile-picture{width:130px;height:130px;object-fit:cover;border:4px solid #D8F3F5;flex-shrink:0}.profile-info{flex:1;min-width:0}
+.profile-info h2{margin:0 0 7px;font-size:18px;color:#808080;border-bottom:2px dotted #D8F3F5;padding-bottom:5px}
+.profile-description{font-size:13px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.links{margin-top:10px}.links a{display:inline-block;padding:4px 7px;margin:3px 3px 0 0;background:#FEE8FF;border:2px dashed #D8F3F5;color:#808080;text-decoration:none;font-size:12px}.links a:hover{background:#D8F3F5}
+.panel-area{margin-top:10px}.panel{display:none;background:#FEE8FF;border:3px solid #D8F3F5;padding:10px}.panel.active{display:block}
+.section-title{padding:8px;margin-bottom:8px;background:#D8F3F5;border:3px solid #C9C2E8;font-size:16px;font-weight:bold}
 .panel-scroll{max-height:500px;overflow-y:auto;overflow-x:hidden;padding-right:5px}.panel-scroll::-webkit-scrollbar{width:12px}.panel-scroll::-webkit-scrollbar-track{background:#D8F3F5;border:2px solid #C9C2E8}.panel-scroll::-webkit-scrollbar-thumb{background:#C9C2E8;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080}
-.user-post{margin:10px 0;padding:10px;background:#FEE8FF;border:3px solid #D8F3F5;color:#808080;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.user-post strong{display:block;margin-bottom:5px}.user-post-time{font-size:10px;margin-top:8px;opacity:.7}.post-delete{float:right;padding:3px 6px;background:#C9C2E8;color:#808080;border:2px solid #808080;font-family:inherit;cursor:pointer;font-size:10px}
-.image-link{display:inline-block;color:#816E8A;text-decoration:none;font-weight:bold;margin-top:6px;cursor:pointer}.image-link:hover{text-decoration:underline}.poll,.guest-note{margin:10px 0;padding:10px;background:#FEE8FF;border:3px solid #D8F3F5}.poll-question{font-weight:bold;margin-bottom:8px}.poll-option{display:block;width:100%;margin:5px 0;padding:6px;background:#C9C2E8;color:#808080;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080;cursor:pointer;text-align:left}.poll-option:hover{background:#D8F3F5}.poll-results,.guest-note-time{font-size:11px;margin-top:8px;opacity:.7}
+.user-post{margin:10px 0;padding:10px;background:#FEE8FF;border:3px solid #D8F3F5;color:#808080;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.user-post strong{display:block;margin-bottom:5px}.user-post-time{font-size:10px;margin-top:8px;opacity:.7}.post-delete{float:right;padding:3px 6px;background:#C9C2E8;color:#808080;border:2px solid #808080;font-family:inherit;cursor:pointer;font-size:10px}.image-link{display:inline-block;color:#816E8A;text-decoration:none;font-weight:bold;margin-top:6px;cursor:pointer}.image-link:hover{text-decoration:underline}
+.translate-button{margin-top:8px;padding:6px 10px;background:#C9C2E8;color:#808080;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080;font-family:inherit;font-size:12px;cursor:pointer}.translate-button:hover{background:#D8F3F5}.translate-button:disabled{opacity:.7;cursor:wait}.translation-preview{display:none;margin-top:8px;padding:10px;background:#FFF4FF;border:3px dashed #C9C2E8;color:#5F5963;white-space:pre-wrap;overflow-wrap:anywhere;font-family:"PixelMplus","Pixel Operator",monospace;font-size:14px;line-height:1.6}.translation-preview.visible{display:block}
+.poll,.guest-note{margin:10px 0;padding:10px;background:#FEE8FF;border:3px solid #D8F3F5}.poll-question{font-weight:bold;margin-bottom:8px}.poll-option{display:block;width:100%;margin:5px 0;padding:6px;background:#C9C2E8;color:#808080;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080;cursor:pointer;text-align:left}.poll-option:hover{background:#D8F3F5}.poll-results,.guest-note-time{font-size:11px;margin-top:8px;opacity:.7}
 .guest-write-button{margin-bottom:8px;padding:6px 10px;background:#C9C2E8;color:#808080;border-top:2px solid white;border-left:2px solid white;border-right:2px solid #808080;border-bottom:2px solid #808080;font-family:inherit;cursor:pointer}.guest-note{border:2px dashed #D8F3F5}.guest-note strong{display:block;margin-bottom:4px}
 .open-post-button,.tchan-button{position:fixed;bottom:20px;z-index:1000;padding:8px 14px;font-family:inherit;font-size:14px;cursor:pointer;background:#C9C2E8;color:#808080;border-top:3px solid white;border-left:3px solid white;border-right:3px solid #808080;border-bottom:3px solid #808080}.open-post-button{right:20px}.tchan-button{left:20px}
 .post-modal{display:none;position:fixed;inset:0;z-index:2000;align-items:center;justify-content:center;background:rgba(0,0,0,.25)}.post-window{width:420px;max-width:85%;padding:12px;background:#FEE8FF;border:4px solid #C9C2E8}.post-window-title{margin:-12px -12px 12px;padding:8px;background:#D8F3F5;border-bottom:3px solid #C9C2E8;font-size:16px}
 input,textarea{width:100%;padding:8px;background:#FEE8FF;color:#808080;border:3px solid #D8F3F5;font-family:inherit;outline:none}#post-password{margin-bottom:8px}#post-content{min-height:130px;resize:vertical;font-size:14px}#image-url{margin-top:8px;font-size:12px}.post-options{margin-top:8px;padding:8px;background:#D8F3F5;border:2px dashed #C9C2E8}.post-options strong{display:block;margin-bottom:5px}.post-options label{display:block;font-size:12px;margin:5px 0}.post-options input[type=radio]{width:auto}#poll-fields{margin-top:8px}#poll-fields input{margin-bottom:6px}.post-window-buttons{display:flex;justify-content:flex-end;gap:6px;margin-top:8px}.post-window button{padding:6px 12px;background:#C9C2E8;color:#808080;border-top:3px solid white;border-left:3px solid white;border-right:3px solid #808080;border-bottom:3px solid #808080;font-family:inherit;cursor:pointer}
-.tchan-window{width:350px;max-width:85%;padding:12px;background:#000;color:#f00;border:4px solid #f00}.tchan-title{margin:-12px -12px 12px;padding:8px;background:#120000;color:#f00;border-bottom:3px solid #f00}#tchan-password,#delete-password{background:#000;color:#f00;border-color:#f00}.tchan-window button{background:#000;color:#f00;border:2px solid #f00;padding:6px 12px;font-family:inherit;cursor:pointer}
-#delete-modal .post-window{border-color:#C9C2E8}
+.tchan-window{width:350px;max-width:85%;padding:12px;background:#000;color:#f00;border:4px solid #f00}.tchan-title{margin:-12px -12px 12px;padding:8px;background:#120000;color:#f00;border-bottom:3px solid #f00}#tchan-password{background:#000;color:#f00;border-color:#f00}.tchan-window button{background:#000;color:#f00;border:2px solid #f00;padding:6px 12px;font-family:inherit;cursor:pointer}
+footer{margin-top:10px;padding:8px;text-align:center;background:#D8F3F5;border:3px solid #C9C2E8;font-size:12px}
 
-/* TCHAN MODE: every site surface becomes black/red. No lavender background survives. */
-body.tchan-mode{background:#000!important;background-image:none!important;color:#ff0000!important}
-body.tchan-mode .page,body.tchan-mode .panel-area,body.tchan-mode .panel,body.tchan-mode .panel-scroll,body.tchan-mode .user-post,body.tchan-mode .poll,body.tchan-mode .guest-panel,body.tchan-mode .guest-note,body.tchan-mode .post-window{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
+/* TCHAN MODE: strict black/red override. No lavender surfaces. */
+body.tchan-mode{background:#000!important;color:#ff0000!important}
+body.tchan-mode .page,
+body.tchan-mode .panel-area,
+body.tchan-mode .panel,
+body.tchan-mode .user-post,
+body.tchan-mode .poll,
+body.tchan-mode .guest-panel,
+body.tchan-mode .guest-note,
+body.tchan-mode .post-window,
+body.tchan-mode input,
+body.tchan-mode textarea{
+  background:#000!important;color:#ff0000!important;border-color:#ff0000!important
+}
+body.tchan-mode header,
+body.tchan-mode nav,
+body.tchan-mode .status,
+body.tchan-mode .profile-box,
+body.tchan-mode .section-title,
+body.tchan-mode footer,
+body.tchan-mode .post-options,
+body.tchan-mode .post-window-title{
+  background:#120000!important;color:#ff0000!important;border-color:#ff0000!important
+}
+body.tchan-mode nav a,
+body.tchan-mode .links a,
+body.tchan-mode .open-post-button,
+body.tchan-mode .tchan-button,
+body.tchan-mode .guest-write-button,
+body.tchan-mode .poll-option,
+body.tchan-mode .post-delete,
+body.tchan-mode .post-window button{
+  background:#000!important;color:#ff0000!important;border-color:#ff0000!important
+}
+body.tchan-mode nav a:hover,
+body.tchan-mode nav a.active,
+body.tchan-mode .poll-option:hover,
+body.tchan-mode .post-window button:hover{background:#120000!important}
+body.tchan-mode .profile-info h2,
+body.tchan-mode .profile-description,
+body.tchan-mode .image-link,
+body.tchan-mode .post-options label,
+body.tchan-mode .post-options strong,
+body.tchan-mode #post-message{color:#ff0000!important}
+body.tchan-mode .profile-picture{border-color:#ff0000!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-track{background:#120000!important;border-color:#ff0000!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-thumb{background:#000!important;border-color:#ff0000!important}
+body.tchan-mode .post-modal{background:rgba(0,0,0,.88)!important}
+body.tchan-mode .post-window input,
+body.tchan-mode .post-window textarea{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
+body.tchan-mode .post-options input[type=radio]{accent-color:#ff0000}
+body.tchan-mode .translate-button{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}.translation-preview{font-family:"PixelMplus","Pixel Operator",monospace}body.tchan-mode .translation-preview{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
+
+body.tchan-mode nav a,body.tchan-mode .links a,body.tchan-mode .open-post-button,body.tchan-mode .tchan-button,body.tchan-mode .guest-write-button,body.tchan-mode .poll-option,body.tchan-mode .post-delete{background:#000!important;color:#f00!important;border-color:#f00!important}
+body.tchan-mode nav a:hover,body.tchan-mode nav a.active,body.tchan-mode .poll-option:hover{background:#120000!important}
+body.tchan-mode .profile-box{background:#120000!important;color:#f00!important;border-color:#f00!important}
+body.tchan-mode .profile-info h2{color:#f00!important;border-color:#f00!important}
+body.tchan-mode .profile-description,body.tchan-mode .image-link{color:#f00!important}
+body.tchan-mode .profile-picture{border-color:#f00!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-track{background:#120000!important;border-color:#f00!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-thumb{background:#000!important;border-color:#f00!important}
+body.tchan-mode input,body.tchan-mode textarea{background:#000!important;color:#f00!important;border-color:#f00!important}
+
+
+/* FINAL TCHAN OVERRIDES: nothing lavender survives this mode. */
+body.tchan-mode,body.tchan-mode .page,body.tchan-mode .panel,body.tchan-mode .panel-area,body.tchan-mode .panel-scroll,body.tchan-mode .user-post,body.tchan-mode .poll,body.tchan-mode .guest-panel,body.tchan-mode .guest-note,body.tchan-mode .post-window{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
 body.tchan-mode header,body.tchan-mode nav,body.tchan-mode .status,body.tchan-mode .profile-box,body.tchan-mode .section-title,body.tchan-mode footer,body.tchan-mode .post-options,body.tchan-mode .post-window-title{background:#120000!important;color:#ff0000!important;border-color:#ff0000!important}
 body.tchan-mode nav a,body.tchan-mode .links a,body.tchan-mode .open-post-button,body.tchan-mode .tchan-button,body.tchan-mode .guest-write-button,body.tchan-mode .poll-option,body.tchan-mode .post-delete,body.tchan-mode .post-window button{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
 body.tchan-mode nav a:hover,body.tchan-mode nav a.active,body.tchan-mode .poll-option:hover,body.tchan-mode .post-window button:hover{background:#120000!important}
-body.tchan-mode .profile-info h2,body.tchan-mode .profile-description,body.tchan-mode .image-link,body.tchan-mode .post-options label,body.tchan-mode .post-options strong,body.tchan-mode #post-message,body.tchan-mode #delete-message,body.tchan-mode #delete-post-preview,body.tchan-mode .user-post-time,body.tchan-mode .poll-results,body.tchan-mode .guest-note-time{color:#ff0000!important}
-body.tchan-mode .profile-picture{border-color:#ff0000!important}body.tchan-mode input,body.tchan-mode textarea{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}body.tchan-mode .post-options input[type=radio]{accent-color:#ff0000}
-body.tchan-mode .panel-scroll::-webkit-scrollbar-track{background:#120000!important;border-color:#ff0000!important}body.tchan-mode .panel-scroll::-webkit-scrollbar-thumb{background:#000!important;border-color:#ff0000!important}body.tchan-mode .post-modal{background:rgba(0,0,0,.92)!important}
-
-/* Japanese translation textarea styling */
-.jp-preview{margin-top:8px;padding:8px;border:2px dashed #D8F3F5;background:#fff6ff;min-height:60px;white-space:pre-wrap;font-family:"PixelMPlus","Pixel Operator",monospace;display:none}.translate-button{margin-top:8px;padding:5px 8px;background:#C9C2E8;color:#808080;border:2px solid #808080;font-family:inherit;cursor:pointer}.translate-button:hover{background:#D8F3F5}
-body.tchan-mode .jp-preview{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}.jp-preview.show{display:block}
+body.tchan-mode input,body.tchan-mode textarea{background:#000!important;color:#ff0000!important;border-color:#ff0000!important}
+body.tchan-mode .profile-info h2,body.tchan-mode .profile-description,body.tchan-mode .image-link,body.tchan-mode .post-options label,body.tchan-mode .post-options strong,body.tchan-mode #post-message,body.tchan-mode #delete-message,body.tchan-mode #delete-post-preview{color:#ff0000!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-track{background:#120000!important;border-color:#ff0000!important}
+body.tchan-mode .panel-scroll::-webkit-scrollbar-thumb{background:#000!important;border-color:#ff0000!important}
+body.tchan-mode .post-modal{background:rgba(0,0,0,.92)!important}
 
 @media(max-width:700px){.page{width:auto;max-width:95%}.profile-row{flex-direction:column}.profile-picture{width:120px;height:120px}nav a{margin:3px 2px;padding:6px 7px;font-size:11px}.panel-scroll{max-height:600px}.open-post-button{right:10px;bottom:10px}.tchan-button{left:10px;bottom:10px}}
 </style>
 </head>
-
 <body>
+
 <audio id="normal-music" src="happyver.mp3" loop preload="auto"></audio>
 <audio id="tchan-music" src="madver.mp3" loop preload="auto"></audio>
 
@@ -113,18 +276,16 @@ body.tchan-mode .jp-preview{background:#000!important;color:#ff0000!important;bo
 
 <div id="post-modal" class="post-modal">
 <div class="post-window">
-<div class="post-window-title" id="post-window-title">write a post</div>
+<div class="post-window-title">write a post</div>
 <input type="password" id="post-password" placeholder="password">
 <textarea id="post-content" placeholder="write something..."></textarea>
 <input type="url" id="image-url" placeholder="image/site here">
-
 <div class="post-options">
 <strong>OPTIONS</strong>
 <label><input type="radio" name="post-type" value="normal" checked> normal post</label>
 <label><input type="radio" name="post-type" value="pinned"> pinned message</label>
 <label><input type="radio" name="post-type" value="poll"> host a poll</label>
 </div>
-
 <div id="poll-fields" style="display:none">
 <input type="text" id="poll-question" placeholder="poll question">
 <input type="text" id="poll-a" placeholder="option A">
@@ -132,11 +293,9 @@ body.tchan-mode .jp-preview{background:#000!important;color:#ff0000!important;bo
 <input type="text" id="poll-c" placeholder="option C (optional)">
 <input type="text" id="poll-d" placeholder="option D (optional)">
 </div>
-
-<button type="button" class="translate-button" onclick="translatePostText()">translate text to japanese</button>
-<div id="jp-preview" class="jp-preview"></div>
-
 <p style="font-size:11px">optional: paste an image/site URL. It appears as <span style="color:#816E8A">image/site here</span> and opens when clicked.</p>
+<button type="button" class="translate-button" onclick="translateCurrentText()">日本語にする</button>
+<div id="translation-preview" class="translation-preview"></div>
 <p id="post-message"></p>
 <div class="post-window-buttons"><button type="button" onclick="closePostBox()">CANCEL</button><button type="button" onclick="submitPost()">POST</button></div>
 </div>
@@ -153,331 +312,145 @@ body.tchan-mode .jp-preview{background:#000!important;color:#ff0000!important;bo
 </div>
 </div>
 
-<div id="tchan-modal" class="post-modal">
-<div class="tchan-window">
-<div class="tchan-title">TCHAN ACCESS</div>
-<input type="password" id="tchan-password" placeholder="password">
-<p id="tchan-message"></p>
-<div class="post-window-buttons"><button type="button" onclick="closeTchanBox()">CANCEL</button><button type="button" onclick="enterTchan()">ENTER</button></div>
-</div>
-</div>
-
 <div id="delete-modal" class="post-modal">
 <div class="post-window">
 <div class="post-window-title">delete post</div>
 <p id="delete-post-preview" style="font-size:12px"></p>
-<input type="password" id="delete-password" placeholder="delete password">
+<input type="password" id="delete-password" placeholder="password">
 <p id="delete-message"></p>
 <div class="post-window-buttons"><button type="button" onclick="closeDeleteBox()">CANCEL</button><button type="button" onclick="confirmDeletePost()">DELETE</button></div>
 </div>
 </div>
 
 <script>
-/* =========================================================
-   EASY EDITING AREA
-   ========================================================= */
 const SITE_TEXT={
-  normal:{
-    subtitle:"my blog!",
-    about:"HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",
-    footer:"tsukasAngel"
-  },
-  tchan:{
-    subtitle:"the true messeges which lie beyond common grip",
-    about:"ehh these are my real feelings, usually my thoughts, or something. i do post my feelings in the normal version aswell but you wont know which is fake and which is real.",
-    footer:"TCHAN"
-  }
+ normal:{subtitle:"my blog!",about:"HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",footer:"tsukasAngel"},
+ tchan:{subtitle:"the true messeges which lie beyond common grip",about:"ehh these are my real feelings, usually my thoughts, or something. i do post my feelings in the normal version aswell but you wont know which is fake and which is real.",footer:"TCHAN"}
 };
-
-/* =========================================================
-   WORKER
-   ========================================================= */
 const WORKER_URL="https://secretblogapi.floweringsakuratree.workers.dev";
+const POST_PASSWORD_KEY="tsukasa_normal_post_password";
+const TCHAN_POST_PASSWORD_KEY="tsukasa_tchan_post_password";
 
-/* TCHAN ACCESS IS INTENTIONALLY DISCOVERABLE. */
-const TCHAN_ACCESS_PASSWORD="hunghigh";
-
-/* Posting and deleting passwords are NEVER stored here. */
-const NORMAL_PASSWORD_KEY="tsukasa_normal_post_password";
-const TCHAN_PASSWORD_KEY="tsukasa_tchan_post_password";
-
-let tchanUnlocked=false;
-let deleteTarget=null;
 let musicStarted=false;
-const normalMusic=document.getElementById("normal-music");
-const tchanMusic=document.getElementById("tchan-music");
+const normalMusic=document.getElementById("normal-music"),tchanMusic=document.getElementById("tchan-music");
 
-/* =========================================================
-   WORKER API
-   ========================================================= */
-async function api(path="",options={}){
-  const url=WORKER_URL+path+(path.includes("?")?"&":"?")+"_="+Date.now();
-  const response=await fetch(url,options);
-  let data={};
-  try{data=await response.json()}catch{}
-  if(!response.ok){const e=new Error(data.error||(response.status===401?"Unauthorized":"Server request failed."));e.status=response.status;e.data=data;throw e}
-  return data;
+async function api(path,options={}){
+ const r=await fetch(WORKER_URL+path+(path.includes("?")?"&":"?")+"_="+Date.now(),options);
+ let data={};try{data=await r.json()}catch{}
+ if(!r.ok){const e=new Error(data.error||(r.status===401?"Unauthorized":"Server request failed."));e.status=r.status;e.data=data;throw e}
+ return data;
 }
+async function translateCurrentText(){const text=document.getElementById("post-content").value.trim();const preview=document.getElementById("translation-preview");const button=document.querySelector(".translate-button");if(!text){preview.textContent="write something first.";preview.classList.add("visible");return}button.disabled=true;button.textContent="TRANSLATING...";preview.textContent="translating...";preview.classList.add("visible");try{const result=await api("/translate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text})});if(!result.translated)throw new Error(result.error||"translation failed.");preview.textContent=result.translation}catch(e){preview.textContent=e.message||"couldn't translate."}finally{button.disabled=false;button.textContent="日本語にする"}}
+function clearTranslationPreview(){const preview=document.getElementById("translation-preview");if(preview){preview.textContent="";preview.classList.remove("visible")}}
+function startNormalMusic(){tchanMusic.pause();tchanMusic.currentTime=0;normalMusic.volume=.7;normalMusic.play().then(()=>musicStarted=true).catch(()=>{})}
+function startTchanMusic(){normalMusic.pause();normalMusic.currentTime=0;tchanMusic.volume=.7;tchanMusic.play().then(()=>musicStarted=true).catch(()=>{})}
+function stopMusicState(){normalMusic.pause();tchanMusic.pause();normalMusic.currentTime=0;tchanMusic.currentTime=0}
+function showPanel(name){document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));const p=document.getElementById("panel-"+name);if(p)p.classList.add("active");document.querySelectorAll("nav a").forEach(a=>a.classList.remove("active"));const t=document.getElementById("tab-"+name);if(t)t.classList.add("active")}
+function applyNormalText(){document.getElementById("blog-subtitle").textContent=SITE_TEXT.normal.subtitle;document.getElementById("about-text").textContent=SITE_TEXT.normal.about;document.getElementById("footer-text").textContent=SITE_TEXT.normal.footer}
+function applyTchanText(){document.getElementById("blog-subtitle").textContent=SITE_TEXT.tchan.subtitle;document.getElementById("about-text").textContent=SITE_TEXT.tchan.about;document.getElementById("footer-text").textContent=SITE_TEXT.tchan.footer}
 
-/* =========================================================
-   TEXT
-   ========================================================= */
-function applyNormalText(){
-  document.getElementById("blog-subtitle").textContent=SITE_TEXT.normal.subtitle;
-  document.getElementById("about-text").textContent=SITE_TEXT.normal.about;
-  document.getElementById("footer-text").textContent=SITE_TEXT.normal.footer;
-}
-function applyTchanText(){
-  document.getElementById("blog-subtitle").textContent=SITE_TEXT.tchan.subtitle;
-  document.getElementById("about-text").textContent=SITE_TEXT.tchan.about;
-  document.getElementById("footer-text").textContent=SITE_TEXT.tchan.footer;
-}
-
-/* =========================================================
-   MUSIC
-   ========================================================= */
-function startNormalMusic(){
-  tchanMusic.pause();tchanMusic.currentTime=0;normalMusic.volume=.7;
-  normalMusic.play().then(()=>musicStarted=true).catch(()=>{});
-}
-function startTchanMusic(){
-  normalMusic.pause();normalMusic.currentTime=0;tchanMusic.volume=.7;
-  tchanMusic.play().then(()=>musicStarted=true).catch(()=>{});
-}
-
-/* =========================================================
-   PANELS
-   ========================================================= */
-function showPanel(name){
-  document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  const panel=document.getElementById("panel-"+name);if(panel)panel.classList.add("active");
-  document.querySelectorAll("nav a").forEach(a=>a.classList.remove("active"));
-  const tab=document.getElementById("tab-"+name);if(tab)tab.classList.add("active");
-  if(document.body.classList.contains("tchan-mode")){
-    if(name==="posts")loadTchanPosts();
-    if(name==="pinned")loadTchanPinned();
-    if(name==="polls")loadTchanPolls();
-  }
-}
-
-/* =========================================================
-   POST FORM
-   ========================================================= */
-function currentPasswordKey(){return document.body.classList.contains("tchan-mode")?TCHAN_PASSWORD_KEY:NORMAL_PASSWORD_KEY}
-function getPostPassword(){return sessionStorage.getItem(currentPasswordKey())||document.getElementById("post-password").value.trim()||null}
-function clearPostFields(){
-  ["post-content","image-url","poll-question","poll-a","poll-b","poll-c","poll-d"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});
-  document.querySelector('input[name="post-type"][value="normal"]').checked=true;
-  document.getElementById("poll-fields").style.display="none";
-  document.getElementById("jp-preview").textContent="";
-  document.getElementById("jp-preview").classList.remove("show");
-}
 function openPostBox(){
-  const saved=sessionStorage.getItem(currentPasswordKey());
-  const box=document.getElementById("post-password");
-  box.style.display=saved?"none":"block";box.value="";
-  document.getElementById("post-message").textContent="";
-  document.getElementById("post-modal").style.display="flex";
-  document.getElementById("post-content").focus();
+ const key=document.body.classList.contains("tchan-mode")?TCHAN_POST_PASSWORD_KEY:POST_PASSWORD_KEY;
+ const saved=sessionStorage.getItem(key);const box=document.getElementById("post-password");
+ box.style.display=saved?"none":"block";box.value="";document.getElementById("translation-preview").classList.remove("visible");document.getElementById("translation-preview").textContent="";document.getElementById("post-message").textContent="";
+ document.getElementById("post-modal").style.display="flex";
 }
 function closePostBox(){document.getElementById("post-modal").style.display="none";document.getElementById("post-message").textContent=""}
-
-document.querySelectorAll('input[name="post-type"]').forEach(r=>r.addEventListener("change",function(){
-  document.getElementById("poll-fields").style.display=this.value==="poll"?"block":"none";
-}));
+function getPostPassword(){const key=document.body.classList.contains("tchan-mode")?TCHAN_POST_PASSWORD_KEY:POST_PASSWORD_KEY;return sessionStorage.getItem(key)||document.getElementById("post-password").value.trim()||null}
 
 async function submitPost(){
-  if(document.body.classList.contains("tchan-mode"))return makeTchanPost();
-  const type=document.querySelector('input[name="post-type"]:checked').value;
-  if(type==="poll")return makePoll();
-  return createNormalPost(type==="pinned");
+ if(document.body.classList.contains("tchan-mode")){await makeTchanPost();return}
+ const type=document.querySelector('input[name="post-type"]:checked').value;
+ if(type==="poll")return makePoll();
+ if(type==="pinned")return makePinnedPost();
+ return makeNormalPost();
 }
-
+async function makeNormalPost(){return createNormalPost(false)}
+async function makePinnedPost(){return createNormalPost(true)}
 async function createNormalPost(pinned){
-  const message=document.getElementById("post-message");const password=getPostPassword();
-  if(!password){message.textContent="enter your password.";document.getElementById("post-password").style.display="block";return}
-  let content=document.getElementById("post-content").value.trim();const image=document.getElementById("image-url").value.trim();
-  if(!content&&!image){message.textContent="write something or add an image.";return}
-  if(image)content+=(content?"\n\n":"")+"[IMAGE]"+image;
-  message.textContent=pinned?"pinning...":"posting...";
-  try{
-    await api("",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,content,pinned})});
-    sessionStorage.setItem(NORMAL_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel(pinned?"pinned":"posts");await loadNormalPosts();await loadPinnedPosts();
-  }catch(e){
-    if(e.status===401){sessionStorage.removeItem(NORMAL_PASSWORD_KEY);document.getElementById("post-password").style.display="block";message.textContent="wrong password."}
-    else message.textContent=e.message||"post failed.";
-  }
+ const message=document.getElementById("post-message"),password=getPostPassword();if(!password){message.textContent="enter your password.";document.getElementById("post-password").focus();return}
+ let content=document.getElementById("post-content").value.trim(),image=document.getElementById("image-url").value.trim();if(!content&&!image){message.textContent="write something or add an image.";return}if(image)content+=(content?"\n\n":"")+"[IMAGE]"+image;
+ message.textContent=pinned?"pinning...":"posting...";
+ try{await api("",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,content,pinned})});sessionStorage.setItem(POST_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel(pinned?"pinned":"posts");await loadNormalPosts();await loadPinnedPosts()}
+ catch(e){if(e.status===401){sessionStorage.removeItem(POST_PASSWORD_KEY);document.getElementById("post-password").style.display="block";message.textContent="wrong password."}else message.textContent=e.message||"post failed."}
 }
-
 async function makePoll(){
-  const m=document.getElementById("post-message"),password=getPostPassword();
-  if(!password){m.textContent="enter your password.";document.getElementById("post-password").style.display="block";return}
-  const question=document.getElementById("poll-question").value.trim(),a=document.getElementById("poll-a").value.trim(),b=document.getElementById("poll-b").value.trim(),c=document.getElementById("poll-c").value.trim(),d=document.getElementById("poll-d").value.trim();
-  if(!question||!a||!b){m.textContent="you need a question and at least two options.";return}
-  m.textContent="hosting poll...";
-  try{
-    await api("/polls",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,question,option_a:a,option_b:b,option_c:c,option_d:d})});
-    sessionStorage.setItem(NORMAL_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel("polls");await loadPolls();
-  }catch(e){
-    if(e.status===401){sessionStorage.removeItem(NORMAL_PASSWORD_KEY);document.getElementById("post-password").style.display="block";m.textContent="wrong password."}else m.textContent=e.message||"couldn't create poll.";
-  }
+ const m=document.getElementById("post-message"),password=getPostPassword();if(!password){m.textContent="enter your password.";return}
+ const q=document.getElementById("poll-question").value.trim(),a=document.getElementById("poll-a").value.trim(),b=document.getElementById("poll-b").value.trim(),c=document.getElementById("poll-c").value.trim(),d=document.getElementById("poll-d").value.trim();if(!q||!a||!b){m.textContent="you need a question and at least two options.";return}
+ try{await api("/polls",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,question:q,option_a:a,option_b:b,option_c:c,option_d:d})});sessionStorage.setItem(POST_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel("polls");await loadPolls()}catch(e){if(e.status===401){sessionStorage.removeItem(POST_PASSWORD_KEY);document.getElementById("post-password").style.display="block";m.textContent="wrong password."}else m.textContent=e.message||"couldn't create poll."}
 }
+function clearPostFields(){["post-content","image-url","poll-question","poll-a","poll-b","poll-c","poll-d"].forEach(id=>{const e=document.getElementById(id);if(e)e.value=""});document.querySelector('input[name="post-type"][value="normal"]').checked=true;document.getElementById("poll-fields").style.display="none";clearTranslationPreview()}
 
-/* =========================================================
-   TCHAN POSTING / PINNED / POLLS
-   ========================================================= */
-async function makeTchanPost(){
-  const m=document.getElementById("post-message"),password=getPostPassword();
-  if(!password){m.textContent="enter the TCHAN posting password.";document.getElementById("post-password").style.display="block";document.getElementById("post-password").focus();return}
-  const type=document.querySelector('input[name="post-type"]:checked').value;
-  if(type==="poll")return makeTchanPoll(password);
-  let content=document.getElementById("post-content").value.trim();const image=document.getElementById("image-url").value.trim();
-  if(!content&&!image){m.textContent="write something or add an image.";return}
-  if(image)content+=(content?"\n\n":"")+"[IMAGE]"+image;
-  const endpoint=type==="pinned"?"/tchan-pinned":"/tchan";m.textContent=type==="pinned"?"pinning...":"posting...";
-  try{
-    await api(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,content})});
-    sessionStorage.setItem(TCHAN_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel(type==="pinned"?"pinned":"posts");await loadTchanPosts();await loadTchanPinned();
-  }catch(e){
-    if(e.status===401){sessionStorage.removeItem(TCHAN_PASSWORD_KEY);document.getElementById("post-password").style.display="block";m.textContent="wrong TCHAN posting password."}else m.textContent=e.message||"couldn't post to TCHAN.";
-  }
-}
+document.querySelectorAll('input[name="post-type"]').forEach(r=>r.addEventListener("change",function(){document.getElementById("poll-fields").style.display=this.value==="poll"?"block":"none"}));
 
-async function makeTchanPoll(password){
-  const m=document.getElementById("post-message");
-  const question=document.getElementById("poll-question").value.trim(),a=document.getElementById("poll-a").value.trim(),b=document.getElementById("poll-b").value.trim(),c=document.getElementById("poll-c").value.trim(),d=document.getElementById("poll-d").value.trim();
-  if(!question||!a||!b){m.textContent="you need a question and at least two options.";return}
-  m.textContent="hosting TCHAN poll...";
-  try{
-    await api("/tchan-polls",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,question,option_a:a,option_b:b,option_c:c,option_d:d})});
-    sessionStorage.setItem(TCHAN_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel("polls");await loadTchanPolls();
-  }catch(e){
-    if(e.status===401){sessionStorage.removeItem(TCHAN_PASSWORD_KEY);document.getElementById("post-password").style.display="block";m.textContent="wrong TCHAN posting password."}else m.textContent=e.message||"couldn't create TCHAN poll.";
-  }
-}
+async function submitGuestNote(){const u=document.getElementById("guest-username").value.trim(),c=document.getElementById("guest-content").value.trim(),m=document.getElementById("guest-message");if(!c){m.textContent="write something first.";return}m.textContent="sending...";try{await api("/guest-notes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u||"Anonymous",content:c})});document.getElementById("guest-content").value="";closeGuestNotes();await loadGuestNotes()}catch(e){m.textContent=e.message||"couldn't send note."}}
+function openGuestNotes(){document.getElementById("guest-modal").style.display="flex"}function closeGuestNotes(){document.getElementById("guest-modal").style.display="none";document.getElementById("guest-message").textContent=""}
 
-/* =========================================================
-   LOADING
-   ========================================================= */
-async function loadNormalPosts(){
-  const c=document.getElementById("posts-container");
-  try{const posts=await api("");c.innerHTML="";const arr=Array.isArray(posts)?posts.filter(p=>!Number(p.pinned)):[];if(!arr.length)c.innerHTML="<p>no posts yet.</p>";else arr.forEach(p=>addPostToPage(c,p,false,false))}catch(e){console.error(e);c.innerHTML="<p>couldn't load posts!</p>"}
-}
-async function loadPinnedPosts(){
-  const c=document.getElementById("pinned-container");
-  try{const posts=await api("/pinned");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no pinned messages.</p>";else posts.forEach(p=>addPostToPage(c,p,false,true))}catch(e){console.error(e);c.innerHTML="<p>couldn't load pinned messages!</p>"}
-}
-async function loadTchanPosts(){
-  const c=document.getElementById("posts-container");
-  try{const posts=await api("/tchan");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no secret posts yet.</p>";else posts.forEach(p=>addPostToPage(c,p,true,false))}catch(e){console.error(e);c.innerHTML="<p>couldn't load TCHAN posts.</p>"}
-}
-async function loadTchanPinned(){
-  const c=document.getElementById("pinned-container");
-  try{const posts=await api("/tchan-pinned");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no secret pinned messages.</p>";else posts.forEach(p=>addPostToPage(c,p,true,true))}catch(e){console.error(e);c.innerHTML="<p>couldn't load TCHAN pinned messages.</p>"}
-}
-async function loadGuestNotes(){
-  const c=document.getElementById("guest-notes-container");
-  try{const notes=await api("/guest-notes");c.innerHTML="";if(!Array.isArray(notes)||!notes.length){c.innerHTML="<p>no guest notes yet.</p>";return}notes.forEach(n=>{const b=document.createElement("div");b.className="guest-note";const u=document.createElement("strong");u.textContent=(n.username||"Anonymous")+":";b.appendChild(u);b.appendChild(document.createTextNode(n.content||""));if(n.created_at){const t=document.createElement("div");t.className="guest-note-time";const d=new Date(n.created_at);t.textContent=!isNaN(d.getTime())?d.toLocaleString():n.created_at;b.appendChild(t)}c.appendChild(b)})}catch(e){console.error(e);c.innerHTML="<p>couldn't load guest notes.</p>"}
-}
-async function loadPolls(){
-  const c=document.getElementById("polls-container");
-  try{const polls=await api("/polls");c.innerHTML="";if(!Array.isArray(polls)||!polls.length){c.innerHTML="<p>no polls yet.</p>";return}polls.forEach(p=>renderPoll(c,p,false))}catch(e){console.error(e);c.innerHTML="<p>couldn't load polls.</p>"}
-}
-async function loadTchanPolls(){
-  const c=document.getElementById("polls-container");
-  try{const polls=await api("/tchan-polls");c.innerHTML="";if(!Array.isArray(polls)||!polls.length){c.innerHTML="<p>no secret polls yet.</p>";return}polls.forEach(p=>renderPoll(c,p,true))}catch(e){console.error(e);c.innerHTML="<p>couldn't load TCHAN polls.</p>"}
-}
-function renderPoll(container,poll,isTchan){
-  const box=document.createElement("div");box.className="poll";
-  const q=document.createElement("div");q.className="poll-question";q.textContent=poll.question||"";box.appendChild(q);
-  ["a","b","c","d"].forEach(option=>{const text=poll["option_"+option];if(!text)return;const b=document.createElement("button");b.type="button";b.className="poll-option";b.textContent=text;b.onclick=()=>votePoll(poll.id,option,isTchan);box.appendChild(b)});
-  const total=["a","b","c","d"].reduce((n,o)=>n+Number(poll["votes_"+o]||0),0);const r=document.createElement("div");r.className="poll-results";r.textContent="votes: "+total;box.appendChild(r);container.appendChild(box);
-}
-async function votePoll(id,option,isTchan){try{await api(isTchan?"/tchan-poll-vote":"/poll-vote",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({poll_id:id,option})});await (isTchan?loadTchanPolls():loadPolls())}catch(e){console.error(e)}}
+async function getJSON(path){return api(path)}
+async function loadNormalPosts(){const c=document.getElementById("posts-container");try{const posts=await getJSON("");c.innerHTML="";const arr=posts.filter(p=>!Number(p.pinned));if(!arr.length)c.innerHTML="<p>no posts yet.</p>";else arr.forEach(p=>addPostToPage(c,p,false))}catch(e){console.error(e);c.innerHTML="<p>couldn't load posts!</p>"}}
+async function loadPinnedPosts(){const c=document.getElementById("pinned-container");try{const posts=await getJSON("/pinned");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no pinned messages.</p>";else posts.forEach(p=>addPostToPage(c,p,false))}catch(e){console.error(e);c.innerHTML="<p>couldn't load pinned messages!</p>"}}
+async function loadGuestNotes(){const c=document.getElementById("guest-notes-container");try{const notes=await getJSON("/guest-notes");c.innerHTML="";if(!Array.isArray(notes)||!notes.length){c.innerHTML="<p>no guest notes yet.</p>";return}notes.forEach(n=>{const b=document.createElement("div");b.className="guest-note";const u=document.createElement("strong");u.textContent=(n.username||"Anonymous")+":";b.appendChild(u);b.appendChild(document.createTextNode(n.content||""));if(n.created_at){const t=document.createElement("div");t.className="guest-note-time";const d=new Date(n.created_at);t.textContent=!isNaN(d.getTime())?d.toLocaleString():n.created_at;b.appendChild(t)}c.appendChild(b)})}catch(e){c.innerHTML="<p>couldn't load guest notes.</p>"}}
+async function loadPolls(){const c=document.getElementById("polls-container");try{const polls=await getJSON("/polls");c.innerHTML="";if(!Array.isArray(polls)||!polls.length){c.innerHTML="<p>no polls yet.</p>";return}polls.forEach(p=>{const b=document.createElement("div");b.className="poll";const q=document.createElement("div");q.className="poll-question";q.textContent=p.question;b.appendChild(q);["a","b","c","d"].forEach(o=>{const text=p["option_"+o];if(!text)return;const x=document.createElement("button");x.className="poll-option";x.type="button";x.textContent=text;x.onclick=()=>votePoll(p.id,o);b.appendChild(x)});const r=document.createElement("div");r.className="poll-results";r.textContent="votes: "+["a","b","c","d"].reduce((n,o)=>n+Number(p["votes_"+o]||0),0);b.appendChild(r);c.appendChild(b)})}catch(e){c.innerHTML="<p>couldn't load polls.</p>"}}
+async function votePoll(id,option){try{await api("/poll-vote",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({poll_id:id,option})});await loadPolls()}catch(e){console.error(e)}}
 
-/* =========================================================
-   POSTS / DELETE
-   ========================================================= */
-function addPostToPage(container,post,isTchan,isPinned){
-  const box=document.createElement("div");box.className="user-post";
-  const username=document.createElement("strong");username.textContent=(post.username||"Tsukasachan")+":";box.appendChild(username);
-  if(post.id!=null){const del=document.createElement("button");del.className="post-delete";del.type="button";del.textContent="DELETE";del.onclick=()=>openDeleteBox(post.id,isTchan,isPinned);box.appendChild(del)}
-  const parts=(post.content||"").split(/(\[IMAGE\][^\s]+)/g);parts.forEach(part=>{if(part.startsWith("[IMAGE]")){const u=part.substring(7).trim();if(/^https?:\/\//i.test(u)){const a=document.createElement("a");a.className="image-link";a.href=u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="image/site here";box.appendChild(a)}}else if(part)box.appendChild(document.createTextNode(part))});
-  if(post.created_at){const t=document.createElement("div");t.className="user-post-time";const d=new Date(post.created_at);t.textContent=!isNaN(d.getTime())?d.toLocaleString():post.created_at;box.appendChild(t)}container.appendChild(box);
+function addPostToPage(container,post,isTchan){const box=document.createElement("div");box.className="user-post";const username=document.createElement("strong");username.textContent=(post.username||"Tsukasachan")+":";box.appendChild(username);if(post.id!=null){const del=document.createElement("button");del.className="post-delete";del.type="button";del.textContent="DELETE";del.onclick=()=>openDeleteBox(post.id,isTchan,Number(post.pinned)===1);box.appendChild(del)}const parts=(post.content||"").split(/(\[IMAGE\][^\s]+)/g);parts.forEach(part=>{if(part.startsWith("[IMAGE]")){const u=part.substring(7).trim();if(/^https?:\/\//i.test(u)){const a=document.createElement("a");a.className="image-link";a.href=u;a.target="_blank";a.rel="noopener noreferrer";a.textContent="image/site here";box.appendChild(a)}}else if(part)box.appendChild(document.createTextNode(part))});if(post.created_at){const t=document.createElement("div");t.className="user-post-time";const d=new Date(post.created_at);t.textContent=!isNaN(d.getTime())?d.toLocaleString():post.created_at;box.appendChild(t)}container.appendChild(box)}
+
+let deleteTarget=null;
+function openDeleteBox(id,isTchan,pinned){
+ deleteTarget={id,isTchan,pinned};
+ const key=POST_PASSWORD_KEY;
+ const input=document.getElementById("delete-password");
+ input.value="";
+ input.style.display="block";
+ document.getElementById("delete-message").textContent="";
+ document.getElementById("delete-post-preview").textContent="enter your post password to delete this post.";
+ document.getElementById("delete-modal").style.display="flex";
+ input.focus();
 }
-function openDeleteBox(id,isTchan,isPinned){
-  deleteTarget={id,isTchan,isPinned};const input=document.getElementById("delete-password");input.value="";document.getElementById("delete-message").textContent="";
-  document.getElementById("delete-post-preview").textContent=isTchan?(isPinned?"TCHAN pinned post: enter the TCHAN delete password.":"TCHAN post: enter the TCHAN delete password."):(isPinned?"Pinned post: enter the delete password.":"Post: enter the delete password.");
-  document.getElementById("delete-modal").style.display="flex";input.focus();
-}
-function closeDeleteBox(){document.getElementById("delete-modal").style.display="none";document.getElementById("delete-password").value="";deleteTarget=null}
+function closeDeleteBox(){document.getElementById("delete-modal").style.display="none";deleteTarget=null}
 async function confirmDeletePost(){
-  if(!deleteTarget)return;const m=document.getElementById("delete-message"),password=document.getElementById("delete-password").value.trim();
-  if(!password){m.textContent="enter the delete password.";return}m.textContent="deleting...";
-  try{
-    await api("/delete",{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:deleteTarget.id,password,tchan:deleteTarget.isTchan,pinned:deleteTarget.isPinned})});
-    const wasTchan=deleteTarget.isTchan,wasPinned=deleteTarget.isPinned;closeDeleteBox();
-    if(wasTchan){await loadTchanPosts();await loadTchanPinned();}else{await loadNormalPosts();await loadPinnedPosts();}
-    showPanel(wasPinned?"pinned":"posts");
-  }catch(e){m.textContent=e.message||"couldn't delete post."}
+ if(!deleteTarget)return;
+ const key=POST_PASSWORD_KEY;
+ const input=document.getElementById("delete-password");
+ const password=input.value.trim()||sessionStorage.getItem(key)||"";
+ const m=document.getElementById("delete-message");
+ if(!password){m.textContent="enter the password.";input.focus();return}
+ m.textContent="deleting...";
+ const payload={id:deleteTarget.id,password:password,tchan:deleteTarget.isTchan,pinned:deleteTarget.pinned};
+ try{
+   const r=await fetch(WORKER_URL+"/delete?_="+Date.now(),{method:"DELETE",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+   const result=await r.json().catch(()=>({}));
+   if(!r.ok){
+     m.textContent=result.error||(r.status===401?"wrong password.":"couldn't delete post.");
+     return;
+   }
+   sessionStorage.setItem(key,password);
+   const wasTchan=deleteTarget.isTchan;
+   closeDeleteBox();
+   if(wasTchan){await loadTchanPosts();await loadTchanPinned()}
+   else{await loadNormalPosts();await loadPinnedPosts()}
+ }catch(e){console.error(e);m.textContent="couldn't connect to the server."}
 }
 
-/* =========================================================
-   GUEST NOTES
-   ========================================================= */
-function openGuestNotes(){document.getElementById("guest-modal").style.display="flex"}
-function closeGuestNotes(){document.getElementById("guest-modal").style.display="none";document.getElementById("guest-message").textContent=""}
-async function submitGuestNote(){
-  const u=document.getElementById("guest-username").value.trim(),c=document.getElementById("guest-content").value.trim(),m=document.getElementById("guest-message");
-  if(!c){m.textContent="write something first.";return}m.textContent="sending...";
-  try{await api("/guest-notes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:u||"Anonymous",content:c})});document.getElementById("guest-content").value="";closeGuestNotes();showPanel("guest");await loadGuestNotes()}catch(e){m.textContent=e.message||"couldn't send note."}
-}
-
-/* =========================================================
-   TCHAN ACCESS / MODE
-   ========================================================= */
-function openTchanBox(){
-  if(tchanUnlocked){activateTchan();return}
-  document.getElementById("tchan-modal").style.display="flex";document.getElementById("tchan-password").value="";document.getElementById("tchan-message").textContent="";document.getElementById("tchan-password").focus();
-}
+function openTchanBox(){const saved=sessionStorage.getItem("tsukasa_tchan_access");if(saved==="true"){activateTchan();return}document.getElementById("tchan-modal").style.display="flex";document.getElementById("tchan-password").value="";document.getElementById("tchan-message").textContent="";document.getElementById("tchan-password").focus()}
 function closeTchanBox(){document.getElementById("tchan-modal").style.display="none"}
-function enterTchan(){
-  const p=document.getElementById("tchan-password").value.trim(),m=document.getElementById("tchan-message");
-  if(!p){m.textContent="enter a password.";return}
-  if(p!==TCHAN_ACCESS_PASSWORD){m.textContent="wrong password.";return}
-  tchanUnlocked=true;closeTchanBox();activateTchan();
-}
-function clearRendered(){document.getElementById("posts-container").innerHTML="";document.getElementById("pinned-container").innerHTML="";document.getElementById("polls-container").innerHTML=""}
-function activateTchan(){
-  document.body.classList.add("tchan-mode");document.getElementById("banner").src="darkangelbanner.jpeg";document.getElementById("profile-picture").src="madpfp.jpeg";applyTchanText();document.getElementById("normal-intro").style.display="none";clearRendered();showPanel("posts");loadTchanPosts();loadTchanPinned();loadTchanPolls();startTchanMusic();
-}
-function goHome(){
-  tchanUnlocked=false;document.body.classList.remove("tchan-mode");document.getElementById("banner").src="kangel.jpeg";document.getElementById("profile-picture").src="pfp.jpeg";applyNormalText();document.getElementById("normal-intro").style.display="block";clearRendered();showPanel("posts");loadNormalPosts();loadPinnedPosts();loadPolls();loadGuestNotes();startNormalMusic();return false;
-}
+function enterTchan(){const password=document.getElementById("tchan-password").value.trim();const message=document.getElementById("tchan-message");if(password!=="hunghigh"){message.textContent="wrong password.";return}sessionStorage.setItem("tsukasa_tchan_access","true");closeTchanBox();activateTchan()}
+function clearRenderedNormal(){document.getElementById("posts-container").innerHTML="";document.getElementById("pinned-container").innerHTML=""}
+function activateTchan(){document.body.classList.add("tchan-mode");document.getElementById("banner").src="darkangelbanner.jpeg";document.getElementById("profile-picture").src="madpfp.jpeg";applyTchanText();clearRenderedNormal();document.getElementById("normal-intro").style.display="none";showPanel("posts");loadTchanPosts();loadTchanPinned();startTchanMusic()}
+async function makeTchanPost(){const m=document.getElementById("post-message"),password=getPostPassword();if(!password){m.textContent="enter your post password.";document.getElementById("post-password").focus();return}let content=document.getElementById("post-content").value.trim(),image=document.getElementById("image-url").value.trim();if(!content&&!image){m.textContent="write something or add an image.";return}if(image)content+=(content?"\n\n":"")+"[IMAGE]"+image;const type=document.querySelector('input[name="post-type"]:checked').value;if(type==="poll"){m.textContent="TCHAN polls are not enabled by this composer.";return}const endpoint=type==="pinned"?"/tchan-pinned":"/tchan";m.textContent=type==="pinned"?"pinning...":"posting...";try{await api(endpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({password,content})});sessionStorage.setItem(TCHAN_POST_PASSWORD_KEY,password);clearPostFields();closePostBox();showPanel(type==="pinned"?"pinned":"posts");await loadTchanPosts();await loadTchanPinned()}catch(e){if(e.status===401){sessionStorage.removeItem(TCHAN_POST_PASSWORD_KEY);document.getElementById("post-password").style.display="block";m.textContent="wrong TCHAN posting password."}else m.textContent=e.message||"couldn't post to TCHAN."}}
+async function loadTchanPosts(){const c=document.getElementById("posts-container");try{const posts=await getJSON("/tchan");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no secret posts yet.</p>";else posts.forEach(p=>addPostToPage(c,p,true))}catch(e){console.error(e);c.innerHTML="<p>couldn't load TCHAN posts.</p>"}}
+async function loadTchanPinned(){const c=document.getElementById("pinned-container");try{const posts=await getJSON("/tchan-pinned");c.innerHTML="";if(!Array.isArray(posts)||!posts.length)c.innerHTML="<p>no secret pinned messages.</p>";else posts.forEach(p=>addPostToPage(c,p,true))}catch(e){console.error(e);c.innerHTML="<p>couldn't load TCHAN pinned messages.</p>"}}
+function goHome(){document.body.classList.remove("tchan-mode");document.getElementById("banner").src="kangel.jpeg";document.getElementById("profile-picture").src="pfp.jpeg";applyNormalText();document.getElementById("normal-intro").style.display="block";clearRenderedNormal();showPanel("posts");loadNormalPosts();loadPinnedPosts();loadPolls();loadGuestNotes();startNormalMusic();return false}
 
-/* =========================================================
-   JAPANESE TRANSLATION
-   Uses /translate on the Worker. If no translator is configured,
-   the Worker returns a clear setup message instead of pretending.
-   ========================================================= */
-async function translatePostText(){
-  const source=document.getElementById("post-content").value.trim(),preview=document.getElementById("jp-preview"),m=document.getElementById("post-message");
-  if(!source){m.textContent="write something first so it can be translated.";return}
-  preview.textContent="translating...";preview.classList.add("show");
-  try{
-    const result=await api("/translate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:source})});
-    const translated=String(result.translation||"").trim();if(!translated)throw new Error("no translation returned.");preview.textContent=translated;document.getElementById("post-content").value=translated;m.textContent="translated!";
-  }catch(e){preview.textContent=e.message||"translation is not configured yet.";m.textContent=e.message||"translation failed."}
-}
-
-/* =========================================================
-   MODAL CLICKS / START
-   ========================================================= */
-["post-modal","guest-modal","tchan-modal","delete-modal"].forEach(id=>document.getElementById(id).addEventListener("click",e=>{if(e.target!==e.currentTarget)return;if(id==="post-modal")closePostBox();if(id==="guest-modal")closeGuestNotes();if(id==="tchan-modal")closeTchanBox();if(id==="delete-modal")closeDeleteBox()}));
+["post-modal","guest-modal","delete-modal"].forEach(id=>document.getElementById(id).addEventListener("click",e=>{if(e.target!==e.currentTarget)return;if(id==="post-modal")closePostBox();if(id==="guest-modal")closeGuestNotes();if(id==="delete-modal")closeDeleteBox()}));
 document.getElementById("banner").addEventListener("click",()=>location.reload());
 function startMusicFromInteraction(){if(musicStarted)return;if(document.body.classList.contains("tchan-mode"))startTchanMusic();else startNormalMusic()}
 document.addEventListener("click",startMusicFromInteraction,{once:true});document.addEventListener("keydown",startMusicFromInteraction,{once:true});document.addEventListener("touchstart",startMusicFromInteraction,{once:true});
-window.addEventListener("load",()=>{document.body.classList.remove("tchan-mode");tchanUnlocked=false;applyNormalText();showPanel("posts");loadNormalPosts();loadPinnedPosts();loadPolls();loadGuestNotes()});
+window.addEventListener("load",()=>{document.body.classList.remove("tchan-mode");applyNormalText();showPanel("posts");loadNormalPosts();loadPinnedPosts();loadPolls();loadGuestNotes()});
 </script>
 </body>
 </html>
+tsukasa_blog_fixed_final.html
+HTML
+tsukasa_worker_fixed_final.js
+Code
