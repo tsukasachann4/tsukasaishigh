@@ -291,953 +291,3020 @@ and opens when clicked.
 
 <script>
 
-const SITE_TEXT={
+/* =========================================================
+   TSUKASA BLOG
+   WORKER-CONNECTED SCRIPT
+   ========================================================= */
 
-normal:{
-subtitle:"my blog!",
-about:"HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",
-footer:"tsukasAngel"
-},
 
-tchan:{
-subtitle:"the true messeges which lie beyond common grip",
-about:"ehh these are my real feelings, usually my thoughts, or something. i do post my feelings in the normal version aswell but you wont know which is fake and which is real.",
-footer:"TCHAN"
-}
+/* =========================================================
+   SITE TEXT
+   ========================================================= */
+
+const SITE_TEXT = {
+
+  normal: {
+    subtitle: "my blog!",
+
+    about:
+      "HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",
+
+    footer: "tsukasAngel"
+  },
+
+  tchan: {
+    subtitle:
+      "the true messeges which lie beyond common grip",
+
+    about:
+      "ehh these are my real feelings, usually my thoughts, or something. i do post my feelings in the normal version aswell but you wont know which is fake and which is real.",
+
+    footer: "TCHAN"
+  }
 
 };
 
-const WORKER_URL="https://secretblogapi.floweringsakuratree.workers.dev";
-const POST_PASSWORD_KEY="tsukasa_post_password";
 
-const normalMusic=document.getElementById("normal-music");
-const tchanMusic=document.getElementById("tchan-music");
+/* =========================================================
+   WORKER
+   ========================================================= */
 
-let musicStarted=false;
+const WORKER_URL =
+  "https://secretblogapi.floweringsakuratree.workers.dev";
 
-function startNormalMusic(){
 
-tchanMusic.pause();
-tchanMusic.currentTime=0;
+/* =========================================================
+   PASSWORD STORAGE
+   =========================================================
 
-normalMusic.volume=.7;
+   IMPORTANT:
 
-normalMusic.play().then(()=>{
-musicStarted=true;
-}).catch(()=>{});
+   TCHAN ACCESS:
+   ----------------
+   hunghigh
 
-}
+   This is intentionally visible in this HTML.
 
-function startTchanMusic(){
+   TCHAN POSTING:
+   ----------------
+   NOT stored in this code.
+   You enter it into the POST window.
 
-normalMusic.pause();
-normalMusic.currentTime=0;
+   NORMAL POSTING:
+   ----------------
+   Entered into the POST window.
 
-tchanMusic.volume=.7;
+   DELETE:
+   ----------------
+   Entered into the DELETE window.
 
-tchanMusic.play().then(()=>{
-musicStarted=true;
-}).catch(()=>{});
+   The actual passwords are checked by the Worker.
+   ========================================================= */
 
-}
+const TCHAN_ACCESS_PASSWORD =
+  "hunghigh";
 
-function showPanel(panelName){
 
-document.querySelectorAll(".panel").forEach(panel=>{
-panel.classList.remove("active");
-});
+const NORMAL_PASSWORD_KEY =
+  "tsukasa_normal_post_password";
 
-const selected=document.getElementById("panel-"+panelName);
 
-if(selected)selected.classList.add("active");
+const TCHAN_POST_PASSWORD_KEY =
+  "tsukasa_tchan_post_password";
 
-document.querySelectorAll("nav a").forEach(tab=>{
-tab.classList.remove("active");
-});
 
-const selectedTab=document.getElementById("tab-"+panelName);
+/* =========================================================
+   MUSIC
+   ========================================================= */
 
-if(selectedTab)selectedTab.classList.add("active");
+const normalMusic =
+  document.getElementById("normal-music");
 
-}
+const tchanMusic =
+  document.getElementById("tchan-music");
 
-function applyNormalText(){
+let musicStarted = false;
 
-document.getElementById("blog-subtitle").textContent=SITE_TEXT.normal.subtitle;
-document.getElementById("about-text").textContent=SITE_TEXT.normal.about;
-document.getElementById("footer-text").textContent=SITE_TEXT.normal.footer;
 
-}
+function startNormalMusic() {
 
-function applyTchanText(){
+  if (!normalMusic) return;
 
-document.getElementById("blog-subtitle").textContent=SITE_TEXT.tchan.subtitle;
-document.getElementById("about-text").textContent=SITE_TEXT.tchan.about;
-document.getElementById("footer-text").textContent=SITE_TEXT.tchan.footer;
+  if (tchanMusic) {
+    tchanMusic.pause();
+    tchanMusic.currentTime = 0;
+  }
 
-}
+  normalMusic.volume = 0.7;
 
-function openPostBox(){
-
-const passwordBox=document.getElementById("post-password");
-const saved=sessionStorage.getItem(POST_PASSWORD_KEY);
-
-passwordBox.style.display=saved?"none":"block";
-
-if(!saved)passwordBox.value="";
-
-document.getElementById("post-modal").style.display="flex";
+  normalMusic.play()
+    .then(function() {
+      musicStarted = true;
+    })
+    .catch(function() {});
 
 }
 
-function closePostBox(){
 
-document.getElementById("post-modal").style.display="none";
-document.getElementById("post-message").textContent="";
+function startTchanMusic() {
 
-}
+  if (!tchanMusic) return;
 
-document.querySelectorAll('input[name="post-type"]').forEach(radio=>{
+  if (normalMusic) {
+    normalMusic.pause();
+    normalMusic.currentTime = 0;
+  }
 
-radio.addEventListener("change",function(){
+  tchanMusic.volume = 0.7;
 
-document.getElementById("poll-fields").style.display=
-this.value==="poll"?"block":"none";
-
-});
-
-});
-
-function getPostPassword(){
-
-const saved=sessionStorage.getItem(POST_PASSWORD_KEY);
-
-if(saved)return saved;
-
-const input=document.getElementById("post-password");
-const password=input.value.trim();
-
-return password||null;
+  tchanMusic.play()
+    .then(function() {
+      musicStarted = true;
+    })
+    .catch(function() {});
 
 }
 
-async function submitPost(){
 
-const type=document.querySelector('input[name="post-type"]:checked').value;
+function stopMusic() {
 
-if(type==="poll"){
-await makePoll();
-return;
-}
+  if (normalMusic) {
+    normalMusic.pause();
+    normalMusic.currentTime = 0;
+  }
 
-const password=getPostPassword();
-
-if(!password){
-
-document.getElementById("post-message").textContent="enter your password.";
-document.getElementById("post-password").style.display="block";
-document.getElementById("post-password").focus();
-return;
+  if (tchanMusic) {
+    tchanMusic.pause();
+    tchanMusic.currentTime = 0;
+  }
 
 }
 
-const content=document.getElementById("post-content").value.trim();
-const imageUrl=document.getElementById("image-url").value.trim();
 
-if(!content&&!imageUrl){
+/* =========================================================
+   WORKER API HELPER
+   ========================================================= */
 
-document.getElementById("post-message").textContent="write something or add an image.";
-return;
+async function api(path, options = {}) {
 
-}
+  const separator =
+    path.includes("?") ? "&" : "?";
 
-let finalContent=content;
+  const url =
+    WORKER_URL +
+    path +
+    separator +
+    "_=" +
+    Date.now();
 
-if(imageUrl){
-finalContent+=(finalContent?"\n\n":"")+"[IMAGE]"+imageUrl;
-}
+  const response =
+    await fetch(url, options);
 
-const message=document.getElementById("post-message");
-message.textContent="posting...";
+  let data = {};
 
-const isTchan=document.body.classList.contains("tchan-mode");
+  try {
+    data = await response.json();
+  } catch (error) {
+    data = {};
+  }
 
-try{
+  if (!response.ok) {
 
-const endpoint=
-type==="pinned"
-?(isTchan?"/tchan-pinned":"/pinned")
-:(isTchan?"/tchan":"/");
+    const error =
+      new Error(
+        data.error ||
+        (
+          response.status === 401
+            ? "Unauthorized"
+            : "Server request failed."
+        )
+      );
 
-const response=await fetch(WORKER_URL+endpoint,{
+    error.status =
+      response.status;
 
-method:"POST",
+    error.data =
+      data;
 
-headers:{
-"Content-Type":"application/json"
-},
+    throw error;
+  }
 
-body:JSON.stringify({
-password,
-content:finalContent,
-pinned:type==="pinned"
-})
-
-});
-
-const result=await response.json();
-
-if(response.status===401){
-
-sessionStorage.removeItem(POST_PASSWORD_KEY);
-document.getElementById("post-password").style.display="block";
-message.textContent="wrong password.";
-return;
+  return data;
 
 }
 
-if(!response.ok){
 
-message.textContent=result.error||"post failed.";
-return;
+/* =========================================================
+   PANEL SWITCHING
+   ========================================================= */
 
-}
+function showPanel(panelName) {
 
-sessionStorage.setItem(POST_PASSWORD_KEY,password);
+  document
+    .querySelectorAll(".panel")
+    .forEach(function(panel) {
 
-document.getElementById("post-content").value="";
-document.getElementById("image-url").value="";
+      panel.classList.remove("active");
 
-closePostBox();
+    });
 
-if(type==="pinned"){
 
-showPanel("pinned");
+  const selectedPanel =
+    document.getElementById(
+      "panel-" + panelName
+    );
 
-if(isTchan){
-await loadTchanPinned();
-}else{
-await loadPinnedPosts();
-}
 
-}else{
+  if (selectedPanel) {
 
-showPanel("posts");
+    selectedPanel.classList.add("active");
 
-if(isTchan){
-await loadTchanPosts();
-}else{
-await loadNormalPosts();
-}
+  }
 
-}
 
-}catch(error){
+  document
+    .querySelectorAll("nav a")
+    .forEach(function(tab) {
 
-console.error(error);
-message.textContent="can't connect to the server.";
+      tab.classList.remove("active");
 
-}
+    });
 
-}
 
-async function makePoll(){
+  const selectedTab =
+    document.getElementById(
+      "tab-" + panelName
+    );
 
-const message=document.getElementById("post-message");
-const password=getPostPassword();
 
-if(!password){
+  if (selectedTab) {
 
-message.textContent="enter your password.";
-document.getElementById("post-password").style.display="block";
-document.getElementById("post-password").focus();
-return;
+    selectedTab.classList.add("active");
+
+  }
 
 }
 
-const question=document.getElementById("poll-question").value.trim();
-const a=document.getElementById("poll-a").value.trim();
-const b=document.getElementById("poll-b").value.trim();
-const c=document.getElementById("poll-c").value.trim();
-const d=document.getElementById("poll-d").value.trim();
 
-if(!question||!a||!b){
+/* =========================================================
+   NORMAL TEXT
+   ========================================================= */
 
-message.textContent="you need a question and at least two options.";
-return;
+function applyNormalText() {
 
-}
+  document.getElementById(
+    "blog-subtitle"
+  ).textContent =
+    SITE_TEXT.normal.subtitle;
 
-message.textContent="hosting poll...";
 
-try{
+  document.getElementById(
+    "about-text"
+  ).textContent =
+    SITE_TEXT.normal.about;
 
-const response=await fetch(WORKER_URL+"/polls",{
 
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-password,
-question,
-option_a:a,
-option_b:b,
-option_c:c,
-option_d:d
-})
-
-});
-
-const result=await response.json();
-
-if(response.status===401){
-
-sessionStorage.removeItem(POST_PASSWORD_KEY);
-document.getElementById("post-password").style.display="block";
-message.textContent="wrong password.";
-return;
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    SITE_TEXT.normal.footer;
 
 }
 
-if(!response.ok){
 
-message.textContent=result.error||"couldn't create poll.";
-return;
+/* =========================================================
+   TCHAN TEXT
+   ========================================================= */
 
-}
+function applyTchanText() {
 
-sessionStorage.setItem(POST_PASSWORD_KEY,password);
+  document.getElementById(
+    "blog-subtitle"
+  ).textContent =
+    SITE_TEXT.tchan.subtitle;
 
-document.getElementById("poll-question").value="";
-document.getElementById("poll-a").value="";
-document.getElementById("poll-b").value="";
-document.getElementById("poll-c").value="";
-document.getElementById("poll-d").value="";
 
-closePostBox();
-showPanel("polls");
+  document.getElementById(
+    "about-text"
+  ).textContent =
+    SITE_TEXT.tchan.about;
 
-await loadPolls();
 
-}catch(error){
-
-console.error(error);
-message.textContent="couldn't connect to the server.";
-
-}
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    SITE_TEXT.tchan.footer;
 
 }
 
-function openGuestNotes(){
 
-document.getElementById("guest-modal").style.display="flex";
+/* =========================================================
+   CLEAR CONTENT
+   ========================================================= */
 
-}
+function clearRenderedPosts() {
 
-function closeGuestNotes(){
+  const posts =
+    document.getElementById(
+      "posts-container"
+    );
 
-document.getElementById("guest-modal").style.display="none";
-document.getElementById("guest-message").textContent="";
+  const pinned =
+    document.getElementById(
+      "pinned-container"
+    );
 
-}
+  if (posts)
+    posts.innerHTML = "";
 
-async function submitGuestNote(){
-
-const username=document.getElementById("guest-username").value.trim();
-const content=document.getElementById("guest-content").value.trim();
-const message=document.getElementById("guest-message");
-
-if(!content){
-
-message.textContent="write something first.";
-return;
-
-}
-
-message.textContent="sending...";
-
-try{
-
-const response=await fetch(WORKER_URL+"/guest-notes",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-username:username||"Anonymous",
-content
-})
-
-});
-
-const result=await response.json();
-
-if(!response.ok){
-
-message.textContent=result.error||"couldn't send note.";
-return;
+  if (pinned)
+    pinned.innerHTML = "";
 
 }
 
-document.getElementById("guest-content").value="";
 
-closeGuestNotes();
-showPanel("guest");
+/* =========================================================
+   CLEAR POST FORM
+   ========================================================= */
 
-await loadGuestNotes();
+function clearPostFields() {
 
-}catch(error){
+  document.getElementById(
+    "post-content"
+  ).value = "";
 
-console.error(error);
-message.textContent="couldn't connect to the server.";
+  document.getElementById(
+    "image-url"
+  ).value = "";
 
-}
+  document.getElementById(
+    "poll-question"
+  ).value = "";
 
-}
+  document.getElementById(
+    "poll-a"
+  ).value = "";
 
-async function loadNormalPosts(){
+  document.getElementById(
+    "poll-b"
+  ).value = "";
 
-const container=document.getElementById("posts-container");
+  document.getElementById(
+    "poll-c"
+  ).value = "";
 
-try{
-
-const response=await fetch(WORKER_URL+"?t="+Date.now());
-
-if(!response.ok)throw new Error(response.status);
-
-const posts=await response.json();
-
-container.innerHTML="";
-
-const normalPosts=posts.filter(post=>!Number(post.pinned));
-
-if(!normalPosts.length){
-
-container.innerHTML="<p>no posts yet.</p>";
-return;
+  document.getElementById(
+    "poll-d"
+  ).value = "";
 
 }
 
-normalPosts.forEach(post=>addPostToPage(container,post,false,false));
 
-}catch(error){
+/* =========================================================
+   POST PASSWORD
+   ========================================================= */
 
-console.error(error);
-container.innerHTML="<p>couldn't load posts!</p>";
+function getCurrentPasswordKey() {
 
-}
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
 
-}
+    return TCHAN_POST_PASSWORD_KEY;
 
-async function loadPinnedPosts(){
+  }
 
-const container=document.getElementById("pinned-container");
-
-try{
-
-const response=await fetch(WORKER_URL+"/pinned?t="+Date.now());
-
-if(!response.ok)throw new Error(response.status);
-
-const posts=await response.json();
-
-container.innerHTML="";
-
-if(!Array.isArray(posts)||!posts.length){
-
-container.innerHTML="<p>no pinned messages.</p>";
-return;
+  return NORMAL_PASSWORD_KEY;
 
 }
 
-posts.forEach(post=>addPostToPage(container,post,false,true));
 
-}catch(error){
+function getPostPassword() {
 
-console.error(error);
-container.innerHTML="<p>couldn't load pinned messages!</p>";
+  const key =
+    getCurrentPasswordKey();
 
-}
 
-}
+  const saved =
+    sessionStorage.getItem(key);
 
-async function loadTchanPosts(){
 
-const container=document.getElementById("posts-container");
+  if (saved) {
 
-try{
+    return saved;
 
-const response=await fetch(WORKER_URL+"/tchan?t="+Date.now());
+  }
 
-if(!response.ok)throw new Error(response.status);
 
-const posts=await response.json();
+  const input =
+    document.getElementById(
+      "post-password"
+    );
 
-container.innerHTML="";
 
-if(!Array.isArray(posts)||!posts.length){
+  if (!input) {
 
-container.innerHTML="<p>no secret posts yet.</p>";
-return;
+    return null;
 
-}
+  }
 
-posts.forEach(post=>addPostToPage(container,post,true,false));
 
-}catch(error){
+  const typed =
+    input.value.trim();
 
-console.error(error);
-container.innerHTML="<p>couldn't load TCHAN posts.</p>";
+
+  return typed || null;
 
 }
 
-}
 
-async function loadTchanPinned(){
+/* =========================================================
+   OPEN POST WINDOW
+   ========================================================= */
 
-const container=document.getElementById("pinned-container");
+function openPostBox() {
 
-try{
+  const modal =
+    document.getElementById(
+      "post-modal"
+    );
 
-const response=await fetch(WORKER_URL+"/tchan-pinned?t="+Date.now());
+  const passwordBox =
+    document.getElementById(
+      "post-password"
+    );
 
-if(!response.ok)throw new Error(response.status);
 
-const posts=await response.json();
+  const key =
+    getCurrentPasswordKey();
 
-container.innerHTML="";
 
-if(!Array.isArray(posts)||!posts.length){
+  const saved =
+    sessionStorage.getItem(key);
 
-container.innerHTML="<p>no secret pinned messages.</p>";
-return;
 
-}
+  /*
+   * IMPORTANT:
+   *
+   * Normal mode remembers the normal
+   * password separately.
+   *
+   * TCHAN mode remembers the TCHAN
+   * posting password separately.
+   *
+   * They can NEVER accidentally
+   * substitute for one another.
+   */
 
-posts.forEach(post=>addPostToPage(container,post,true,true));
 
-}catch(error){
+  if (saved) {
 
-console.error(error);
-container.innerHTML="<p>couldn't load TCHAN pinned messages.</p>";
+    passwordBox.style.display =
+      "none";
 
-}
+    passwordBox.value = "";
 
-}
+  } else {
 
-async function loadGuestNotes(){
+    passwordBox.style.display =
+      "block";
 
-const container=document.getElementById("guest-notes-container");
+    passwordBox.value = "";
 
-try{
+  }
 
-const response=await fetch(WORKER_URL+"/guest-notes?t="+Date.now());
 
-if(!response.ok)throw new Error(response.status);
+  document.getElementById(
+    "post-message"
+  ).textContent = "";
 
-const notes=await response.json();
 
-container.innerHTML="";
+  modal.style.display =
+    "flex";
 
-if(!Array.isArray(notes)||!notes.length){
 
-container.innerHTML="<p>no guest notes yet.</p>";
-return;
+  if (saved) {
 
-}
+    document.getElementById(
+      "post-content"
+    ).focus();
 
-notes.forEach(note=>{
+  } else {
 
-const box=document.createElement("div");
-box.className="guest-note";
+    passwordBox.focus();
 
-const username=document.createElement("strong");
-username.textContent=(note.username||"Anonymous")+":";
-
-box.appendChild(username);
-box.appendChild(document.createTextNode(note.content||""));
-
-if(note.created_at){
-
-const time=document.createElement("div");
-time.className="guest-note-time";
-
-const date=new Date(note.created_at);
-
-time.textContent=!isNaN(date.getTime())
-?date.toLocaleString()
-:note.created_at;
-
-box.appendChild(time);
-
-}
-
-container.appendChild(box);
-
-});
-
-}catch(error){
-
-console.error(error);
-container.innerHTML="<p>couldn't load guest notes.</p>";
+  }
 
 }
 
-}
 
-async function loadPolls(){
+/* =========================================================
+   CLOSE POST WINDOW
+   ========================================================= */
 
-const container=document.getElementById("polls-container");
+function closePostBox() {
 
-try{
+  document.getElementById(
+    "post-modal"
+  ).style.display =
+    "none";
 
-const response=await fetch(WORKER_URL+"/polls?t="+Date.now());
-
-if(!response.ok)throw new Error(response.status);
-
-const polls=await response.json();
-
-container.innerHTML="";
-
-if(!Array.isArray(polls)||!polls.length){
-
-container.innerHTML="<p>no polls yet.</p>";
-return;
+  document.getElementById(
+    "post-message"
+  ).textContent = "";
 
 }
 
-polls.forEach(poll=>{
 
-const box=document.createElement("div");
-box.className="poll";
+/* =========================================================
+   POST TYPE SWITCHING
+   ========================================================= */
 
-const question=document.createElement("div");
-question.className="poll-question";
-question.textContent=poll.question;
+document
+  .querySelectorAll(
+    'input[name="post-type"]'
+  )
+  .forEach(function(radio) {
 
-box.appendChild(question);
+    radio.addEventListener(
+      "change",
+      function() {
 
-["a","b","c","d"].forEach(option=>{
+        const fields =
+          document.getElementById(
+            "poll-fields"
+          );
 
-const text=poll["option_"+option];
 
-if(!text)return;
+        /*
+         * TCHAN does not use the
+         * normal poll endpoint.
+         */
 
-const button=document.createElement("button");
+        if (
+          document.body.classList.contains(
+            "tchan-mode"
+          )
+        ) {
 
-button.className="poll-option";
-button.type="button";
-button.textContent=text;
+          fields.style.display =
+            "none";
 
-button.onclick=()=>votePoll(poll.id,option);
+          return;
 
-box.appendChild(button);
+        }
 
-});
 
-const results=document.createElement("div");
-results.className="poll-results";
+        fields.style.display =
+          this.value === "poll"
+            ? "block"
+            : "none";
 
-results.textContent="votes: "+
-(
-Number(poll.votes_a||0)+
-Number(poll.votes_b||0)+
-Number(poll.votes_c||0)+
-Number(poll.votes_d||0)
+      }
+    );
+
+  });
+
+
+/* =========================================================
+   SUBMIT POST
+   ========================================================= */
+
+async function submitPost() {
+
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
+
+    await makeTchanPost();
+
+    return;
+
+  }
+
+
+  const selected =
+    document.querySelector(
+      'input[name="post-type"]:checked'
+    );
+
+
+  if (!selected) {
+
+    return;
+
+  }
+
+
+  if (selected.value === "poll") {
+
+    await makePoll();
+
+    return;
+
+  }
+
+
+  if (selected.value === "pinned") {
+
+    await makePinnedPost();
+
+    return;
+
+  }
+
+
+  await makeNormalPost();
+
+}
+
+
+/* =========================================================
+   NORMAL POST
+   ========================================================= */
+
+async function makeNormalPost() {
+
+  await createNormalPost(false);
+
+}
+
+
+/* =========================================================
+   NORMAL PINNED POST
+   ========================================================= */
+
+async function makePinnedPost() {
+
+  await createNormalPost(true);
+
+}
+
+
+/* =========================================================
+   CREATE NORMAL POST
+   ========================================================= */
+
+async function createNormalPost(
+  pinned
+) {
+
+  const message =
+    document.getElementById(
+      "post-message"
+    );
+
+
+  const password =
+    getPostPassword();
+
+
+  if (!password) {
+
+    message.textContent =
+      "enter your password.";
+
+    document.getElementById(
+      "post-password"
+    ).focus();
+
+    return;
+
+  }
+
+
+  let content =
+    document.getElementById(
+      "post-content"
+    ).value.trim();
+
+
+  const image =
+    document.getElementById(
+      "image-url"
+    ).value.trim();
+
+
+  if (!content && !image) {
+
+    message.textContent =
+      "write something or add an image.";
+
+    return;
+
+  }
+
+
+  if (image) {
+
+    content +=
+      (
+        content
+          ? "\n\n"
+          : ""
+      ) +
+      "[IMAGE]" +
+      image;
+
+  }
+
+
+  message.textContent =
+    pinned
+      ? "pinning..."
+      : "posting...";
+
+
+  try {
+
+    const result =
+      await api(
+        "",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+              password:
+                password,
+
+              content:
+                content,
+
+              pinned:
+                pinned
+            })
+        }
+      );
+
+
+    if (
+      result.correct === false ||
+      result.saved === false
+    ) {
+
+      throw new Error(
+        result.error ||
+        "post failed."
+      );
+
+    }
+
+
+    sessionStorage.setItem(
+      NORMAL_PASSWORD_KEY,
+      password
+    );
+
+
+    document.getElementById(
+      "post-password"
+    ).style.display =
+      "none";
+
+
+    clearPostFields();
+
+    closePostBox();
+
+    showPanel(
+      pinned
+        ? "pinned"
+        : "posts"
+    );
+
+
+    await loadNormalPosts();
+    await loadPinnedPosts();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    if (
+      error.status === 401
+    ) {
+
+      sessionStorage.removeItem(
+        NORMAL_PASSWORD_KEY
+      );
+
+
+      document.getElementById(
+        "post-password"
+      ).style.display =
+        "block";
+
+
+      message.textContent =
+        "wrong password.";
+
+      return;
+
+    }
+
+
+    message.textContent =
+      error.message ||
+      "couldn't post.";
+
+  }
+
+}
+
+
+/* =========================================================
+   POLLS
+   ========================================================= */
+
+async function makePoll() {
+
+  const message =
+    document.getElementById(
+      "post-message"
+    );
+
+
+  const password =
+    getPostPassword();
+
+
+  if (!password) {
+
+    message.textContent =
+      "enter your password.";
+
+    document.getElementById(
+      "post-password"
+    ).focus();
+
+    return;
+
+  }
+
+
+  const question =
+    document.getElementById(
+      "poll-question"
+    ).value.trim();
+
+
+  const a =
+    document.getElementById(
+      "poll-a"
+    ).value.trim();
+
+
+  const b =
+    document.getElementById(
+      "poll-b"
+    ).value.trim();
+
+
+  const c =
+    document.getElementById(
+      "poll-c"
+    ).value.trim();
+
+
+  const d =
+    document.getElementById(
+      "poll-d"
+    ).value.trim();
+
+
+  if (!question || !a || !b) {
+
+    message.textContent =
+      "you need a question and at least two options.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "hosting poll...";
+
+
+  try {
+
+    const result =
+      await api(
+        "/polls",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              password:
+                password,
+
+              question:
+                question,
+
+              option_a:
+                a,
+
+              option_b:
+                b,
+
+              option_c:
+                c,
+
+              option_d:
+                d
+
+            })
+        }
+      );
+
+
+    if (
+      result.saved === false
+    ) {
+
+      throw new Error(
+        result.error ||
+        "couldn't create poll."
+      );
+
+    }
+
+
+    sessionStorage.setItem(
+      NORMAL_PASSWORD_KEY,
+      password
+    );
+
+
+    clearPostFields();
+
+    closePostBox();
+
+    showPanel("polls");
+
+    await loadPolls();
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    if (
+      error.status === 401
+    ) {
+
+      sessionStorage.removeItem(
+        NORMAL_PASSWORD_KEY
+      );
+
+      document.getElementById(
+        "post-password"
+      ).style.display =
+        "block";
+
+      message.textContent =
+        "wrong password.";
+
+      return;
+
+    }
+
+
+    message.textContent =
+      error.message ||
+      "couldn't create poll.";
+
+  }
+
+}
+
+
+/* =========================================================
+   NORMAL POSTS
+   ========================================================= */
+
+async function loadNormalPosts() {
+
+  const container =
+    document.getElementById(
+      "posts-container"
+    );
+
+
+  try {
+
+    const posts =
+      await api("");
+
+
+    container.innerHTML =
+      "";
+
+
+    const normalPosts =
+      Array.isArray(posts)
+        ? posts.filter(
+            function(post) {
+              return !Number(
+                post.pinned
+              );
+            }
+          )
+        : [];
+
+
+    if (!normalPosts.length) {
+
+      container.innerHTML =
+        "<p>no posts yet.</p>";
+
+      return;
+
+    }
+
+
+    normalPosts.forEach(
+      function(post) {
+
+        addPostToPage(
+          container,
+          post,
+          false,
+          false
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "NORMAL POSTS:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load posts!</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   NORMAL PINNED POSTS
+   ========================================================= */
+
+async function loadPinnedPosts() {
+
+  const container =
+    document.getElementById(
+      "pinned-container"
+    );
+
+
+  try {
+
+    const posts =
+      await api(
+        "/pinned"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(posts) ||
+      !posts.length
+    ) {
+
+      container.innerHTML =
+        "<p>no pinned messages.</p>";
+
+      return;
+
+    }
+
+
+    posts.forEach(
+      function(post) {
+
+        addPostToPage(
+          container,
+          post,
+          false,
+          true
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "NORMAL PINNED:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load pinned messages!</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   TCHAN POSTS
+   ========================================================= */
+
+async function loadTchanPosts() {
+
+  const container =
+    document.getElementById(
+      "posts-container"
+    );
+
+
+  try {
+
+    const posts =
+      await api(
+        "/tchan"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(posts) ||
+      !posts.length
+    ) {
+
+      container.innerHTML =
+        "<p>no secret posts yet.</p>";
+
+      return;
+
+    }
+
+
+    posts.forEach(
+      function(post) {
+
+        addPostToPage(
+          container,
+          post,
+          true,
+          false
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "TCHAN POSTS:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load TCHAN posts.</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   TCHAN PINNED POSTS
+   ========================================================= */
+
+async function loadTchanPinned() {
+
+  const container =
+    document.getElementById(
+      "pinned-container"
+    );
+
+
+  try {
+
+    const posts =
+      await api(
+        "/tchan-pinned"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(posts) ||
+      !posts.length
+    ) {
+
+      container.innerHTML =
+        "<p>no secret pinned messages.</p>";
+
+      return;
+
+    }
+
+
+    posts.forEach(
+      function(post) {
+
+        addPostToPage(
+          container,
+          post,
+          true,
+          true
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "TCHAN PINNED:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load TCHAN pinned messages.</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   TCHAN POSTING
+   ========================================================= */
+
+async function makeTchanPost() {
+
+  const message =
+    document.getElementById(
+      "post-message"
+    );
+
+
+  /*
+   * THIS IS NOT hunghigh.
+   *
+   * The password is entered by you
+   * into the POST window.
+   *
+   * It is never written into this HTML.
+   */
+
+  const password =
+    getPostPassword();
+
+
+  if (!password) {
+
+    message.textContent =
+      "enter the TCHAN posting password.";
+
+    document.getElementById(
+      "post-password"
+    ).style.display =
+      "block";
+
+    document.getElementById(
+      "post-password"
+    ).focus();
+
+    return;
+
+  }
+
+
+  let content =
+    document.getElementById(
+      "post-content"
+    ).value.trim();
+
+
+  const image =
+    document.getElementById(
+      "image-url"
+    ).value.trim();
+
+
+  if (!content && !image) {
+
+    message.textContent =
+      "write something or add an image.";
+
+    return;
+
+  }
+
+
+  if (image) {
+
+    content +=
+      (
+        content
+          ? "\n\n"
+          : ""
+      ) +
+      "[IMAGE]" +
+      image;
+
+  }
+
+
+  const selected =
+    document.querySelector(
+      'input[name="post-type"]:checked'
+    );
+
+
+  const type =
+    selected
+      ? selected.value
+      : "normal";
+
+
+  /*
+   * TCHAN polls intentionally do not
+   * use the normal /polls endpoint.
+   */
+
+  if (type === "poll") {
+
+    message.textContent =
+      "TCHAN polls are not enabled.";
+
+    return;
+
+  }
+
+
+  const endpoint =
+    type === "pinned"
+      ? "/tchan-pinned"
+      : "/tchan";
+
+
+  message.textContent =
+    type === "pinned"
+      ? "pinning..."
+      : "posting...";
+
+
+  try {
+
+    const result =
+      await api(
+        endpoint,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify({
+
+              password:
+                password,
+
+              content:
+                content
+
+            })
+        }
+      );
+
+
+    if (
+      result.saved === false
+    ) {
+
+      throw new Error(
+        result.error ||
+        "TCHAN post failed."
+      );
+
+    }
+
+
+    /*
+     * Only remember the TCHAN
+     * posting password.
+     *
+     * NEVER store hunghigh here.
+     */
+
+    sessionStorage.setItem(
+      TCHAN_POST_PASSWORD_KEY,
+      password
+    );
+
+
+    document.getElementById(
+      "post-password"
+    ).style.display =
+      "none";
+
+
+    clearPostFields();
+
+    closePostBox();
+
+
+    showPanel(
+      type === "pinned"
+        ? "pinned"
+        : "posts"
+    );
+
+
+    await loadTchanPosts();
+    await loadTchanPinned();
+
+
+  } catch (error) {
+
+    console.error(
+      "TCHAN POST:",
+      error
+    );
+
+
+    if (
+      error.status === 401
+    ) {
+
+      sessionStorage.removeItem(
+        TCHAN_POST_PASSWORD_KEY
+      );
+
+
+      document.getElementById(
+        "post-password"
+      ).style.display =
+        "block";
+
+
+      message.textContent =
+        "wrong TCHAN posting password.";
+
+      return;
+
+    }
+
+
+    message.textContent =
+      error.message ||
+      "couldn't post to TCHAN.";
+
+  }
+
+}
+
+
+/* =========================================================
+   RENDER POSTS
+   ========================================================= */
+
+function addPostToPage(
+  container,
+  post,
+  isTchan,
+  isPinned
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+
+  box.className =
+    "user-post";
+
+
+  const username =
+    document.createElement(
+      "strong"
+    );
+
+
+  username.textContent =
+    (
+      post.username ||
+      "Tsukasachan"
+    ) + ":";
+
+
+  box.appendChild(
+    username
+  );
+
+
+  /*
+   * DELETE BUTTON
+   *
+   * Every server post gets one.
+   *
+   * Normal:
+   * SECRET_PASSWORD on Worker.
+   *
+   * TCHAN:
+   * TCHAN_POST_PASSWORD on Worker.
+   *
+   * Neither password is placed
+   * into the HTML.
+   */
+
+  if (
+    post.id !== undefined &&
+    post.id !== null
+  ) {
+
+    const deleteButton =
+      document.createElement(
+        "button"
+      );
+
+
+    deleteButton.className =
+      "post-delete";
+
+
+    deleteButton.type =
+      "button";
+
+
+    deleteButton.textContent =
+      "DELETE";
+
+
+    deleteButton.onclick =
+      function() {
+
+        openDeleteBox(
+          post.id,
+          isTchan,
+          isPinned
+        );
+
+      };
+
+
+    box.appendChild(
+      deleteButton
+    );
+
+  }
+
+
+  const rawContent =
+    post.content || "";
+
+
+  const parts =
+    rawContent.split(
+      /(\[IMAGE\][^\s]+)/g
+    );
+
+
+  parts.forEach(
+    function(part) {
+
+      if (
+        part.startsWith(
+          "[IMAGE]"
+        )
+      ) {
+
+        const imageUrl =
+          part
+            .substring(7)
+            .trim();
+
+
+        if (
+          /^https?:\/\//i.test(
+            imageUrl
+          )
+        ) {
+
+          const link =
+            document.createElement(
+              "a"
+            );
+
+
+          link.className =
+            "image-link";
+
+
+          link.href =
+            imageUrl;
+
+
+          link.target =
+            "_blank";
+
+
+          link.rel =
+            "noopener noreferrer";
+
+
+          link.textContent =
+            "image/site here";
+
+
+          box.appendChild(
+            link
+          );
+
+        }
+
+      } else if (part) {
+
+        box.appendChild(
+          document.createTextNode(
+            part
+          )
+        );
+
+      }
+
+    }
+  );
+
+
+  if (post.created_at) {
+
+    const time =
+      document.createElement(
+        "div"
+      );
+
+
+    time.className =
+      "user-post-time";
+
+
+    const date =
+      new Date(
+        post.created_at
+      );
+
+
+    time.textContent =
+      !isNaN(
+        date.getTime()
+      )
+        ? date.toLocaleString()
+        : post.created_at;
+
+
+    box.appendChild(
+      time
+    );
+
+  }
+
+
+  container.appendChild(
+    box
+  );
+
+}
+
+
+/* =========================================================
+   DELETE SYSTEM
+   ========================================================= */
+
+let deleteTarget =
+  null;
+
+
+/* =========================================================
+   OPEN DELETE WINDOW
+   ========================================================= */
+
+function openDeleteBox(
+  id,
+  isTchan,
+  isPinned
+) {
+
+  deleteTarget = {
+
+    id:
+      id,
+
+    isTchan:
+      isTchan,
+
+    pinned:
+      isPinned
+
+  };
+
+
+  const input =
+    document.getElementById(
+      "delete-password"
+    );
+
+
+  const message =
+    document.getElementById(
+      "delete-message"
+    );
+
+
+  const preview =
+    document.getElementById(
+      "delete-post-preview"
+    );
+
+
+  /*
+   * ALWAYS require the delete
+   * password through the window.
+   *
+   * This means clicking DELETE
+   * never silently deletes anything.
+   */
+
+  input.value =
+    "";
+
+
+  message.textContent =
+    "";
+
+
+  if (isTchan) {
+
+    preview.textContent =
+      isPinned
+        ? "TCHAN pinned post: enter your TCHAN posting password to delete it."
+        : "TCHAN post: enter your TCHAN posting password to delete it.";
+
+  } else {
+
+    preview.textContent =
+      isPinned
+        ? "Pinned post: enter your normal post password to delete it."
+        : "Post: enter your normal post password to delete it.";
+
+  }
+
+
+  document.getElementById(
+    "delete-modal"
+  ).style.display =
+    "flex";
+
+
+  input.focus();
+
+}
+
+
+/* =========================================================
+   CLOSE DELETE WINDOW
+   ========================================================= */
+
+function closeDeleteBox() {
+
+  const modal =
+    document.getElementById(
+      "delete-modal"
+    );
+
+
+  if (modal) {
+
+    modal.style.display =
+      "none";
+
+  }
+
+
+  const input =
+    document.getElementById(
+      "delete-password"
+    );
+
+
+  if (input) {
+
+    input.value =
+      "";
+
+  }
+
+
+  deleteTarget =
+    null;
+
+}
+
+
+/* =========================================================
+   CONFIRM DELETE
+   ========================================================= */
+
+async function confirmDeletePost() {
+
+  if (!deleteTarget) {
+
+    return;
+
+  }
+
+
+  const password =
+    document.getElementById(
+      "delete-password"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "delete-message"
+    );
+
+
+  if (!password) {
+
+    message.textContent =
+      "enter the password.";
+
+    document.getElementById(
+      "delete-password"
+    ).focus();
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "deleting...";
+
+
+  /*
+   * IMPORTANT:
+   *
+   * TCHAN deletion:
+   * Worker checks env.TCHAN_POST_PASSWORD.
+   *
+   * Normal deletion:
+   * Worker checks env.SECRET_PASSWORD.
+   *
+   * hunghigh is NEVER used here.
+   */
+
+  const payload = {
+
+    id:
+      deleteTarget.id,
+
+    password:
+      password,
+
+    tchan:
+      deleteTarget.isTchan,
+
+    pinned:
+      deleteTarget.pinned
+
+  };
+
+
+  try {
+
+    const result =
+      await api(
+        "/delete",
+        {
+          method: "DELETE",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            )
+        }
+      );
+
+
+    if (
+      result.deleted !== true
+    ) {
+
+      throw new Error(
+        result.error ||
+        "couldn't delete post."
+      );
+
+    }
+
+
+    const wasTchan =
+      deleteTarget.isTchan;
+
+
+    const wasPinned =
+      deleteTarget.pinned;
+
+
+    closeDeleteBox();
+
+
+    if (wasTchan) {
+
+      await loadTchanPosts();
+
+      await loadTchanPinned();
+
+    } else {
+
+      await loadNormalPosts();
+
+      await loadPinnedPosts();
+
+    }
+
+
+    /*
+     * Stay on the correct panel.
+     */
+
+    showPanel(
+      wasPinned
+        ? "pinned"
+        : "posts"
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "DELETE:",
+      error
+    );
+
+
+    if (
+      error.status === 401
+    ) {
+
+      message.textContent =
+        "wrong password.";
+
+      return;
+
+    }
+
+
+    message.textContent =
+      error.message ||
+      "couldn't delete post.";
+
+  }
+
+}
+
+
+/* =========================================================
+   GUEST NOTES
+   ========================================================= */
+
+function openGuestNotes() {
+
+  document.getElementById(
+    "guest-modal"
+  ).style.display =
+    "flex";
+
+}
+
+
+function closeGuestNotes() {
+
+  document.getElementById(
+    "guest-modal"
+  ).style.display =
+    "none";
+
+  document.getElementById(
+    "guest-message"
+  ).textContent =
+    "";
+
+}
+
+
+async function submitGuestNote() {
+
+  const username =
+    document.getElementById(
+      "guest-username"
+    ).value.trim();
+
+
+  const content =
+    document.getElementById(
+      "guest-content"
+    ).value.trim();
+
+
+  const message =
+    document.getElementById(
+      "guest-message"
+    );
+
+
+  if (!content) {
+
+    message.textContent =
+      "write something first.";
+
+    return;
+
+  }
+
+
+  if (content.length > 60) {
+
+    message.textContent =
+      "60 characters maximum.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "sending...";
+
+
+  try {
+
+    await api(
+      "/guest-notes",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+
+            username:
+              username ||
+              "Anonymous",
+
+            content:
+              content
+
+          })
+      }
+    );
+
+
+    document.getElementById(
+      "guest-content"
+    ).value =
+      "";
+
+
+    closeGuestNotes();
+
+    showPanel("guest");
+
+    await loadGuestNotes();
+
+
+  } catch (error) {
+
+    console.error(
+      "GUEST NOTE:",
+      error
+    );
+
+
+    message.textContent =
+      error.message ||
+      "couldn't connect to the server.";
+
+  }
+
+}
+
+
+/* =========================================================
+   GUEST NOTES LOADING
+   ========================================================= */
+
+async function loadGuestNotes() {
+
+  const container =
+    document.getElementById(
+      "guest-notes-container"
+    );
+
+
+  try {
+
+    const notes =
+      await api(
+        "/guest-notes"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(notes) ||
+      !notes.length
+    ) {
+
+      container.innerHTML =
+        "<p>no guest notes yet.</p>";
+
+      return;
+
+    }
+
+
+    notes.forEach(
+      function(note) {
+
+        const box =
+          document.createElement(
+            "div"
+          );
+
+
+        box.className =
+          "guest-note";
+
+
+        const username =
+          document.createElement(
+            "strong"
+          );
+
+
+        username.textContent =
+          (
+            note.username ||
+            "Anonymous"
+          ) + ":";
+
+
+        box.appendChild(
+          username
+        );
+
+
+        box.appendChild(
+          document.createTextNode(
+            note.content || ""
+          )
+        );
+
+
+        if (note.created_at) {
+
+          const time =
+            document.createElement(
+              "div"
+            );
+
+
+          time.className =
+            "guest-note-time";
+
+
+          const date =
+            new Date(
+              note.created_at
+            );
+
+
+          time.textContent =
+            !isNaN(
+              date.getTime()
+            )
+              ? date.toLocaleString()
+              : note.created_at;
+
+
+          box.appendChild(
+            time
+          );
+
+        }
+
+
+        container.appendChild(
+          box
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "GUEST NOTES:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load guest notes.</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   POLL LOADING
+   ========================================================= */
+
+async function loadPolls() {
+
+  const container =
+    document.getElementById(
+      "polls-container"
+    );
+
+
+  try {
+
+    const polls =
+      await api(
+        "/polls"
+      );
+
+
+    container.innerHTML =
+      "";
+
+
+    if (
+      !Array.isArray(polls) ||
+      !polls.length
+    ) {
+
+      container.innerHTML =
+        "<p>no polls yet.</p>";
+
+      return;
+
+    }
+
+
+    polls.forEach(
+      function(poll) {
+
+        const box =
+          document.createElement(
+            "div"
+          );
+
+
+        box.className =
+          "poll";
+
+
+        const question =
+          document.createElement(
+            "div"
+          );
+
+
+        question.className =
+          "poll-question";
+
+
+        question.textContent =
+          poll.question;
+
+
+        box.appendChild(
+          question
+        );
+
+
+        ["a","b","c","d"].forEach(
+          function(option) {
+
+            const text =
+              poll[
+                "option_" +
+                option
+              ];
+
+
+            if (!text)
+              return;
+
+
+            const button =
+              document.createElement(
+                "button"
+              );
+
+
+            button.className =
+              "poll-option";
+
+
+            button.type =
+              "button";
+
+
+            button.textContent =
+              text;
+
+
+            button.onclick =
+              function() {
+
+                votePoll(
+                  poll.id,
+                  option
+                );
+
+              };
+
+
+            box.appendChild(
+              button
+            );
+
+          }
+        );
+
+
+        const results =
+          document.createElement(
+            "div"
+          );
+
+
+        results.className =
+          "poll-results";
+
+
+        results.textContent =
+          "votes: " +
+          (
+            Number(
+              poll.votes_a || 0
+            ) +
+
+            Number(
+              poll.votes_b || 0
+            ) +
+
+            Number(
+              poll.votes_c || 0
+            ) +
+
+            Number(
+              poll.votes_d || 0
+            )
+          );
+
+
+        box.appendChild(
+          results
+        );
+
+
+        container.appendChild(
+          box
+        );
+
+      }
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "POLLS:",
+      error
+    );
+
+
+    container.innerHTML =
+      "<p>couldn't load polls.</p>";
+
+  }
+
+}
+
+
+/* =========================================================
+   POLL VOTING
+   ========================================================= */
+
+async function votePoll(
+  id,
+  option
+) {
+
+  try {
+
+    await api(
+      "/poll-vote",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body:
+          JSON.stringify({
+
+            poll_id:
+              id,
+
+            option:
+              option
+
+          })
+      }
+    );
+
+
+    await loadPolls();
+
+
+  } catch (error) {
+
+    console.error(
+      "POLL VOTE:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   TCHAN ACCESS
+   ========================================================= */
+
+function openTchanBox() {
+
+  /*
+   * This is the ONLY place where
+   * hunghigh is checked.
+   */
+
+  const existing =
+    sessionStorage.getItem(
+      "tsukasa_tchan_access"
+    );
+
+
+  if (
+    existing === "true"
+  ) {
+
+    activateTchan();
+
+    return;
+
+  }
+
+
+  const modal =
+    document.getElementById(
+      "tchan-modal"
+    );
+
+
+  modal.style.display =
+    "flex";
+
+
+  document.getElementById(
+    "tchan-password"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "tchan-message"
+  ).textContent =
+    "";
+
+
+  document.getElementById(
+    "tchan-password"
+  ).focus();
+
+}
+
+
+/* =========================================================
+   CLOSE TCHAN ACCESS
+   ========================================================= */
+
+function closeTchanBox() {
+
+  document.getElementById(
+    "tchan-modal"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =========================================================
+   ENTER TCHAN
+   ========================================================= */
+
+function enterTchan() {
+
+  const input =
+    document.getElementById(
+      "tchan-password"
+    );
+
+
+  const message =
+    document.getElementById(
+      "tchan-message"
+    );
+
+
+  const password =
+    input.value.trim();
+
+
+  if (!password) {
+
+    message.textContent =
+      "enter a password.";
+
+    return;
+
+  }
+
+
+  /*
+   * INTENTIONALLY PUBLIC.
+   *
+   * This is ACCESS ONLY.
+   *
+   * It is NOT:
+   * - the TCHAN post password
+   * - the delete password
+   */
+
+  if (
+    password !==
+    TCHAN_ACCESS_PASSWORD
+  ) {
+
+    message.textContent =
+      "wrong password.";
+
+    return;
+
+  }
+
+
+  sessionStorage.setItem(
+    "tsukasa_tchan_access",
+    "true"
+  );
+
+
+  closeTchanBox();
+
+  activateTchan();
+
+}
+
+
+/* =========================================================
+   ACTIVATE TCHAN
+   ========================================================= */
+
+function activateTchan() {
+
+  document.body.classList.add(
+    "tchan-mode"
+  );
+
+
+  document.getElementById(
+    "banner"
+  ).src =
+    "darkangelbanner.jpeg";
+
+
+  document.getElementById(
+    "profile-picture"
+  ).src =
+    "madpfp.jpeg";
+
+
+  applyTchanText();
+
+
+  /*
+   * Hide normal starter post.
+   */
+
+  const intro =
+    document.getElementById(
+      "normal-intro"
+    );
+
+
+  if (intro) {
+
+    intro.style.display =
+      "none";
+
+  }
+
+
+  /*
+   * Clear normal rendered content
+   * before loading TCHAN content.
+   *
+   * This prevents the lavender normal
+   * posts from visually leaking into
+   * TCHAN mode.
+   */
+
+  clearRenderedPosts();
+
+
+  showPanel("posts");
+
+
+  /*
+   * Make sure TCHAN post mode does
+   * not accidentally show the normal
+   * poll fields.
+   */
+
+  const pollFields =
+    document.getElementById(
+      "poll-fields"
+    );
+
+
+  if (pollFields) {
+
+    pollFields.style.display =
+      "none";
+
+  }
+
+
+  loadTchanPosts();
+  loadTchanPinned();
+
+
+  startTchanMusic();
+
+}
+
+
+/* =========================================================
+   RETURN TO NORMAL
+   ========================================================= */
+
+function goHome() {
+
+  document.body.classList.remove(
+    "tchan-mode"
+  );
+
+
+  document.getElementById(
+    "banner"
+  ).src =
+    "kangel.jpeg";
+
+
+  document.getElementById(
+    "profile-picture"
+  ).src =
+    "pfp.jpeg";
+
+
+  applyNormalText();
+
+
+  const intro =
+    document.getElementById(
+      "normal-intro"
+    );
+
+
+  if (intro) {
+
+    intro.style.display =
+      "block";
+
+  }
+
+
+  /*
+   * Clear TCHAN content first.
+   */
+
+  clearRenderedPosts();
+
+
+  showPanel("posts");
+
+
+  loadNormalPosts();
+  loadPinnedPosts();
+  loadPolls();
+  loadGuestNotes();
+
+
+  startNormalMusic();
+
+
+  return false;
+
+}
+
+
+/* =========================================================
+   MODAL OUTSIDE CLICK
+   ========================================================= */
+
+[
+  "post-modal",
+  "guest-modal",
+  "tchan-modal",
+  "delete-modal"
+]
+.forEach(
+  function(id) {
+
+    const modal =
+      document.getElementById(id);
+
+
+    if (!modal)
+      return;
+
+
+    modal.addEventListener(
+      "click",
+      function(event) {
+
+        if (
+          event.target !==
+          modal
+        ) {
+
+          return;
+
+        }
+
+
+        if (
+          id ===
+          "post-modal"
+        ) {
+
+          closePostBox();
+
+        }
+
+
+        if (
+          id ===
+          "guest-modal"
+        ) {
+
+          closeGuestNotes();
+
+        }
+
+
+        if (
+          id ===
+          "tchan-modal"
+        ) {
+
+          closeTchanBox();
+
+        }
+
+
+        if (
+          id ===
+          "delete-modal"
+        ) {
+
+          closeDeleteBox();
+
+        }
+
+      }
+    );
+
+  }
 );
 
-box.appendChild(results);
-container.appendChild(box);
 
-});
+/* =========================================================
+   BANNER = HARD RESET
+   ========================================================= */
 
-}catch(error){
+const banner =
+  document.getElementById(
+    "banner"
+  );
 
-console.error(error);
-container.innerHTML="<p>couldn't load polls.</p>";
 
-}
+if (banner) {
 
-}
+  banner.addEventListener(
+    "click",
+    function() {
 
-async function votePoll(id,option){
+      location.reload();
 
-try{
-
-const response=await fetch(WORKER_URL+"/poll-vote",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-poll_id:id,
-option
-})
-
-});
-
-if(!response.ok)throw new Error(response.status);
-
-await loadPolls();
-
-}catch(error){
-
-console.error(error);
+    }
+  );
 
 }
 
+
+/* =========================================================
+   MUSIC AFTER USER INTERACTION
+   ========================================================= */
+
+function startMusicFromInteraction() {
+
+  if (musicStarted)
+    return;
+
+
+  if (
+    document.body.classList.contains(
+      "tchan-mode"
+    )
+  ) {
+
+    startTchanMusic();
+
+  } else {
+
+    startNormalMusic();
+
+  }
+
 }
 
-function addPostToPage(container,post,isTchan,pinned){
 
-const box=document.createElement("div");
-box.className="user-post";
-
-const username=document.createElement("strong");
-
-username.textContent=(post.username||"Tsukasachan")+":";
-
-box.appendChild(username);
-
-const deleteButton=document.createElement("button");
-
-deleteButton.className="post-delete";
-deleteButton.type="button";
-deleteButton.textContent="DELETE";
-
-deleteButton.onclick=()=>deletePost(
-post.id,
-isTchan,
-pinned
+document.addEventListener(
+  "click",
+  startMusicFromInteraction,
+  { once: true }
 );
 
-box.appendChild(deleteButton);
 
-const rawContent=post.content||"";
+document.addEventListener(
+  "keydown",
+  startMusicFromInteraction,
+  { once: true }
+);
 
-const parts=rawContent.split(/(\[IMAGE\][^\s]+)/g);
 
-parts.forEach(part=>{
+document.addEventListener(
+  "touchstart",
+  startMusicFromInteraction,
+  { once: true }
+);
 
-if(part.startsWith("[IMAGE]")){
 
-const imageUrl=part.substring(7).trim();
+/* =========================================================
+   START
+   ========================================================= */
 
-if(
-imageUrl.startsWith("http://")||
-imageUrl.startsWith("https://")
-){
+window.addEventListener(
+  "load",
+  function() {
 
-const link=document.createElement("a");
+    /*
+     * ALWAYS start in normal mode.
+     */
 
-link.className="image-link";
-link.href=imageUrl;
-link.target="_blank";
-link.rel="noopener noreferrer";
-link.textContent="image/site here";
+    document.body.classList.remove(
+      "tchan-mode"
+    );
 
-box.appendChild(link);
 
-}
+    applyNormalText();
 
-}else if(part){
 
-box.appendChild(document.createTextNode(part));
+    const intro =
+      document.getElementById(
+        "normal-intro"
+      );
 
-}
 
-});
+    if (intro) {
 
-if(post.created_at){
+      intro.style.display =
+        "block";
 
-const time=document.createElement("div");
+    }
 
-time.className="user-post-time";
 
-const date=new Date(post.created_at);
+    showPanel("posts");
 
-time.textContent=!isNaN(date.getTime())
-?date.toLocaleString()
-:post.created_at;
 
-box.appendChild(time);
+    loadNormalPosts();
+    loadPinnedPosts();
+    loadPolls();
+    loadGuestNotes();
 
-}
-
-container.appendChild(box);
-
-}
-
-async function deletePost(id,isTchan,pinned){
-
-const password=prompt("enter your post password to delete this:");
-
-if(password===null)return;
-
-if(!password.trim()){
-
-alert("password required.");
-return;
-
-}
-
-try{
-
-const response=await fetch(WORKER_URL+"/delete",{
-
-method:"DELETE",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-id:Number(id),
-tchan:Boolean(isTchan),
-pinned:Boolean(pinned),
-password:password.trim()
-})
-
-});
-
-const result=await response.json();
-
-if(response.status===401){
-
-alert("wrong password.");
-return;
-
-}
-
-if(!response.ok){
-
-alert(result.error||"couldn't delete post.");
-return;
-
-}
-
-if(isTchan){
-
-if(pinned){
-await loadTchanPinned();
-}else{
-await loadTchanPosts();
-}
-
-}else{
-
-if(pinned){
-await loadPinnedPosts();
-}else{
-await loadNormalPosts();
-}
-
-}
-
-}catch(error){
-
-console.error(error);
-alert("couldn't connect to the server.");
-
-}
-
-}
-
-function activateTchan(){
-
-document.body.classList.add("tchan-mode");
-
-document.getElementById("banner").src="darkangelbanner.jpeg";
-document.getElementById("profile-picture").src="madpfp.jpeg";
-
-applyTchanText();
-showPanel("posts");
-
-loadTchanPosts();
-loadTchanPinned();
-
-startTchanMusic();
-
-}
-
-function goHome(){
-
-document.body.classList.remove("tchan-mode");
-
-document.getElementById("banner").src="kangel.jpeg";
-document.getElementById("profile-picture").src="pfp.jpeg";
-
-applyNormalText();
-
-showPanel("posts");
-
-loadNormalPosts();
-loadPinnedPosts();
-loadPolls();
-loadGuestNotes();
-
-startNormalMusic();
-
-return false;
-
-}
-
-document.getElementById("post-modal").addEventListener("click",function(event){
-
-if(event.target===this)closePostBox();
-
-});
-
-document.getElementById("guest-modal").addEventListener("click",function(event){
-
-if(event.target===this)closeGuestNotes();
-
-});
-
-window.addEventListener("load",function(){
-
-document.body.classList.remove("tchan-mode");
-
-applyNormalText();
-showPanel("posts");
-
-loadNormalPosts();
-loadPinnedPosts();
-loadPolls();
-loadGuestNotes();
-
-});
-
-function startMusicFromInteraction(){
-
-if(musicStarted)return;
-
-if(document.body.classList.contains("tchan-mode")){
-startTchanMusic();
-}else{
-startNormalMusic();
-}
-
-}
-
-document.addEventListener("click",startMusicFromInteraction,{once:true});
-document.addEventListener("keydown",startMusicFromInteraction,{once:true});
-document.addEventListener("touchstart",startMusicFromInteraction,{once:true});
-
-document.getElementById("banner").addEventListener("click",function(){
-
-location.reload();
-
-});
+  }
+);
 
 </script>
 
