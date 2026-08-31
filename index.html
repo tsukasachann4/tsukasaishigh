@@ -1468,120 +1468,222 @@ function applyTchanText() {
 /* =====================================================
    TRANSLATION
    ===================================================== */
+/* ==================================================
+   JAPANESE TRANSLATION
+   ==================================================
 
-async function translateCurrentText() {
+   POST /translate
 
-  const text =
-    document
-      .getElementById(
-        "post-content"
-      )
-      .value
-      .trim();
+   The HTML sends:
+   {
+     "text": "your english text"
+   }
 
-  const preview =
-    document.getElementById(
-      "translation-preview"
-    );
+   The Worker sends that text to a
+   LibreTranslate-compatible server.
 
-  const button =
-    document.querySelector(
-      ".translate-button"
-    );
+   ================================================== */
 
-  if (!text) {
-
-    preview.textContent =
-      "write something first.";
-
-    preview.classList.add(
-      "visible"
-    );
-
-    return;
-  }
-
-  button.disabled =
-    true;
-
-  button.textContent =
-    "TRANSLATING...";
-
-  preview.textContent =
-    "translating...";
-
-  preview.classList.add(
-    "visible"
-  );
+if (
+  request.method === "POST" &&
+  path === "/translate"
+) {
 
   try {
 
-    const result =
-      await api(
-        "/translate",
-        {
-          method:"POST",
-          headers:{
-            "Content-Type":
-              "application/json"
-          },
-          body:
-            JSON.stringify({
-              text:text
-            })
-        }
-      );
+    const body =
+      await request.json();
 
-    if (!result.translated) {
+    const text =
+      String(
+        body?.text || ""
+      )
+      .trim()
+      .slice(0, 5000);
 
-      throw new Error(
-        result.error ||
-        "translation failed."
-      );
+
+    if (!text) {
+
+      return json({
+        translated: false,
+        error:
+          "No text to translate."
+      }, 400);
 
     }
 
-    preview.textContent =
-      result.translation;
+
+    /*
+     * Try the Argos OpenTech server first.
+     *
+     * This is the endpoint currently shown
+     * in the Argos Translate documentation.
+     */
+
+    const servers = [
+
+      "https://translate.argosopentech.com/translate",
+
+      "https://libretranslate.de/translate",
+
+      "https://libretranslate.pussthecat.org/translate",
+
+      "https://translate.terraprint.co/translate"
+
+    ];
+
+
+    let lastError =
+      "All translation servers failed.";
+
+
+    for (
+      const server of servers
+    ) {
+
+      try {
+
+        const response =
+          await fetch(
+            server,
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body:
+                JSON.stringify({
+
+                  q:
+                    text,
+
+                  source:
+                    "en",
+
+                  target:
+                    "ja",
+
+                  format:
+                    "text"
+
+                })
+            }
+          );
+
+
+        const raw =
+          await response.text();
+
+
+        let result =
+          {};
+
+        try {
+
+          result =
+            JSON.parse(raw);
+
+        } catch {
+
+          result =
+            {};
+
+        }
+
+
+        /*
+         * Normal LibreTranslate response:
+         *
+         * {
+         *   "translatedText": "..."
+         * }
+         */
+
+        const output =
+          String(
+            result?.translatedText ||
+            result?.translation ||
+            ""
+          )
+          .trim();
+
+
+        if (
+          response.ok &&
+          output
+        ) {
+
+          return json({
+
+            translated:
+              true,
+
+            translation:
+              output
+
+          });
+
+        }
+
+
+        /*
+         * Keep trying another server.
+         */
+
+        lastError =
+          result?.error ||
+          (
+            raw
+              ? raw.slice(0, 300)
+              : "Empty translation response."
+          );
+
+      } catch (error) {
+
+        lastError =
+          error?.message ||
+          "Translation server request failed.";
+
+      }
+
+    }
+
+
+    /*
+     * None of the servers worked.
+     */
+
+    return json({
+
+      translated:
+        false,
+
+      error:
+        "Translation service unavailable. " +
+        lastError
+
+    }, 502);
+
 
   } catch (error) {
 
-    preview.textContent =
-      error.message ||
-      "couldn't translate.";
+    return json({
 
-  } finally {
+      translated:
+        false,
 
-    button.disabled =
-      false;
+      error:
+        error?.message ||
+        "Translation failed."
 
-    button.textContent =
-      "日本語にする";
+    }, 500);
+
   }
 
 }
-
-
-function clearTranslationPreview() {
-
-  const preview =
-    document.getElementById(
-      "translation-preview"
-    );
-
-  if (preview) {
-
-    preview.textContent =
-      "";
-
-    preview.classList.remove(
-      "visible"
-    );
-  }
-
-}
-
-
 /* =====================================================
    POST MODAL
    ===================================================== */
