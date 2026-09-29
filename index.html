@@ -993,6 +993,110 @@ body.tchan-mode .translation-preview {
 
 }
 
+
+/* =========================================================
+   STORIES
+   ========================================================= */
+
+.story-board-button {
+  margin-bottom: 10px;
+  padding: 6px 12px;
+  background-color: #C9C2E8;
+  color: #808080;
+  border-top: 3px solid white;
+  border-left: 3px solid white;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
+}
+
+.story-board-button:hover {
+  background-color: #D8F3F5;
+}
+
+.story-card {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #FFF4FF;
+  border: 3px solid #D8F3F5;
+  overflow-wrap: anywhere;
+}
+
+.story-card-title {
+  margin-bottom: 6px;
+  color: #6F6675;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.story-card-preview {
+  margin-bottom: 8px;
+  color: #808080;
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  max-height: 90px;
+  overflow: hidden;
+}
+
+.story-card-date {
+  margin-bottom: 7px;
+  color: #999999;
+  font-size: 10px;
+}
+
+.story-card-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.story-card-buttons button {
+  padding: 5px 9px;
+  background-color: #C9C2E8;
+  color: #808080;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
+}
+
+.story-card-buttons button:hover {
+  background-color: #D8F3F5;
+}
+
+.story-text {
+  padding: 10px;
+  background-color: #FFF4FF;
+  border: 3px dashed #C9C2E8;
+  color: #5F5963;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.6;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+#story-title,
+#story-password {
+  margin-bottom: 8px;
+}
+
+#story-content {
+  min-height: 300px;
+  resize: vertical;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.story-modal-note {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 </style>
 </head>
 
@@ -1077,6 +1181,14 @@ PINNED STUFF
   onclick="showPanel('polls'); return false;">
 POLLS
 </a>
+
+<a
+  href="#"
+  id="tab-stories"
+  onclick="showPanel('stories'); loadStories(); return false;">
+STORIES
+</a>
+
 
 <a
   href="#"
@@ -1268,6 +1380,40 @@ POLLS
 
 <p>
 loading polls...
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- STORIES -->
+
+<section
+  id="panel-stories"
+  class="panel">
+
+<div class="section-title">
+STORIES
+</div>
+
+<button
+  class="story-board-button"
+  type="button"
+  onclick="openStoryCreate()">
+
+NEW STORY
+
+</button>
+
+<div class="panel-scroll">
+
+<div id="stories-container">
+
+<p>
+loading stories...
 </p>
 
 </div>
@@ -1643,6 +1789,107 @@ CANCEL
 
 ENTER
 
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =======================================================
+     STORY EDITOR MODAL
+     ======================================================= -->
+
+<div
+  id="story-editor-modal"
+  class="post-modal">
+
+<div class="post-window">
+
+<div
+  id="story-editor-title"
+  class="post-window-title">
+write a story
+</div>
+
+<input
+  type="text"
+  id="story-title"
+  maxlength="200"
+  placeholder="story name">
+
+<textarea
+  id="story-content"
+  maxlength="50000"
+  placeholder="write your story..."></textarea>
+
+<p class="story-modal-note">
+Your password is required to edit or delete this story later.<br>
+Keep it somewhere safe. There is no password recovery.
+</p>
+
+<input
+  type="password"
+  id="story-password"
+  maxlength="200"
+  placeholder="story password">
+
+<p id="story-editor-message"></p>
+
+<div class="post-window-buttons">
+
+<button
+  type="button"
+  onclick="closeStoryEditor()">
+CANCEL
+</button>
+
+<button
+  type="button"
+  id="story-editor-save-button"
+  onclick="saveStory()">
+SAVE STORY
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =======================================================
+     STORY READ MODAL
+     ======================================================= -->
+
+<div
+  id="story-read-modal"
+  class="post-modal">
+
+<div class="post-window">
+
+<div
+  id="story-read-title"
+  class="post-window-title">
+story
+</div>
+
+<div
+  id="story-read-text"
+  class="story-text"></div>
+
+<p
+  id="story-read-date"
+  class="story-modal-note"></p>
+
+<div class="post-window-buttons">
+
+<button
+  type="button"
+  onclick="closeStoryRead()">
+CLOSE
 </button>
 
 </div>
@@ -4729,6 +4976,358 @@ function goHome() {
 
 
 /* =========================================================
+   STORIES
+   ========================================================= */
+
+let editingStoryId = null;
+
+
+function openStoryCreate() {
+
+  editingStoryId = null;
+
+  document.getElementById("story-editor-title").textContent =
+    "write a story";
+
+  document.getElementById("story-title").value = "";
+  document.getElementById("story-content").value = "";
+  document.getElementById("story-password").value = "";
+  document.getElementById("story-editor-message").textContent = "";
+  document.getElementById("story-editor-save-button").textContent =
+    "SAVE STORY";
+
+  document.getElementById("story-editor-modal").style.display = "flex";
+
+  document.getElementById("story-title").focus();
+
+}
+
+
+function openStoryEdit(story) {
+
+  editingStoryId = Number(story.id);
+
+  document.getElementById("story-editor-title").textContent =
+    "edit story";
+
+  document.getElementById("story-title").value =
+    story.title || "";
+
+  document.getElementById("story-content").value =
+    story.content || "";
+
+  document.getElementById("story-password").value = "";
+
+  document.getElementById("story-editor-message").textContent =
+    "enter this story's password to save changes.";
+
+  document.getElementById("story-editor-save-button").textContent =
+    "SAVE CHANGES";
+
+  document.getElementById("story-editor-modal").style.display = "flex";
+
+  document.getElementById("story-password").focus();
+
+}
+
+
+function closeStoryEditor() {
+
+  document.getElementById("story-editor-modal").style.display = "none";
+  editingStoryId = null;
+
+}
+
+
+async function saveStory() {
+
+  const title =
+    document.getElementById("story-title").value.trim();
+
+  const content =
+    document.getElementById("story-content").value.trim();
+
+  const password =
+    document.getElementById("story-password").value;
+
+  const message =
+    document.getElementById("story-editor-message");
+
+  if (!title) {
+    message.textContent = "give your story a name.";
+    return;
+  }
+
+  if (!content) {
+    message.textContent = "your story is empty.";
+    return;
+  }
+
+  if (password.length < 4) {
+    message.textContent = "your story password needs at least 4 characters.";
+    return;
+  }
+
+  const button =
+    document.getElementById("story-editor-save-button");
+
+  button.disabled = true;
+  message.textContent =
+    editingStoryId === null
+      ? "saving story..."
+      : "saving changes...";
+
+  try {
+
+    if (editingStoryId === null) {
+
+      await api(
+        "/stories",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            title: title,
+            content: content,
+            password: password
+          })
+        }
+      );
+
+    } else {
+
+      await api(
+        "/stories",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            id: editingStoryId,
+            title: title,
+            content: content,
+            password: password
+          })
+        }
+      );
+
+    }
+
+    closeStoryEditor();
+    await loadStories();
+
+  } catch (error) {
+
+    if (error.status === 401) {
+      message.textContent = "wrong story password.";
+    } else {
+      message.textContent =
+        error.message || "couldn't save story.";
+    }
+
+  } finally {
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+function openStoryRead(story) {
+
+  document.getElementById("story-read-title").textContent =
+    story.title || "story";
+
+  document.getElementById("story-read-text").textContent =
+    story.content || "";
+
+  const date =
+    story.updated_at ||
+    story.created_at ||
+    "";
+
+  document.getElementById("story-read-date").textContent =
+    date ? "last updated: " + date : "";
+
+  document.getElementById("story-read-modal").style.display = "flex";
+
+}
+
+
+function closeStoryRead() {
+
+  document.getElementById("story-read-modal").style.display = "none";
+
+}
+
+
+async function deleteStory(story) {
+
+  const password =
+    window.prompt(
+      "enter this story's password to delete it:"
+    );
+
+  if (password === null) {
+    return;
+  }
+
+  if (!password) {
+    return;
+  }
+
+  try {
+
+    await api(
+      "/stories",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          id: Number(story.id),
+          password: password
+        })
+      }
+    );
+
+    await loadStories();
+
+  } catch (error) {
+
+    if (error.status === 401) {
+      window.alert("wrong story password.");
+    } else {
+      window.alert(
+        error.message || "couldn't delete story."
+      );
+    }
+
+  }
+
+}
+
+
+async function loadStories() {
+
+  const container =
+    document.getElementById("stories-container");
+
+  if (!container) {
+    return;
+  }
+
+  container.innerHTML = "<p>loading stories...</p>";
+
+  try {
+
+    const stories =
+      await api("/stories");
+
+    container.innerHTML = "";
+
+    if (!Array.isArray(stories) || !stories.length) {
+
+      container.innerHTML =
+        "<p>no stories yet. write the first one.</p>";
+
+      return;
+
+    }
+
+    stories.forEach(
+      story => {
+
+        const card =
+          document.createElement("article");
+
+        card.className = "story-card";
+
+        const title =
+          document.createElement("div");
+
+        title.className = "story-card-title";
+        title.textContent = story.title || "untitled story";
+
+        const preview =
+          document.createElement("div");
+
+        preview.className = "story-card-preview";
+        preview.textContent = story.content || "";
+
+        const date =
+          document.createElement("div");
+
+        date.className = "story-card-date";
+        date.textContent =
+          story.updated_at
+            ? "updated: " + story.updated_at
+            : "";
+
+        const buttons =
+          document.createElement("div");
+
+        buttons.className = "story-card-buttons";
+
+        const readButton =
+          document.createElement("button");
+
+        readButton.type = "button";
+        readButton.textContent = "READ";
+        readButton.onclick = () =>
+          openStoryRead(story);
+
+        const editButton =
+          document.createElement("button");
+
+        editButton.type = "button";
+        editButton.textContent = "EDIT";
+        editButton.onclick = () =>
+          openStoryEdit(story);
+
+        const deleteButton =
+          document.createElement("button");
+
+        deleteButton.type = "button";
+        deleteButton.textContent = "DELETE";
+        deleteButton.onclick = () =>
+          deleteStory(story);
+
+        buttons.appendChild(readButton);
+        buttons.appendChild(editButton);
+        buttons.appendChild(deleteButton);
+
+        card.appendChild(title);
+        card.appendChild(preview);
+        card.appendChild(date);
+        card.appendChild(buttons);
+
+        container.appendChild(card);
+
+      }
+    );
+
+  } catch (error) {
+
+    console.error(
+      "STORIES ERROR:",
+      error
+    );
+
+    container.innerHTML =
+      "<p>couldn't load stories.</p>";
+
+  }
+
+}
+
+
+/* =========================================================
    MODAL OUTSIDE CLICK
    ========================================================= */
 
@@ -4736,7 +5335,9 @@ function goHome() {
   "post-modal",
   "guest-modal",
   "delete-modal",
-  "tchan-modal"
+  "tchan-modal",
+  "story-editor-modal",
+  "story-read-modal"
 ]
 .forEach(
   id => {
@@ -4806,6 +5407,24 @@ function goHome() {
         ) {
 
           closeTchanBox();
+
+        }
+
+        if (
+          id ===
+          "story-editor-modal"
+        ) {
+
+          closeStoryEditor();
+
+        }
+
+        if (
+          id ===
+          "story-read-modal"
+        ) {
+
+          closeStoryRead();
 
         }
 
@@ -4922,6 +5541,8 @@ window.addEventListener(
     loadPolls();
 
     loadGuestNotes();
+
+    loadStories();
 
   }
 );
