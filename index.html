@@ -5728,6 +5728,7 @@ async function loadStories() {
    ========================================================= */
 
 let currentChatThread = null;
+let currentChatThreadPassword = "";
 let chatRefreshTimer = null;
 
 function chatStorageKey(threadId, key) {
@@ -5735,30 +5736,28 @@ function chatStorageKey(threadId, key) {
 }
 
 function getJoinedChat(threadId) {
-  try {
-    const raw = localStorage.getItem(
-      chatStorageKey(threadId, "membership")
-    );
-    return raw ? JSON.parse(raw) : null;
-  } catch (error) {
-    return null;
-  }
+  return localStorage.getItem(
+    chatStorageKey(threadId, "joined")
+  ) === "true";
 }
 
-function setJoinedChat(threadId, membership) {
+function setJoinedChat(threadId) {
   localStorage.setItem(
-    chatStorageKey(threadId, "membership"),
-    JSON.stringify(membership)
+    chatStorageKey(threadId, "joined"),
+    "true"
   );
 }
 
 function clearJoinedChat(threadId) {
   localStorage.removeItem(
-    chatStorageKey(threadId, "membership")
+    chatStorageKey(threadId, "joined")
   );
 }
 
 function openChatCreate() {
+  currentChatThread = null;
+  currentChatThreadPassword = "";
+
   document.getElementById("chat-thread-modal-title").textContent =
     "new chat thread";
 
@@ -5780,8 +5779,7 @@ function openChatCreate() {
 
 function openChatThread(thread) {
   currentChatThread = thread;
-
-  const joined = getJoinedChat(thread.id);
+  currentChatThreadPassword = "";
 
   document.getElementById("chat-thread-modal-title").textContent =
     thread.name || "chat thread";
@@ -5801,7 +5799,7 @@ function openChatThread(thread) {
   const primary = document.getElementById("chat-thread-primary-button");
   const secondary = document.getElementById("chat-thread-secondary-button");
 
-  if (joined && joined.token) {
+  if (getJoinedChat(thread.id)) {
     primary.textContent = "OPEN CHAT";
     primary.onclick = () => openCurrentChat();
     secondary.style.display = "inline-block";
@@ -5816,7 +5814,6 @@ function openChatThread(thread) {
 
 function closeChatThreadModal() {
   document.getElementById("chat-thread-modal").style.display = "none";
-  currentChatThread = null;
 }
 
 async function createChatThread() {
@@ -5852,11 +5849,14 @@ async function createChatThread() {
       })
     });
 
-    if (result && result.thread) {
-      currentChatThread = result.thread;
-      if (result.membership) {
-        setJoinedChat(result.thread.id, result.membership);
-      }
+    if (result && result.id) {
+      currentChatThread = {
+        id: result.id,
+        name: name,
+        description: description
+      };
+      currentChatThreadPassword = password;
+      setJoinedChat(result.id);
     }
 
     closeChatThreadModal();
@@ -5888,7 +5888,7 @@ async function joinChatThread() {
   message.textContent = "joining...";
 
   try {
-    const result = await api("/chat-threads/join", {
+    const result = await api("/chat-thread-access", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -5899,7 +5899,13 @@ async function joinChatThread() {
       })
     });
 
-    setJoinedChat(currentChatThread.id, result.membership);
+    if (!result.allowed) {
+      throw new Error("wrong thread password.");
+    }
+
+    currentChatThreadPassword = password;
+    setJoinedChat(currentChatThread.id);
+
     document.getElementById("chat-thread-secondary-button").style.display = "inline-block";
     button.textContent = "OPEN CHAT";
     button.onclick = () => openCurrentChat();
@@ -5918,28 +5924,8 @@ async function joinChatThread() {
 async function leaveChatThread() {
   if (!currentChatThread) return;
 
-  const membership = getJoinedChat(currentChatThread.id);
-
-  if (!membership || !membership.token) {
-    return;
-  }
-
-  try {
-    await api("/chat-threads/leave", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        thread_id: Number(currentChatThread.id),
-        token: membership.token
-      })
-    });
-  } catch (error) {
-    console.error("CHAT LEAVE ERROR:", error);
-  }
-
   clearJoinedChat(currentChatThread.id);
+  currentChatThreadPassword = "";
   closeChatThreadModal();
   await loadChatThreads();
 }
@@ -5947,9 +5933,13 @@ async function leaveChatThread() {
 function openCurrentChat() {
   if (!currentChatThread) return;
 
-  const membership = getJoinedChat(currentChatThread.id);
+  if (!getJoinedChat(currentChatThread.id)) {
+    openChatThread(currentChatThread);
+    return;
+  }
 
-  if (!membership || !membership.token) {
+  if (!currentChatThreadPassword) {
+    closeChatThreadModal();
     openChatThread(currentChatThread);
     return;
   }
@@ -5963,6 +5953,7 @@ function openCurrentChat() {
   document.getElementById("chat-send-message").textContent = "";
   document.getElementById("chat-window-modal").style.display = "flex";
 
+  closeChatThreadModal();
   loadChatMessages();
 
   clearInterval(chatRefreshTimer);
@@ -5978,8 +5969,48 @@ function closeChatWindow() {
 async function leaveCurrentChat() {
   if (!currentChatThread) return;
 
+  clearJoinedChat(currentChatThread.id);
+  currentChatThreadPassword = "";
   closeChatWindow();
-  await leaveChatThread();
+  await loadChatThreads();
+}
+
+async function deleteChatThread(thread) {
+  const password = prompt(
+    "enter the thread password, velve1cake, or the TCHAN posting password to delete this thread:"
+  );
+
+  if (password === null) return;
+
+  try {
+    await api("/chat-threads", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        thread_id: Number(thread.id),
+        password: password
+      })
+    });
+
+    if (currentChatThread && Number(currentChatThread.id) === Number(thread.id)) {
+      closeChatWindow();
+      closeChatThreadModal();
+      currentChatThread = null;
+      currentChatThreadPassword = "";
+    }
+
+    clearJoinedChat(thread.id);
+    await loadChatThreads();
+
+  } catch (error) {
+    alert(
+      error.status === 401
+        ? "wrong thread deletion password."
+        : (error.message || "couldn't delete thread.")
+    );
+  }
 }
 
 async function loadChatThreads() {
@@ -6011,10 +6042,7 @@ async function loadChatThreads() {
 
       const meta = document.createElement("div");
       meta.className = "chat-thread-meta";
-      meta.textContent =
-        (Number(thread.member_count || 0) + " members") +
-        " · " +
-        (Number(thread.message_count || 0) + " messages");
+      meta.textContent = thread.created_at || "";
 
       const buttons = document.createElement("div");
       buttons.className = "chat-thread-buttons";
@@ -6024,7 +6052,13 @@ async function loadChatThreads() {
       open.textContent = "OPEN";
       open.onclick = () => openChatThread(thread);
 
+      const del = document.createElement("button");
+      del.type = "button";
+      del.textContent = "DELETE";
+      del.onclick = () => deleteChatThread(thread);
+
       buttons.appendChild(open);
+      buttons.appendChild(del);
       card.appendChild(title);
       card.appendChild(description);
       card.appendChild(meta);
@@ -6034,24 +6068,24 @@ async function loadChatThreads() {
 
   } catch (error) {
     console.error("CHAT THREADS ERROR:", error);
-    container.innerHTML = "<p>couldn't load chat threads.</p>";
+    container.innerHTML =
+      "<p>couldn't load chat threads.</p>" +
+      `<p style="font-size:10px">${escapeHtml(error.message)}</p>`;
   }
 }
 
 async function loadChatMessages() {
-  if (!currentChatThread) return;
+  if (!currentChatThread || !currentChatThreadPassword) return;
 
-  const membership = getJoinedChat(currentChatThread.id);
   const container = document.getElementById("chat-messages");
-
-  if (!membership || !membership.token || !container) return;
+  if (!container) return;
 
   try {
     const messages = await api(
-      "/chat-threads/messages?thread_id=" +
+      "/chat-messages?thread_id=" +
       encodeURIComponent(currentChatThread.id) +
-      "&token=" +
-      encodeURIComponent(membership.token)
+      "&password=" +
+      encodeURIComponent(currentChatThreadPassword)
     );
 
     const wasNearBottom =
@@ -6107,19 +6141,13 @@ async function loadChatMessages() {
 }
 
 async function sendChatMessage() {
-  if (!currentChatThread) return;
+  if (!currentChatThread || !currentChatThreadPassword) return;
 
-  const membership = getJoinedChat(currentChatThread.id);
   const username = document.getElementById("chat-name-input").value.trim();
   const password = document.getElementById("chat-name-password").value;
   const content = document.getElementById("chat-message-input").value.trim();
   const message = document.getElementById("chat-send-message");
   const button = document.querySelector("#chat-window-modal .post-window-buttons button:last-child");
-
-  if (!membership || !membership.token) {
-    message.textContent = "you need to join this thread first.";
-    return;
-  }
 
   if (!username) {
     message.textContent = "choose a name first.";
@@ -6140,14 +6168,25 @@ async function sendChatMessage() {
   message.textContent = "sending...";
 
   try {
-    await api("/chat-threads/messages", {
+    await api("/chat-username", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    });
+
+    await api("/chat-messages", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         thread_id: Number(currentChatThread.id),
-        token: membership.token,
+        thread_password: currentChatThreadPassword,
         username: username,
         password: password,
         content: content
@@ -6168,13 +6207,12 @@ async function sendChatMessage() {
   } catch (error) {
     message.textContent =
       error.status === 401
-        ? "wrong name password."
+        ? (error.message || "wrong name or thread password.")
         : (error.message || "couldn't send message.");
   } finally {
     button.disabled = false;
   }
 }
-
 
 /* =========================================================
    MODAL OUTSIDE CLICK
