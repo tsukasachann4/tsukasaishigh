@@ -885,6 +885,13 @@ body.tchan-mode .translate-button {
   border-color: #ff0000 !important;
 }
 
+body.tchan-mode #tab-music,
+body.tchan-mode #tab-guest,
+body.tchan-mode #panel-music,
+body.tchan-mode #panel-guest {
+  display: none !important;
+}
+
 body.tchan-mode nav a:hover,
 body.tchan-mode nav a.active,
 body.tchan-mode .poll-option:hover,
@@ -1122,9 +1129,24 @@ body.tchan-mode .translation-preview {
   overflow-wrap: anywhere;
 }
 
-.music-player-box audio {
-  width: 100%;
+
+.music-stop-button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  background-color: #C9C2E8;
+  color: #808080;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
 }
+
+.music-stop-button:hover {
+  background-color: #D8F3F5;
+}
+
 
 .music-list {
   display: flex;
@@ -1354,16 +1376,33 @@ body.tchan-mode .translation-preview {
      MUSIC
      ======================================================= -->
 
+<!-- =======================================================
+     EDIT THIS LIST TO ADD / REMOVE NORMAL-MODE MUSIC
+
+     Put the MP3 filename or path between the quotes.
+     Example:
+       "startour.mp3",
+       "schoolday4.mp3",
+       "music/my-song.mp3"
+
+     The MUSIC board below will show exactly these files.
+     ======================================================= -->
+<script>
+const MUSIC_FILES = {
+  "happyver.mp3": "startour",
+  "madver.mp3": "schoolday4"
+};
+</script>
+
 <audio
   id="normal-music"
-  src="startour.mp3"
   loop
   preload="auto">
 </audio>
 
 <audio
   id="tchan-music"
-  src="schoolday4.mp3"
+  src="https://raw.githubusercontent.com/tsukasachann4/tsukasaishigh/main/schoolday4.mp3"
   loop
   preload="auto">
 </audio>
@@ -1693,7 +1732,7 @@ MUSIC
 </div>
 
 <p class="music-board-note">
-Choose the music for normal mode. Every MP3 in the repository can be used here.
+Choose the music for normal mode. The MP3 files listed in the MUSIC_FILES section of this HTML can be used here.
 </p>
 
 <div class="music-player-box">
@@ -1704,12 +1743,12 @@ Choose the music for normal mode. Every MP3 in the repository can be used here.
 now playing: startour
 </div>
 
-<audio
-  id="music-board-player"
-  controls
-  loop
-  preload="metadata">
-</audio>
+<button
+  type="button"
+  class="music-stop-button"
+  onclick="stopCurrentMusic()">
+STOP MUSIC
+</button>
 
 </div>
 
@@ -2517,62 +2556,79 @@ const tchanMusic =
     "tchan-music"
   );
 
-const musicBoardPlayer =
-  document.getElementById(
-    "music-board-player"
-  );
+let musicStarted = false;
 
-const GITHUB_REPO =
-  "tsukasachann4/tsukasaishigh";
+let musicFiles =
+  MUSIC_FILES &&
+  typeof MUSIC_FILES === "object" &&
+  !Array.isArray(MUSIC_FILES)
+    ? Object.entries(MUSIC_FILES)
+        .map(([file, name]) => ({
+          file: String(file || "").trim(),
+          name: String(name || "").trim()
+        }))
+        .filter(entry =>
+          entry.file &&
+          /\.mp3$/i.test(entry.file)
+        )
+    : [];
 
-const GITHUB_BRANCH =
-  "main";
-
-let musicStarted =
-  false;
-
-let musicFiles = [];
-
-let filteredMusicFiles = [];
+let filteredMusicFiles =
+  [...musicFiles];
 
 let selectedNormalMusic =
   localStorage.getItem(
     "tsukasa_normal_music"
   ) ||
-  "startour.mp3";
+  musicFiles[0]?.file ||
+  "";
 
-
-function musicRawUrl(path) {
-
-  return
-    "https://raw.githubusercontent.com/" +
-    GITHUB_REPO +
-    "/" +
-    GITHUB_BRANCH +
-    "/" +
-    path
-      .split("/")
-      .map(encodeURIComponent)
-      .join("/");
-
+// If an old saved song was removed from MUSIC_FILES, use the first listed song.
+if (
+  selectedNormalMusic &&
+  !musicFiles.some(entry => entry.file === selectedNormalMusic)
+) {
+  selectedNormalMusic =
+    musicFiles[0]?.file ||
+    "";
 }
 
+function musicUrl(path) {
+  // MP3 files are stored in the GitHub repository listed below.
+  // Keeping the filenames in MUSIC_FILES makes the music list easy to edit,
+  // while this URL makes sure the browser actually receives the MP3 bytes.
+  const cleanPath = String(path || "")
+    .trim()
+    .replace(/^\/+/, "");
+
+  return "https://raw.githubusercontent.com/tsukasachann4/tsukasaishigh/main/" +
+    cleanPath
+      .split("/")
+      .map(part => encodeURIComponent(part))
+      .join("/");
+}
 
 function musicDisplayName(path) {
+  const entry =
+    musicFiles.find(item => item.file === path);
+
+  if (entry?.name) {
+    return entry.name;
+  }
 
   const filename =
-    path.split("/").pop() || path;
+    String(path || "").split("/").pop() || path;
 
   return filename.replace(
     /\.mp3$/i,
     ""
   );
-
 }
 
-
-function setNormalMusic(path, shouldPlay = true) {
-
+function setNormalMusic(
+  path,
+  shouldPlay = true
+) {
   if (!path) return;
 
   selectedNormalMusic = path;
@@ -2582,26 +2638,16 @@ function setNormalMusic(path, shouldPlay = true) {
     path
   );
 
-  normalMusic.src =
-    musicRawUrl(path);
+  const source = musicUrl(path);
 
+  normalMusic.src = source;
   normalMusic.load();
 
-  if (
-    musicBoardPlayer
-  ) {
-
-    musicBoardPlayer.src =
-      musicRawUrl(path);
-
-    musicBoardPlayer.load();
-
-  }
 
   updateMusicBoard();
+  renderMusicLibrary();
 
   if (shouldPlay) {
-
     normalMusic.volume = 0.7;
 
     normalMusic
@@ -2609,18 +2655,31 @@ function setNormalMusic(path, shouldPlay = true) {
       .then(() => {
         musicStarted = true;
       })
-      .catch(() => {});
-
+      .catch(error => {
+        console.warn(
+          "NORMAL MUSIC PLAY ERROR:",
+          error
+        );
+      });
   }
+}
 
+function stopCurrentMusic() {
+  normalMusic.pause();
+  normalMusic.currentTime = 0;
+  tchanMusic.pause();
+  tchanMusic.currentTime = 0;
+  musicStarted = false;
 }
 
 
 function startNormalMusic() {
-
   tchanMusic.pause();
-
   tchanMusic.currentTime = 0;
+
+  if (!selectedNormalMusic) {
+    return;
+  }
 
   normalMusic.volume = 0.7;
 
@@ -2630,12 +2689,9 @@ function startNormalMusic() {
       musicStarted = true;
     })
     .catch(() => {});
-
 }
 
-
 function startTchanMusic() {
-
   normalMusic.pause();
   normalMusic.currentTime = 0;
 
@@ -2647,106 +2703,27 @@ function startTchanMusic() {
       musicStarted = true;
     })
     .catch(() => {});
-
 }
 
-
 function updateMusicBoard() {
-
   const nowPlaying =
     document.getElementById(
       "music-now-playing"
     );
 
   if (nowPlaying) {
-
     nowPlaying.textContent =
-      "now playing: " +
-      musicDisplayName(
-        selectedNormalMusic
-      );
-
-  }
-
-  if (!musicBoardPlayer) return;
-
-  musicBoardPlayer.src =
-    musicRawUrl(selectedNormalMusic);
-
-}
-
-
-async function loadMusicLibrary() {
-
-  const list =
-    document.getElementById(
-      "music-list"
-    );
-
-  if (!list) return;
-
-  list.innerHTML =
-    "<p>loading music...</p>";
-
-  try {
-
-    let response =
-      await fetch(
-        "https://api.github.com/repos/" +
-        GITHUB_REPO +
-        "/git/trees/" +
-        GITHUB_BRANCH +
-        "?recursive=1"
-      );
-
-    if (!response.ok) {
-      throw new Error(
-        "couldn't read the repository music list."
-      );
-    }
-
-    const data =
-      await response.json();
-
-    musicFiles =
-      Array.isArray(data.tree)
-        ? data.tree
-            .filter(item =>
-              item.type === "blob" &&
-              /\.mp3$/i.test(item.path)
-            )
-            .map(item => item.path)
-            .sort((a, b) =>
-              a.localeCompare(b, undefined, {
-                numeric: true,
-                sensitivity: "base"
-              })
-            )
-        : [];
-
-    filteredMusicFiles =
-      [...musicFiles];
-
-    updateMusicBoard();
-    renderMusicLibrary();
-
-  } catch (error) {
-
-    console.error(
-      "MUSIC LIBRARY ERROR:",
-      error
-    );
-
-    list.innerHTML =
-      "<p>couldn't load the music library.</p>";
-
+      selectedNormalMusic
+        ? "now playing: " +
+          musicDisplayName(
+            selectedNormalMusic
+          )
+        : "no music selected";
   }
 
 }
-
 
 function filterMusicLibrary() {
-
   const search =
     document
       .getElementById("music-search")
@@ -2755,22 +2732,19 @@ function filterMusicLibrary() {
       .toLowerCase() || "";
 
   filteredMusicFiles =
-    musicFiles.filter(path =>
-      musicDisplayName(path)
+    musicFiles.filter(entry =>
+      musicDisplayName(entry.file)
         .toLowerCase()
         .includes(search) ||
-      path
+      entry.file
         .toLowerCase()
         .includes(search)
     );
 
   renderMusicLibrary();
-
 }
 
-
 function renderMusicLibrary() {
-
   const list =
     document.getElementById(
       "music-list"
@@ -2781,15 +2755,13 @@ function renderMusicLibrary() {
   list.innerHTML = "";
 
   if (!filteredMusicFiles.length) {
-
     list.innerHTML =
-      "<p>no matching MP3s found.</p>";
-
+      "<p>no MP3 files added to MUSIC_FILES yet.</p>";
     return;
-
   }
 
-  filteredMusicFiles.forEach(path => {
+  filteredMusicFiles.forEach(entry => {
+    const path = entry.file;
 
     const item =
       document.createElement("div");
@@ -2820,20 +2792,23 @@ function renderMusicLibrary() {
 
     button.onclick = () => {
       setNormalMusic(path, true);
-      renderMusicLibrary();
     };
 
     item.appendChild(name);
     item.appendChild(button);
     list.appendChild(item);
-
   });
-
 }
 
+function loadMusicLibrary() {
+  filteredMusicFiles =
+    [...musicFiles];
+
+  updateMusicBoard();
+  renderMusicLibrary();
+}
 
 function startMusicFromInteraction() {
-
   if (musicStarted) {
     return;
   }
@@ -2843,15 +2818,10 @@ function startMusicFromInteraction() {
       "tchan-mode"
     )
   ) {
-
     startTchanMusic();
-
   } else {
-
     startNormalMusic();
-
   }
-
 }
 
 
@@ -5004,6 +4974,8 @@ function activateTchan() {
 
   applyTchanText();
 
+  document.querySelector("#panel-stories .section-title").textContent = "TCHAN STORIES";
+  document.querySelector("#panel-chat-threads .section-title").textContent = "TCHAN CHAT THREADS";
 
   document.getElementById(
     "normal-intro"
@@ -5032,7 +5004,13 @@ function activateTchan() {
 
   loadTchanPinned();
 
+  closeChatWindow();
+  closeChatThreadModal();
+
   loadTchanPolls();
+
+  document.getElementById("stories-container").innerHTML = "<p>loading secret stories...</p>";
+  document.getElementById("chat-threads-container").innerHTML = "<p>loading secret chat threads...</p>";
 
   startTchanMusic();
 
@@ -5766,6 +5744,10 @@ function goHome() {
 
   applyNormalText();
 
+  document.querySelector("#panel-stories .section-title").textContent = "STORIES";
+  document.querySelector("#panel-chat-threads .section-title").textContent = "CHAT THREADS";
+  closeChatWindow();
+  closeChatThreadModal();
 
   document.getElementById(
     "normal-intro"
@@ -5922,7 +5904,8 @@ async function saveStory() {
           body: JSON.stringify({
             title: title,
             content: content,
-            password: password
+            password: password,
+            tchan: document.body.classList.contains("tchan-mode")
           })
         }
       );
@@ -5940,7 +5923,8 @@ async function saveStory() {
             id: editingStoryId,
             title: title,
             content: content,
-            password: password
+            password: password,
+            tchan: document.body.classList.contains("tchan-mode")
           })
         }
       );
@@ -6022,7 +6006,8 @@ async function deleteStory(story) {
         },
         body: JSON.stringify({
           id: Number(story.id),
-          password: password
+          password: password,
+          tchan: document.body.classList.contains("tchan-mode")
         })
       }
     );
@@ -6058,7 +6043,10 @@ async function loadStories() {
   try {
 
     const stories =
-      await api("/stories");
+      await api(
+        "/stories" +
+        (document.body.classList.contains("tchan-mode") ? "?tchan=1" : "")
+      );
 
     container.innerHTML = "";
 
@@ -6168,7 +6156,8 @@ let currentChatThread = null;
 let chatRefreshTimer = null;
 
 function chatStorageKey(threadId, key) {
-  return "chat_thread_" + threadId + "_" + key;
+  const mode = document.body.classList.contains("tchan-mode") ? "tchan" : "normal";
+  return "chat_thread_" + mode + "_" + threadId + "_" + key;
 }
 
 function getJoinedChat(threadId) {
@@ -6289,7 +6278,8 @@ async function createChatThread() {
       body: JSON.stringify({
         name: name,
         description: description,
-        password: password
+        password: password,
+        tchan: document.body.classList.contains("tchan-mode")
       })
     });
 
@@ -6336,7 +6326,8 @@ async function joinChatThread() {
       },
       body: JSON.stringify({
         thread_id: Number(currentChatThread.id),
-        password: password
+        password: password,
+        tchan: document.body.classList.contains("tchan-mode")
       })
     });
 
@@ -6391,7 +6382,8 @@ async function deleteChatThread() {
       },
       body: JSON.stringify({
         thread_id: threadId,
-        password: password
+        password: password,
+        tchan: document.body.classList.contains("tchan-mode")
       })
     });
 
@@ -6426,7 +6418,8 @@ async function leaveChatThread() {
       },
       body: JSON.stringify({
         thread_id: Number(currentChatThread.id),
-        token: membership.token
+        token: membership.token,
+        tchan: document.body.classList.contains("tchan-mode")
       })
     });
   } catch (error) {
@@ -6549,7 +6542,10 @@ async function loadChatThreads() {
   container.innerHTML = "<p>loading chat threads...</p>";
 
   try {
-    const threads = await api("/chat-threads");
+    const threads = await api(
+      "/chat-threads" +
+      (document.body.classList.contains("tchan-mode") ? "?tchan=1" : "")
+    );
     chatThreads = Array.isArray(threads) ? threads : [];
 
     if (!chatThreads.length) {
@@ -6578,7 +6574,8 @@ async function loadChatMessages() {
       "/chat-threads/messages?thread_id=" +
       encodeURIComponent(currentChatThread.id) +
       "&token=" +
-      encodeURIComponent(membership.token)
+      encodeURIComponent(membership.token) +
+      (document.body.classList.contains("tchan-mode") ? "&tchan=1" : "")
     );
 
     const wasNearBottom =
@@ -6677,7 +6674,8 @@ async function sendChatMessage() {
         token: membership.token,
         username: username,
         password: password,
-        content: content
+        content: content,
+        tchan: document.body.classList.contains("tchan-mode")
       })
     });
 
