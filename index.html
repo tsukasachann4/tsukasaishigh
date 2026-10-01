@@ -1097,6 +1097,177 @@ body.tchan-mode .translation-preview {
   line-height: 1.5;
 }
 
+
+/* =========================================================
+   CHAT THREADS
+   ========================================================= */
+
+.chat-thread-board-title {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 3px dashed #C9C2E8;
+  margin-bottom: 8px;
+  color: #6F6675;
+  font-weight: bold;
+}
+
+.chat-thread-card {
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #FEE8FF;
+  border: 3px solid #D8F3F5;
+  overflow-wrap: anywhere;
+}
+
+.chat-thread-title {
+  margin-bottom: 5px;
+  color: #6F6675;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.chat-thread-description {
+  max-height: 75px;
+  overflow-y: auto;
+  margin-bottom: 8px;
+  color: #808080;
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.chat-thread-meta {
+  margin-bottom: 7px;
+  color: #999999;
+  font-size: 10px;
+}
+
+.chat-thread-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chat-thread-buttons button,
+.chat-button {
+  padding: 5px 9px;
+  background-color: #C9C2E8;
+  color: #808080;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  font-family: "Pixel Operator", monospace;
+  cursor: pointer;
+}
+
+.chat-thread-buttons button:hover,
+.chat-button:hover {
+  background-color: #D8F3F5;
+}
+
+.chat-thread-list-note {
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.chat-description-box {
+  max-height: 130px;
+  overflow-y: auto;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #FFF4FF;
+  border: 3px dashed #C9C2E8;
+  color: #5F5963;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.chat-window-modal .post-window {
+  width: 650px;
+  max-width: 92%;
+}
+
+.chat-messages {
+  height: 45vh;
+  min-height: 260px;
+  overflow-y: auto;
+  padding: 8px;
+  background-color: #FFF4FF;
+  border: 3px dashed #C9C2E8;
+}
+
+.chat-message-row {
+  display: flex;
+  margin: 7px 0;
+}
+
+.chat-message-row.mine {
+  justify-content: flex-end;
+}
+
+.chat-message-row.theirs {
+  justify-content: flex-start;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 7px 9px;
+  border: 2px solid #C9C2E8;
+  color: #5F5963;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+
+.chat-message-row.mine .chat-bubble {
+  background-color: #D8F3F5;
+}
+
+.chat-message-row.theirs .chat-bubble {
+  background-color: #FEE8FF;
+}
+
+.chat-message-name {
+  margin-bottom: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  color: #806E86;
+}
+
+.chat-message-time {
+  margin-top: 4px;
+  font-size: 9px;
+  opacity: 0.65;
+}
+
+.chat-composer {
+  margin-top: 8px;
+}
+
+#chat-message-input {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.chat-name-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 600px) {
+  .chat-name-row {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-bubble {
+    max-width: 88%;
+  }
+}
+
 </style>
 </head>
 
@@ -1189,6 +1360,12 @@ POLLS
 STORIES
 </a>
 
+<a
+  href="#"
+  id="tab-chat-threads"
+  onclick="showPanel('chat-threads'); loadChatThreads(); return false;">
+CHAT THREADS
+</a>
 
 <a
   href="#"
@@ -1414,6 +1591,42 @@ NEW STORY
 
 <p>
 loading stories...
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CHAT THREADS -->
+
+<section
+  id="panel-chat-threads"
+  class="panel">
+
+<div class="section-title">
+CHAT THREADS
+</div>
+
+<button
+  class="story-board-button"
+  type="button"
+  onclick="openChatCreate()">
+NEW CHAT THREAD
+</button>
+
+<p class="chat-thread-list-note">
+Anyone can make a thread. Thread names must be unique. A thread password is required to join it.
+</p>
+
+<div class="panel-scroll">
+
+<div id="chat-threads-container">
+
+<p>
+loading chat threads...
 </p>
 
 </div>
@@ -1789,6 +2002,187 @@ CANCEL
 
 ENTER
 
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+
+<!-- =======================================================
+     CHAT THREAD CREATE / JOIN MODAL
+     ======================================================= -->
+
+<div
+  id="chat-thread-modal"
+  class="post-modal">
+
+<div class="post-window">
+
+<div
+  id="chat-thread-modal-title"
+  class="post-window-title">
+new chat thread
+</div>
+
+<div id="chat-thread-create-fields">
+
+<input
+  type="text"
+  id="chat-thread-name"
+  maxlength="100"
+  placeholder="unique thread name">
+
+<textarea
+  id="chat-thread-description"
+  maxlength="3000"
+  placeholder="what is this thread about?"></textarea>
+
+<input
+  type="password"
+  id="chat-thread-password"
+  maxlength="200"
+  placeholder="thread password">
+
+<p class="story-modal-note">
+The thread password controls who can join this thread.
+</p>
+
+</div>
+
+<div
+  id="chat-thread-join-fields"
+  style="display:none;">
+
+<div
+  id="chat-thread-details-name"
+  class="post-window-title">
+thread
+</div>
+
+<div
+  id="chat-thread-details-description"
+  class="chat-description-box"></div>
+
+<input
+  type="password"
+  id="chat-thread-join-password"
+  maxlength="200"
+  placeholder="thread password">
+
+<p id="chat-thread-message"></p>
+
+</div>
+
+<div class="post-window-buttons">
+
+<button
+  type="button"
+  onclick="closeChatThreadModal()">
+CANCEL
+</button>
+
+<button
+  type="button"
+  id="chat-thread-secondary-button"
+  style="display:none;"
+  onclick="leaveChatThread()">
+LEAVE
+</button>
+
+<button
+  type="button"
+  id="chat-thread-primary-button"
+  onclick="createChatThread()">
+CREATE THREAD
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =======================================================
+     CHAT WINDOW
+     ======================================================= -->
+
+<div
+  id="chat-window-modal"
+  class="post-modal chat-window-modal">
+
+<div class="post-window">
+
+<div
+  id="chat-window-title"
+  class="post-window-title">
+chat thread
+</div>
+
+<div
+  id="chat-window-description"
+  class="chat-description-box"></div>
+
+<div
+  id="chat-messages"
+  class="chat-messages">
+<p>loading messages...</p>
+</div>
+
+<div class="chat-composer">
+
+<div class="chat-name-row">
+
+<input
+  type="text"
+  id="chat-name-input"
+  maxlength="40"
+  placeholder="your name">
+
+<input
+  type="password"
+  id="chat-name-password"
+  maxlength="200"
+  placeholder="name password">
+
+</div>
+
+<textarea
+  id="chat-message-input"
+  maxlength="5000"
+  placeholder="write a message..."></textarea>
+
+<p class="story-modal-note">
+If this is your first time using that name in this thread, the password you enter becomes its password. If the name already exists, you must enter its existing password.
+</p>
+
+<p id="chat-send-message"></p>
+
+</div>
+
+<div class="post-window-buttons">
+
+<button
+  type="button"
+  onclick="closeChatWindow()">
+CLOSE
+</button>
+
+<button
+  type="button"
+  onclick="leaveCurrentChat()">
+LEAVE THREAD
+</button>
+
+<button
+  type="button"
+  onclick="sendChatMessage()">
+SEND
 </button>
 
 </div>
@@ -5327,6 +5721,461 @@ async function loadStories() {
 }
 
 
+
+
+/* =========================================================
+   CHAT THREADS
+   ========================================================= */
+
+let currentChatThread = null;
+let chatRefreshTimer = null;
+
+function chatStorageKey(threadId, key) {
+  return "chat_thread_" + threadId + "_" + key;
+}
+
+function getJoinedChat(threadId) {
+  try {
+    const raw = localStorage.getItem(
+      chatStorageKey(threadId, "membership")
+    );
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function setJoinedChat(threadId, membership) {
+  localStorage.setItem(
+    chatStorageKey(threadId, "membership"),
+    JSON.stringify(membership)
+  );
+}
+
+function clearJoinedChat(threadId) {
+  localStorage.removeItem(
+    chatStorageKey(threadId, "membership")
+  );
+}
+
+function openChatCreate() {
+  document.getElementById("chat-thread-modal-title").textContent =
+    "new chat thread";
+
+  document.getElementById("chat-thread-create-fields").style.display = "block";
+  document.getElementById("chat-thread-join-fields").style.display = "none";
+  document.getElementById("chat-thread-name").value = "";
+  document.getElementById("chat-thread-description").value = "";
+  document.getElementById("chat-thread-password").value = "";
+  document.getElementById("chat-thread-message").textContent = "";
+
+  const primary = document.getElementById("chat-thread-primary-button");
+  primary.textContent = "CREATE THREAD";
+  primary.onclick = createChatThread;
+
+  document.getElementById("chat-thread-secondary-button").style.display = "none";
+  document.getElementById("chat-thread-modal").style.display = "flex";
+  document.getElementById("chat-thread-name").focus();
+}
+
+function openChatThread(thread) {
+  currentChatThread = thread;
+
+  const joined = getJoinedChat(thread.id);
+
+  document.getElementById("chat-thread-modal-title").textContent =
+    thread.name || "chat thread";
+
+  document.getElementById("chat-thread-create-fields").style.display = "none";
+  document.getElementById("chat-thread-join-fields").style.display = "block";
+
+  document.getElementById("chat-thread-details-name").textContent =
+    thread.name || "chat thread";
+
+  document.getElementById("chat-thread-details-description").textContent =
+    thread.description || "no description.";
+
+  document.getElementById("chat-thread-join-password").value = "";
+  document.getElementById("chat-thread-message").textContent = "";
+
+  const primary = document.getElementById("chat-thread-primary-button");
+  const secondary = document.getElementById("chat-thread-secondary-button");
+
+  if (joined && joined.token) {
+    primary.textContent = "OPEN CHAT";
+    primary.onclick = () => openCurrentChat();
+    secondary.style.display = "inline-block";
+  } else {
+    primary.textContent = "JOIN";
+    primary.onclick = joinChatThread;
+    secondary.style.display = "none";
+  }
+
+  document.getElementById("chat-thread-modal").style.display = "flex";
+}
+
+function closeChatThreadModal() {
+  document.getElementById("chat-thread-modal").style.display = "none";
+  currentChatThread = null;
+}
+
+async function createChatThread() {
+  const name = document.getElementById("chat-thread-name").value.trim();
+  const description = document.getElementById("chat-thread-description").value.trim();
+  const password = document.getElementById("chat-thread-password").value;
+  const button = document.getElementById("chat-thread-primary-button");
+  const message = document.getElementById("chat-thread-message");
+
+  if (!name) {
+    message.textContent = "give the thread a name.";
+    return;
+  }
+
+  if (!password) {
+    message.textContent = "this thread needs a password.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "creating thread...";
+
+  try {
+    const result = await api("/chat-threads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        description: description,
+        password: password
+      })
+    });
+
+    if (result && result.thread) {
+      currentChatThread = result.thread;
+      if (result.membership) {
+        setJoinedChat(result.thread.id, result.membership);
+      }
+    }
+
+    closeChatThreadModal();
+    await loadChatThreads();
+
+  } catch (error) {
+    message.textContent =
+      error.status === 409
+        ? "that thread name is already in use."
+        : (error.message || "couldn't create thread.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function joinChatThread() {
+  if (!currentChatThread) return;
+
+  const password = document.getElementById("chat-thread-join-password").value;
+  const message = document.getElementById("chat-thread-message");
+  const button = document.getElementById("chat-thread-primary-button");
+
+  if (!password) {
+    message.textContent = "enter the thread password.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "joining...";
+
+  try {
+    const result = await api("/chat-threads/join", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        thread_id: Number(currentChatThread.id),
+        password: password
+      })
+    });
+
+    setJoinedChat(currentChatThread.id, result.membership);
+    document.getElementById("chat-thread-secondary-button").style.display = "inline-block";
+    button.textContent = "OPEN CHAT";
+    button.onclick = () => openCurrentChat();
+    message.textContent = "joined.";
+
+  } catch (error) {
+    message.textContent =
+      error.status === 401
+        ? "wrong thread password."
+        : (error.message || "couldn't join thread.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function leaveChatThread() {
+  if (!currentChatThread) return;
+
+  const membership = getJoinedChat(currentChatThread.id);
+
+  if (!membership || !membership.token) {
+    return;
+  }
+
+  try {
+    await api("/chat-threads/leave", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        thread_id: Number(currentChatThread.id),
+        token: membership.token
+      })
+    });
+  } catch (error) {
+    console.error("CHAT LEAVE ERROR:", error);
+  }
+
+  clearJoinedChat(currentChatThread.id);
+  closeChatThreadModal();
+  await loadChatThreads();
+}
+
+function openCurrentChat() {
+  if (!currentChatThread) return;
+
+  const membership = getJoinedChat(currentChatThread.id);
+
+  if (!membership || !membership.token) {
+    openChatThread(currentChatThread);
+    return;
+  }
+
+  document.getElementById("chat-window-title").textContent =
+    currentChatThread.name || "chat thread";
+
+  document.getElementById("chat-window-description").textContent =
+    currentChatThread.description || "no description.";
+
+  document.getElementById("chat-send-message").textContent = "";
+  document.getElementById("chat-window-modal").style.display = "flex";
+
+  loadChatMessages();
+
+  clearInterval(chatRefreshTimer);
+  chatRefreshTimer = setInterval(loadChatMessages, 5000);
+}
+
+function closeChatWindow() {
+  clearInterval(chatRefreshTimer);
+  chatRefreshTimer = null;
+  document.getElementById("chat-window-modal").style.display = "none";
+}
+
+async function leaveCurrentChat() {
+  if (!currentChatThread) return;
+
+  closeChatWindow();
+  await leaveChatThread();
+}
+
+async function loadChatThreads() {
+  const container = document.getElementById("chat-threads-container");
+  if (!container) return;
+
+  container.innerHTML = "<p>loading chat threads...</p>";
+
+  try {
+    const threads = await api("/chat-threads");
+    container.innerHTML = "";
+
+    if (!Array.isArray(threads) || !threads.length) {
+      container.innerHTML = "<p>no chat threads yet. make the first one.</p>";
+      return;
+    }
+
+    threads.forEach(thread => {
+      const card = document.createElement("article");
+      card.className = "chat-thread-card";
+
+      const title = document.createElement("div");
+      title.className = "chat-thread-title";
+      title.textContent = thread.name || "untitled thread";
+
+      const description = document.createElement("div");
+      description.className = "chat-thread-description";
+      description.textContent = thread.description || "no description.";
+
+      const meta = document.createElement("div");
+      meta.className = "chat-thread-meta";
+      meta.textContent =
+        (Number(thread.member_count || 0) + " members") +
+        " · " +
+        (Number(thread.message_count || 0) + " messages");
+
+      const buttons = document.createElement("div");
+      buttons.className = "chat-thread-buttons";
+
+      const open = document.createElement("button");
+      open.type = "button";
+      open.textContent = "OPEN";
+      open.onclick = () => openChatThread(thread);
+
+      buttons.appendChild(open);
+      card.appendChild(title);
+      card.appendChild(description);
+      card.appendChild(meta);
+      card.appendChild(buttons);
+      container.appendChild(card);
+    });
+
+  } catch (error) {
+    console.error("CHAT THREADS ERROR:", error);
+    container.innerHTML = "<p>couldn't load chat threads.</p>";
+  }
+}
+
+async function loadChatMessages() {
+  if (!currentChatThread) return;
+
+  const membership = getJoinedChat(currentChatThread.id);
+  const container = document.getElementById("chat-messages");
+
+  if (!membership || !membership.token || !container) return;
+
+  try {
+    const messages = await api(
+      "/chat-threads/messages?thread_id=" +
+      encodeURIComponent(currentChatThread.id) +
+      "&token=" +
+      encodeURIComponent(membership.token)
+    );
+
+    const wasNearBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight < 80;
+
+    container.innerHTML = "";
+
+    if (!Array.isArray(messages) || !messages.length) {
+      container.innerHTML = "<p>no messages yet. be the first.</p>";
+      return;
+    }
+
+    const currentName =
+      localStorage.getItem(
+        chatStorageKey(currentChatThread.id, "name")
+      ) || "";
+
+    messages.forEach(message => {
+      const row = document.createElement("div");
+      row.className =
+        "chat-message-row " +
+        (message.username === currentName ? "mine" : "theirs");
+
+      const bubble = document.createElement("div");
+      bubble.className = "chat-bubble";
+
+      const name = document.createElement("div");
+      name.className = "chat-message-name";
+      name.textContent = message.username || "Anonymous";
+
+      const text = document.createElement("div");
+      text.textContent = message.content || "";
+
+      const time = document.createElement("div");
+      time.className = "chat-message-time";
+      time.textContent = message.created_at || "";
+
+      bubble.appendChild(name);
+      bubble.appendChild(text);
+      bubble.appendChild(time);
+      row.appendChild(bubble);
+      container.appendChild(row);
+    });
+
+    if (wasNearBottom) {
+      container.scrollTop = container.scrollHeight;
+    }
+
+  } catch (error) {
+    console.error("CHAT MESSAGE ERROR:", error);
+    container.innerHTML = "<p>couldn't load messages.</p>";
+  }
+}
+
+async function sendChatMessage() {
+  if (!currentChatThread) return;
+
+  const membership = getJoinedChat(currentChatThread.id);
+  const username = document.getElementById("chat-name-input").value.trim();
+  const password = document.getElementById("chat-name-password").value;
+  const content = document.getElementById("chat-message-input").value.trim();
+  const message = document.getElementById("chat-send-message");
+  const button = document.querySelector("#chat-window-modal .post-window-buttons button:last-child");
+
+  if (!membership || !membership.token) {
+    message.textContent = "you need to join this thread first.";
+    return;
+  }
+
+  if (!username) {
+    message.textContent = "choose a name first.";
+    return;
+  }
+
+  if (!password) {
+    message.textContent = "enter your name password.";
+    return;
+  }
+
+  if (!content) {
+    message.textContent = "your message is empty.";
+    return;
+  }
+
+  button.disabled = true;
+  message.textContent = "sending...";
+
+  try {
+    await api("/chat-threads/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        thread_id: Number(currentChatThread.id),
+        token: membership.token,
+        username: username,
+        password: password,
+        content: content
+      })
+    });
+
+    localStorage.setItem(
+      chatStorageKey(currentChatThread.id, "name"),
+      username
+    );
+
+    document.getElementById("chat-message-input").value = "";
+    document.getElementById("chat-name-input").value = username;
+    document.getElementById("chat-name-password").value = "";
+    message.textContent = "";
+    await loadChatMessages();
+
+  } catch (error) {
+    message.textContent =
+      error.status === 401
+        ? "wrong name password."
+        : (error.message || "couldn't send message.");
+  } finally {
+    button.disabled = false;
+  }
+}
+
+
 /* =========================================================
    MODAL OUTSIDE CLICK
    ========================================================= */
@@ -5337,7 +6186,9 @@ async function loadStories() {
   "delete-modal",
   "tchan-modal",
   "story-editor-modal",
-  "story-read-modal"
+  "story-read-modal",
+  "chat-thread-modal",
+  "chat-window-modal"
 ]
 .forEach(
   id => {
@@ -5425,6 +6276,24 @@ async function loadStories() {
         ) {
 
           closeStoryRead();
+
+        }
+
+        if (
+          id ===
+          "chat-thread-modal"
+        ) {
+
+          closeChatThreadModal();
+
+        }
+
+        if (
+          id ===
+          "chat-window-modal"
+        ) {
+
+          closeChatWindow();
 
         }
 
@@ -5543,6 +6412,7 @@ window.addEventListener(
     loadGuestNotes();
 
     loadStories();
+    loadChatThreads();
 
   }
 );
