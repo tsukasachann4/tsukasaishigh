@@ -1623,6 +1623,12 @@ Anyone can make a thread. Thread names must be unique. A thread password is requ
 
 <div class="panel-scroll">
 
+<input
+  id="chat-thread-search"
+  type="text"
+  placeholder="search threads..."
+  oninput="filterChatThreads()">
+
 <div id="chat-threads-container">
 
 <p>
@@ -6047,22 +6053,20 @@ async function leaveCurrentChat() {
   await leaveChatThread();
 }
 
-async function loadChatThreads() {
+let chatThreads = [];
+
+function renderChatThreads(threads) {
   const container = document.getElementById("chat-threads-container");
   if (!container) return;
 
-  container.innerHTML = "<p>loading chat threads...</p>";
+  container.innerHTML = "";
 
-  try {
-    const threads = await api("/chat-threads");
-    container.innerHTML = "";
+  if (!Array.isArray(threads) || !threads.length) {
+    container.innerHTML = "<p>no matching chat threads.</p>";
+    return;
+  }
 
-    if (!Array.isArray(threads) || !threads.length) {
-      container.innerHTML = "<p>no chat threads yet. make the first one.</p>";
-      return;
-    }
-
-    threads.forEach(thread => {
+  threads.forEach(thread => {
       const card = document.createElement("article");
       card.className = "chat-thread-card";
 
@@ -6094,8 +6098,43 @@ async function loadChatThreads() {
       card.appendChild(description);
       card.appendChild(meta);
       card.appendChild(buttons);
-      container.appendChild(card);
-    });
+    container.appendChild(card);
+  });
+}
+
+function filterChatThreads() {
+  const input = document.getElementById("chat-thread-search");
+  const search = (input ? input.value : "").trim().toLowerCase();
+
+  if (!search) {
+    renderChatThreads(chatThreads);
+    return;
+  }
+
+  const filtered = chatThreads.filter(thread =>
+    (thread.name || "").toLowerCase().includes(search) ||
+    (thread.description || "").toLowerCase().includes(search)
+  );
+
+  renderChatThreads(filtered);
+}
+
+async function loadChatThreads() {
+  const container = document.getElementById("chat-threads-container");
+  if (!container) return;
+
+  container.innerHTML = "<p>loading chat threads...</p>";
+
+  try {
+    const threads = await api("/chat-threads");
+    chatThreads = Array.isArray(threads) ? threads : [];
+
+    if (!chatThreads.length) {
+      container.innerHTML = "<p>no chat threads yet. make the first one.</p>";
+      return;
+    }
+
+    filterChatThreads();
 
   } catch (error) {
     console.error("CHAT THREADS ERROR:", error);
