@@ -823,6 +823,26 @@ footer {
   border: 3px solid #C9C2E8;
 
   font-size: 12px;
+
+  cursor: pointer;
+
+  transition: none;
+}
+
+footer.arg-footer-flashing {
+  animation: tsukasAngelFlash 1s steps(1, end) infinite;
+}
+
+@keyframes tsukasAngelFlash {
+  0% { color: #ff0000; }
+  50% { color: #000000; }
+  100% { color: #ff0000; }
+}
+
+footer.arg-footer-revealed {
+  animation: none !important;
+  color: #000000 !important;
+  cursor: default;
 }
 
 
@@ -2500,7 +2520,7 @@ const SITE_TEXT = {
       "HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",
 
     footer:
-      "tsukasAngel"
+      "tsukasangel"
 
   },
 
@@ -3003,6 +3023,51 @@ function showPanel(
    TEXT
    ========================================================= */
 
+const ARG_FOOTER_ATBASH =
+  "ghfpzhzxszmm4.trgsfy.rl/gxszm/";
+
+const ARG_FOOTER_REAL =
+  "tsukasachann4.github.io/tchan/";
+
+let argFooterRevealed = false;
+
+function setupArgFooter() {
+  const footer = document.getElementById("footer-text");
+
+  if (!footer) return;
+
+  footer.classList.remove("arg-footer-revealed");
+  footer.classList.add("arg-footer-flashing");
+  footer.style.cursor = "pointer";
+  footer.textContent = SITE_TEXT.normal.footer;
+  argFooterRevealed = false;
+}
+
+function disableArgFooter() {
+  const footer = document.getElementById("footer-text");
+
+  if (!footer) return;
+
+  footer.classList.remove("arg-footer-flashing", "arg-footer-revealed");
+  footer.style.cursor = "default";
+  argFooterRevealed = false;
+}
+
+const argFooter = document.getElementById("footer-text");
+
+if (argFooter) {
+  argFooter.addEventListener("click", function () {
+    if (document.body.classList.contains("tchan-mode")) return;
+    if (argFooterRevealed) return;
+
+    this.textContent = ARG_FOOTER_ATBASH;
+    this.classList.remove("arg-footer-flashing");
+    this.classList.add("arg-footer-revealed");
+    this.style.cursor = "default";
+    argFooterRevealed = true;
+  });
+}
+
 function applyNormalText() {
 
   document.getElementById(
@@ -3017,10 +3082,7 @@ function applyNormalText() {
     SITE_TEXT.normal.about;
 
 
-  document.getElementById(
-    "footer-text"
-  ).textContent =
-    SITE_TEXT.normal.footer;
+  setupArgFooter();
 
 }
 
@@ -3038,6 +3100,8 @@ function applyTchanText() {
   ).textContent =
     SITE_TEXT.tchan.about;
 
+
+  disableArgFooter();
 
   document.getElementById(
     "footer-text"
