@@ -1,4 +1,82 @@
 
+nvm lets just do a link to a file like google drive of their art examples and stuff
+That’s much simpler. We’ll remove the image-upload feature entirely. No R2, ImageKit, or storage bucket needed.
+
+For the ART → POST form, artists will paste a public portfolio link, such as a Google Drive folder or file containing their art examples.
+
+The flow will be:
+
+Post: Artist enters their name, listing title, up to 5 contact methods and usernames, pricing details, and a portfolio link.
+
+Browse: Visitors see commission listings with titles and artist names.
+
+View listing: Clicking one opens the pricing, contact details, and a View Art Examples link.
+
+Commission requests: The inbox and accept-to-chat system stays as planned.
+
+For Google Drive, artists should set sharing to Anyone with the link → Viewer so people can actually open the portfolio. A folder link won't reliably provide an image preview on the listing card, so we'll use the listing title and artist info there rather than pretending Drive is an image-hosting service.
+
+This might also interest you.
+
+
+
+Ads do not influence the answers you get from ChatGPT. Your chats stay private. 
+Learn about ads and personalization
+and let them able to write extra details aswell
+Yes. I’ll add an Extra Details text box to the posting form, so artists can explain things like their art style, rules, turnaround time, revisions, and anything else clients should know.
+
+The ART listing form will have:
+
+Artist username/name
+
+Listing title
+
+Up to 5 contact methods and usernames
+
+Pricing and price details
+
+Google Drive or portfolio link
+
+Extra Details (optional, multiline text)
+
+Those extra details will also appear when someone opens the listing in Browse. No squeezing important information into a tiny text box.
+
+okay now the htmls. the cloudflares. worker nad database
+This response couldn’t load
+
+tsukasa_blog_art_inbox_themes.html
+HTML
+
+tsukasa_worker_art_inbox.js
+Code
+
+tsukasa_art_inbox_themes.sql
+Code
+send itin text format
+I’ll paste the actual source here, split into HTML, Cloudflare Worker, and D1 SQL so you can copy each into the right place. I’m checking the generated files first; dumping a broken file into chat would be a spectacularly unhelpful shortcut.
+
+Reviewed implementation
+
+Inspected generated files, validated syntax, and checked Worker integration
+
+The SQL is complete. Next is the Worker source, followed by the full HTML. I checked that the Worker parses and that the HTML’s embedded JavaScript parses; these checks don’t replace testing against your live D1 database and deployment.
+
+Prepared complete code and reconsidered the transfer delivery plan
+
+Provided plain-text files
+
+just the whole things. no part 1 part 2 stuff
+This response couldn’t load
+
+tsukasa_blog_art_inbox_themes.txt
+Document
+
+tsukasa_worker_art_inbox.txt
+Document
+
+tsukasa_art_inbox_themes.txt
+Document
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -823,26 +901,6 @@ footer {
   border: 3px solid #C9C2E8;
 
   font-size: 12px;
-
-  cursor: pointer;
-
-  transition: none;
-}
-
-footer.arg-footer-flashing {
-  animation: tsukasAngelFlash 1s steps(1, end) infinite;
-}
-
-@keyframes tsukasAngelFlash {
-  0% { color: #ff0000; }
-  50% { color: #000000; }
-  100% { color: #ff0000; }
-}
-
-footer.arg-footer-revealed {
-  animation: none !important;
-  color: #000000 !important;
-  cursor: default;
 }
 
 
@@ -1385,6 +1443,27 @@ body.tchan-mode .translation-preview {
   }
 }
 
+
+/* ART / INBOX / THEMES ADDITIONS */
+.art-subtabs,.art-actions,.theme-options{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0}
+.art-box{border:1px solid #c8a9d5;background:rgba(255,255,255,.45);padding:12px;margin:10px 0;border-radius:8px}
+.art-box h3,.art-box h4{margin:4px 0 10px}.art-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.art-box label{display:block;margin:9px 0;font-size:12px}.art-box input,.art-box textarea,.art-box select{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;border:1px solid #b9a1c4;background:#fff;color:#44364b;border-radius:4px;font:inherit}
+.art-box textarea{resize:vertical}.art-contact-row{display:grid;grid-template-columns:140px 1fr;gap:6px;margin:6px 0}.art-contact-row input,.art-contact-row select{margin:0}
+.art-status{min-height:1em;font-size:12px}.small-note{font-size:11px;opacity:.8}.art-listings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}.art-card{border:1px solid #c8a9d5;background:rgba(255,255,255,.55);padding:12px;border-radius:8px;cursor:pointer}.art-card:hover{transform:translateY(-2px);box-shadow:0 3px 9px #bca7c555}.art-card h3{font-size:14px;margin:0 0 6px}.art-card p{font-size:12px;white-space:pre-wrap}.art-card button{margin-top:7px}.art-detail-title{font-size:18px;margin:5px 0}.art-detail-text{white-space:pre-wrap;overflow-wrap:anywhere}.art-detail-link{display:inline-block;margin:8px 0;font-weight:bold}.art-notice,.art-request-card,.art-chat-card{border:1px solid #c8a9d5;padding:10px;margin:8px 0;background:rgba(255,255,255,.5);border-radius:6px}.art-notice.unread{border-left:4px solid #d56c9a}.art-chat-messages{height:260px;overflow:auto;border:1px solid #c8a9d5;background:rgba(255,255,255,.4);padding:8px;margin:8px 0}.art-chat-line{padding:6px;margin:4px 0;border-radius:5px;background:#f1e7f5;white-space:pre-wrap;overflow-wrap:anywhere}.art-chat-line.mine{background:#dcecf5}.theme-options button{display:flex;align-items:center;gap:8px}.theme-swatch{width:28px;height:20px;border:1px solid #888;display:inline-block}.theme-default{background:linear-gradient(90deg,#f8dce9,#e8ddf5,#d8eff0)}.theme-bw{background:linear-gradient(90deg,#000,#fff)}.theme-night{background:linear-gradient(90deg,#17243b,#352748,#dce5f8)}.theme-day{background:linear-gradient(90deg,#e7dca8,#cbd9b8,#f4efdc)}
+body[data-theme="bw"]{--theme-bg:#fff;--theme-panel:#fff;--theme-text:#000;--theme-border:#000;--theme-link:#000;--theme-accent:#000}
+body[data-theme="night"]{--theme-bg:#17243b;--theme-panel:#202d46;--theme-text:#e8eafa;--theme-border:#596987;--theme-link:#c9c4ef;--theme-accent:#8fa8d5}
+body[data-theme="day"]{--theme-bg:#f4efdc;--theme-panel:#e8e2c9;--theme-text:#495344;--theme-border:#b9c4a4;--theme-link:#75865f;--theme-accent:#c7b66f}
+body[data-theme="bw"] .page,body[data-theme="night"] .page,body[data-theme="day"] .page{background:var(--theme-bg)!important;color:var(--theme-text)!important}
+body[data-theme="bw"] .panel,body[data-theme="bw"] .profile-box,body[data-theme="bw"] .post-window,body[data-theme="bw"] .guest-panel,body[data-theme="bw"] .poll,body[data-theme="bw"] .art-box,body[data-theme="bw"] .art-card,body[data-theme="bw"] .art-notice,body[data-theme="bw"] .art-request-card,body[data-theme="bw"] .art-chat-card,
+body[data-theme="night"] .panel,body[data-theme="night"] .profile-box,body[data-theme="night"] .post-window,body[data-theme="night"] .guest-panel,body[data-theme="night"] .poll,body[data-theme="night"] .art-box,body[data-theme="night"] .art-card,body[data-theme="night"] .art-notice,body[data-theme="night"] .art-request-card,body[data-theme="night"] .art-chat-card,
+body[data-theme="day"] .panel,body[data-theme="day"] .profile-box,body[data-theme="day"] .post-window,body[data-theme="day"] .guest-panel,body[data-theme="day"] .poll,body[data-theme="day"] .art-box,body[data-theme="day"] .art-card,body[data-theme="day"] .art-notice,body[data-theme="day"] .art-request-card,body[data-theme="day"] .art-chat-card{background:var(--theme-panel)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+body[data-theme="bw"] a,body[data-theme="bw"] nav a,body[data-theme="night"] a,body[data-theme="night"] nav a,body[data-theme="day"] a,body[data-theme="day"] nav a{color:var(--theme-link)!important}
+body[data-theme="bw"] button,body[data-theme="bw"] input,body[data-theme="bw"] textarea,body[data-theme="bw"] select,body[data-theme="night"] button,body[data-theme="night"] input,body[data-theme="night"] textarea,body[data-theme="night"] select,body[data-theme="day"] button,body[data-theme="day"] input,body[data-theme="day"] textarea,body[data-theme="day"] select{background:var(--theme-panel)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
+body[data-theme="night"] .art-chat-line{background:#293955!important;color:#eef0ff!important}body[data-theme="day"] .art-chat-line{background:#d8dfc8!important;color:#46513f!important}
+body.tchan-mode[data-theme] .page,body.tchan-mode[data-theme] .panel,body.tchan-mode[data-theme] .art-box,body.tchan-mode[data-theme] .art-card{filter:none!important}
+@media(max-width:600px){.art-form-grid{grid-template-columns:1fr}.art-contact-row{grid-template-columns:1fr}}
+
 </style>
 </head>
 
@@ -1499,6 +1578,27 @@ STORIES
   id="tab-chat-threads"
   onclick="showPanel('chat-threads'); loadChatThreads(); return false;">
 CHAT THREADS
+</a>
+
+<a
+  href="#"
+  id="tab-art"
+  onclick="showPanel('art'); loadArtListings(); return false;">
+ART
+</a>
+
+<a
+  href="#"
+  id="tab-inbox"
+  onclick="showPanel('inbox'); loadArtInbox(); return false;">
+INBOX
+</a>
+
+<a
+  href="#"
+  id="tab-themes"
+  onclick="showPanel('themes'); return false;">
+THEMES
 </a>
 
 <a
@@ -1837,6 +1937,43 @@ loading chat threads...
 
 </section>
 
+
+<!-- ART MARKET -->
+<section id="panel-art" class="panel">
+  <div class="section-title">ART COMMISSIONS</div>
+  <div class="art-subtabs"><button type="button" onclick="showArtView('browse')">BROWSE</button><button type="button" onclick="showArtView('post')">POST</button></div>
+  <div id="art-auth-box" class="art-box">
+    <h3>Sign in / make an account</h3><p>Accounts keep your listings, commission requests, inbox, and chats connected to one username.</p>
+    <div class="art-form-grid"><label>Username<input id="art-auth-username" maxlength="24" autocomplete="username" placeholder="your username"></label><label>Password<input id="art-auth-password" type="password" autocomplete="current-password" placeholder="at least 8 characters"></label></div>
+    <div class="art-actions"><button type="button" onclick="artAuth('login')">LOG IN</button><button type="button" onclick="artAuth('register')">CREATE ACCOUNT</button></div><p id="art-auth-status" class="art-status"></p>
+  </div>
+  <div id="art-account-bar" class="art-box" hidden><span>Signed in as <b id="art-current-user"></b></span><button type="button" onclick="artLogout()">LOG OUT</button></div>
+  <div id="art-view-browse" class="art-view"><input id="art-search" placeholder="search commission listings..." oninput="filterArtListings()"><div id="art-listings" class="art-listings"><p>Loading commission listings...</p></div></div>
+  <div id="art-view-post" class="art-view" hidden><div class="art-box"><h3>POST A COMMISSION LISTING</h3><p class="small-note">Maximum 5 listings per account per day. Portfolio links should be shared as “Anyone with the link · Viewer.”</p>
+    <form id="art-listing-form" onsubmit="submitArtListing(event)">
+      <label>Artist name / username<input id="art-artist-name" maxlength="60" required placeholder="how you want to be credited"></label>
+      <label>Listing title<input id="art-title" maxlength="120" required placeholder="e.g. cute character icons"></label>
+      <label>Pricing / price details<textarea id="art-pricing" maxlength="5000" rows="4" required placeholder="prices, currency, add-ons, etc."></textarea></label>
+      <label>Portfolio / art examples link<input id="art-portfolio" type="url" maxlength="1000" required placeholder="https://drive.google.com/..."></label>
+      <label>Extra details (optional)<textarea id="art-extra" maxlength="10000" rows="6" placeholder="art style, rules, turnaround, revisions, things clients should know..."></textarea></label>
+      <h4>Contacts (up to 5)</h4><div id="art-contacts" class="art-contact-list">
+        <div class="art-contact-row"><select aria-label="contact platform"><option>Discord</option><option>Instagram</option><option>Twitter / X</option><option>Email</option><option>Ko-fi</option><option>Other</option></select><input maxlength="120" placeholder="username / contact" aria-label="contact username"></div>
+      </div><button type="button" onclick="addArtContact()">+ ADD CONTACT</button>
+      <div class="art-actions"><button type="submit">PUBLISH LISTING</button></div><p id="art-post-status" class="art-status"></p>
+    </form></div></div>
+  <div id="art-detail" class="art-box" hidden></div>
+</section>
+
+<!-- INBOX -->
+<section id="panel-inbox" class="panel"><div class="section-title">INBOX</div><div class="art-subtabs"><button onclick="showInboxView('notifications')">NOTIFICATIONS</button><button onclick="showInboxView('requests')">COMMISSION REQUESTS</button><button onclick="showInboxView('chats')">CHATS</button></div>
+  <div id="inbox-view-notifications" class="inbox-view"><div id="art-notifications"><p>Sign in to see your inbox.</p></div></div>
+  <div id="inbox-view-requests" class="inbox-view" hidden><div id="art-requests"><p>Sign in to see commission requests.</p></div></div>
+  <div id="inbox-view-chats" class="inbox-view" hidden><div id="art-chats"><p>Accepted commission chats will appear here.</p></div></div>
+  <div id="art-chat-window" class="art-box" hidden><h3 id="art-chat-title">Commission chat</h3><div id="art-chat-messages" class="art-chat-messages"></div><form onsubmit="sendArtChat(event)"><textarea id="art-chat-input" rows="3" maxlength="3000" required placeholder="write a message..."></textarea><button type="submit">SEND</button></form><p id="art-chat-status"></p></div>
+</section>
+
+<!-- THEMES -->
+<section id="panel-themes" class="panel"><div class="section-title">THEMES</div><p>Choose the colors for the normal blog. TCHAN keeps its own black-and-red look.</p><div class="theme-options"><button onclick="setSiteTheme('default')"><span class="theme-swatch theme-default"></span>DEFAULT</button><button onclick="setSiteTheme('bw')"><span class="theme-swatch theme-bw"></span>BLACK / WHITE</button><button onclick="setSiteTheme('night')"><span class="theme-swatch theme-night"></span>NIGHT</button><button onclick="setSiteTheme('day')"><span class="theme-swatch theme-day"></span>DAY</button></div><p id="theme-status" class="art-status"></p></section>
 
 </div>
 
@@ -2520,7 +2657,7 @@ const SITE_TEXT = {
       "HAIII THIS IS MY INTERNET DIARYY!!! my name is tsukasa! nope! thats not my real name, id much rather use an alias then giving out my name to strangers! and yes im aware of tsukasa being a name of a male character from pjsk but we do not talk about that, okay?",
 
     footer:
-      "tsukasangel"
+      "tsukasAngel"
 
   },
 
@@ -3023,51 +3160,6 @@ function showPanel(
    TEXT
    ========================================================= */
 
-const ARG_FOOTER_ATBASH =
-  "ghfpzhzxszmm4.trgsfy.rl/gxszm/";
-
-const ARG_FOOTER_REAL =
-  "tsukasachann4.github.io/tchan/";
-
-let argFooterRevealed = false;
-
-function setupArgFooter() {
-  const footer = document.getElementById("footer-text");
-
-  if (!footer) return;
-
-  footer.classList.remove("arg-footer-revealed");
-  footer.classList.add("arg-footer-flashing");
-  footer.style.cursor = "pointer";
-  footer.textContent = SITE_TEXT.normal.footer;
-  argFooterRevealed = false;
-}
-
-function disableArgFooter() {
-  const footer = document.getElementById("footer-text");
-
-  if (!footer) return;
-
-  footer.classList.remove("arg-footer-flashing", "arg-footer-revealed");
-  footer.style.cursor = "default";
-  argFooterRevealed = false;
-}
-
-const argFooter = document.getElementById("footer-text");
-
-if (argFooter) {
-  argFooter.addEventListener("click", function () {
-    if (document.body.classList.contains("tchan-mode")) return;
-    if (argFooterRevealed) return;
-
-    this.textContent = ARG_FOOTER_ATBASH;
-    this.classList.remove("arg-footer-flashing");
-    this.classList.add("arg-footer-revealed");
-    this.style.cursor = "default";
-    argFooterRevealed = true;
-  });
-}
-
 function applyNormalText() {
 
   document.getElementById(
@@ -3082,7 +3174,10 @@ function applyNormalText() {
     SITE_TEXT.normal.about;
 
 
-  setupArgFooter();
+  document.getElementById(
+    "footer-text"
+  ).textContent =
+    SITE_TEXT.normal.footer;
 
 }
 
@@ -3100,8 +3195,6 @@ function applyTchanText() {
   ).textContent =
     SITE_TEXT.tchan.about;
 
-
-  disableArgFooter();
 
   document.getElementById(
     "footer-text"
@@ -6949,9 +7042,47 @@ window.addEventListener(
   }
 );
 
+
+
+/* =========================================================
+   ART MARKET, ACCOUNT, INBOX, COMMISSION CHAT + THEMES
+   ========================================================= */
+const ART_TOKEN_KEY = "tsukasa_art_session";
+let artSession = localStorage.getItem(ART_TOKEN_KEY) || "";
+let artMe = null, artListingsCache = [], artOpenRequestId = null, artChatTimer = null;
+function artEsc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function artAuthHeaders(){return artSession?{"Authorization":"Bearer "+artSession}:{};}
+async function artApi(path,opts={}){const res=await fetch(WORKER_URL+path,{...opts,headers:{"Content-Type":"application/json",...artAuthHeaders(),...(opts.headers||{})}});let data={};try{data=await res.json()}catch{}if(!res.ok)throw new Error(data.error||`Request failed (${res.status})`);return data;}
+async function refreshArtMe(){if(!artSession){artMe=null;renderArtAccount();return;}try{artMe=await artApi("/art-me");}catch{artSession="";localStorage.removeItem(ART_TOKEN_KEY);artMe=null;}renderArtAccount();}
+function renderArtAccount(){const auth=document.getElementById("art-auth-box"),bar=document.getElementById("art-account-bar");if(!auth||!bar)return;auth.hidden=!!artMe;bar.hidden=!artMe;document.getElementById("art-current-user").textContent=artMe?.username||"";}
+async function artAuth(kind){const username=document.getElementById("art-auth-username").value.trim(),password=document.getElementById("art-auth-password").value,status=document.getElementById("art-auth-status");status.textContent="Working...";try{const data=await artApi(`/art-auth/${kind}`,{method:"POST",body:JSON.stringify({username,password}),headers:{}});artSession=data.token;localStorage.setItem(ART_TOKEN_KEY,artSession);await refreshArtMe();status.textContent=`Welcome, ${artMe.username}!`;loadArtListings();loadArtInbox();}catch(e){status.textContent=e.message;}}
+async function artLogout(){artSession="";artMe=null;localStorage.removeItem(ART_TOKEN_KEY);if(artChatTimer)clearInterval(artChatTimer);renderArtAccount();document.getElementById("art-chat-window").hidden=true;loadArtInbox();}
+function showArtView(which){document.getElementById("art-view-browse").hidden=which!=="browse";document.getElementById("art-view-post").hidden=which!=="post";document.getElementById("art-detail").hidden=true;if(which==="post"&&!artMe)document.getElementById("art-auth-box").hidden=false;}
+function addArtContact(){const wrap=document.getElementById("art-contacts");if(wrap.children.length>=5){alert("You can add up to 5 contacts.");return;}const row=document.createElement("div");row.className="art-contact-row";row.innerHTML='<select aria-label="contact platform"><option>Discord</option><option>Instagram</option><option>Twitter / X</option><option>Email</option><option>Ko-fi</option><option>Other</option></select><input maxlength="120" placeholder="username / contact" aria-label="contact username"><button type="button" aria-label="remove contact" onclick="this.parentElement.remove()">×</button>';wrap.appendChild(row);}
+async function loadArtListings(){const box=document.getElementById("art-listings");if(!box)return;box.innerHTML="<p>Loading commission listings...</p>";try{artListingsCache=await artApi("/art-listings");renderArtListings(artListingsCache);}catch(e){box.innerHTML=`<p>${artEsc(e.message)}</p>`;}}
+function renderArtListings(rows){const box=document.getElementById("art-listings");if(!rows.length){box.innerHTML="<p>No commission listings yet. Be the first to post!</p>";return;}box.innerHTML=rows.map(x=>`<article class="art-card" onclick="openArtListing(${Number(x.id)})"><h3>${artEsc(x.title)}</h3><p>by ${artEsc(x.artist_name)} (@${artEsc(x.seller_username)})</p><p>${artEsc(String(x.pricing||"").slice(0,180))}</p><button type="button" onclick="event.stopPropagation();openArtListing(${Number(x.id)})">VIEW DETAILS</button></article>`).join("");}
+function filterArtListings(){const q=document.getElementById("art-search").value.toLowerCase();renderArtListings(artListingsCache.filter(x=>`${x.title} ${x.artist_name} ${x.seller_username} ${x.pricing}`.toLowerCase().includes(q)));}
+function openArtListing(id){const x=artListingsCache.find(a=>Number(a.id)===Number(id));if(!x)return;const d=document.getElementById("art-detail");d.hidden=false;d.innerHTML=`<button onclick="document.getElementById('art-detail').hidden=true">CLOSE ×</button><h2 class="art-detail-title">${artEsc(x.title)}</h2><p>Artist: <b>${artEsc(x.artist_name)}</b> (@${artEsc(x.seller_username)})</p><h4>Pricing</h4><div class="art-detail-text">${artEsc(x.pricing)}</div><a class="art-detail-link" href="${artEsc(x.portfolio_url)}" target="_blank" rel="noopener noreferrer">VIEW ART EXAMPLES / PORTFOLIO ↗</a><h4>Extra details</h4><div class="art-detail-text">${artEsc(x.extra_details||"No extra details provided.")}</div><h4>Contacts</h4><ul>${(x.contacts||[]).map(c=>`<li>${artEsc(c.platform)}: ${artEsc(c.username)}</li>`).join("")}</ul>${artMe&&Number(artMe.id)!==Number(x.seller_id)?`<h4>Request a commission</h4><form onsubmit="sendArtRequest(event,${Number(x.id)})"><textarea id="art-request-message" rows="4" maxlength="5000" required placeholder="Describe what you'd like commissioned..."></textarea><button type="submit">SEND REQUEST</button><p id="art-request-status"></p></form>`:(!artMe?"<p>Sign in above to request a commission.</p>":"<p>This is your listing.</p>")}`;d.scrollIntoView({behavior:"smooth",block:"start"});}
+async function submitArtListing(e){e.preventDefault();const status=document.getElementById("art-post-status");if(!artMe){status.textContent="Sign in first.";return;}const contacts=[...document.querySelectorAll("#art-contacts .art-contact-row")].map(r=>({platform:r.querySelector("select").value,username:r.querySelector("input").value.trim()})).filter(c=>c.username);if(!contacts.length){status.textContent="Add at least one contact.";return;}const payload={artist_name:document.getElementById("art-artist-name").value.trim(),title:document.getElementById("art-title").value.trim(),pricing:document.getElementById("art-pricing").value.trim(),portfolio_url:document.getElementById("art-portfolio").value.trim(),extra_details:document.getElementById("art-extra").value.trim(),contacts};status.textContent="Publishing...";try{await artApi("/art-listings",{method:"POST",body:JSON.stringify(payload)});status.textContent="Listing published! (5 per day maximum.)";e.target.reset();document.getElementById("art-contacts").innerHTML='<div class="art-contact-row"><select aria-label="contact platform"><option>Discord</option><option>Instagram</option><option>Twitter / X</option><option>Email</option><option>Ko-fi</option><option>Other</option></select><input maxlength="120" placeholder="username / contact" aria-label="contact username"></div>';showArtView("browse");await loadArtListings();}catch(err){status.textContent=err.message;}}
+async function sendArtRequest(e,id){e.preventDefault();const status=document.getElementById("art-request-status");status.textContent="Sending...";try{await artApi("/art-requests",{method:"POST",body:JSON.stringify({listing_id:id,message:document.getElementById("art-request-message").value.trim()})});status.textContent="Request sent! The artist will see it in their inbox.";}catch(err){status.textContent=err.message;}}
+function showInboxView(which){document.querySelectorAll(".inbox-view").forEach(x=>x.hidden=true);document.getElementById(`inbox-view-${which}`).hidden=false;if(which==="notifications")loadArtInbox();if(which==="requests")loadArtRequests();if(which==="chats")loadArtChats();}
+async function loadArtInbox(){if(!artMe){document.getElementById("art-notifications").innerHTML="<p>Sign in in the ART tab to view your inbox.</p>";return;}try{const rows=await artApi("/art-inbox");document.getElementById("art-notifications").innerHTML=rows.map(n=>`<div class="art-notice ${n.read_at?"":"unread"}"><b>${artEsc(n.title)}</b><p>${artEsc(n.body)}</p><small>${artEsc(n.created_at)}</small>${n.request_id?` <button onclick="showInboxView('requests')">VIEW REQUEST</button>`:""}${!n.read_at?` <button onclick="markArtNotice(${Number(n.id)})">MARK READ</button>`:""}</div>`).join("")||"<p>Your inbox is empty.</p>";}catch(e){document.getElementById("art-notifications").textContent=e.message;}}
+async function markArtNotice(id){try{await artApi("/art-inbox/read",{method:"POST",body:JSON.stringify({id})});loadArtInbox();}catch(e){alert(e.message);}}
+async function loadArtRequests(){const box=document.getElementById("art-requests");if(!artMe){box.innerHTML="<p>Sign in to view requests.</p>";return;}try{const rows=await artApi("/art-requests");box.innerHTML=rows.map(r=>`<div class="art-request-card"><b>${artEsc(r.listing_title)}</b><p>From <b>${artEsc(r.buyer_username)}</b> · To <b>${artEsc(r.seller_username)}</b></p><p class="art-detail-text">${artEsc(r.message)}</p><p>Status: <b>${artEsc(r.status)}</b></p>${r.status==="pending"&&Number(r.seller_id)===Number(artMe.id)?`<button onclick="actArtRequest(${Number(r.id)},'accepted')">ACCEPT</button><button onclick="actArtRequest(${Number(r.id)},'declined')">DECLINE</button>`:""}${r.status==="accepted"?`<button onclick="openArtChat(${Number(r.id)})">OPEN CHAT</button>`:""}</div>`).join("")||"<p>No commission requests yet.</p>";}catch(e){box.textContent=e.message;}}
+async function actArtRequest(id,status){try{await artApi("/art-request-action",{method:"POST",body:JSON.stringify({request_id:id,status})});loadArtRequests();loadArtInbox();loadArtChats();}catch(e){alert(e.message);}}
+async function loadArtChats(){const box=document.getElementById("art-chats");if(!artMe){box.innerHTML="<p>Sign in to view chats.</p>";return;}try{const rows=await artApi("/art-chats");box.innerHTML=rows.map(r=>`<div class="art-chat-card"><b>${artEsc(r.listing_title)}</b><p>with ${artEsc(Number(r.seller_id)===Number(artMe.id)?r.buyer_username:r.seller_username)}</p><button onclick="openArtChat(${Number(r.id)})">OPEN CHAT</button></div>`).join("")||"<p>No accepted commission chats yet.</p>";}catch(e){box.textContent=e.message;}}
+async function openArtChat(id){if(!artMe)return alert("Sign in first.");artOpenRequestId=id;document.getElementById("art-chat-title").textContent="Commission chat #"+id;document.getElementById("art-chat-window").hidden=false;await loadArtChatMessages();if(artChatTimer)clearInterval(artChatTimer);artChatTimer=setInterval(loadArtChatMessages,5000);document.getElementById("art-chat-window").scrollIntoView({behavior:"smooth"});}
+async function loadArtChatMessages(){if(!artOpenRequestId)return;try{const rows=await artApi(`/art-chat/messages?request_id=${artOpenRequestId}`);const box=document.getElementById("art-chat-messages");box.innerHTML=rows.map(m=>`<div class="art-chat-line ${Number(m.sender_id)===Number(artMe.id)?"mine":""}"><b>${artEsc(m.username)}</b><br>${artEsc(m.content)}<small style="display:block">${artEsc(m.created_at)}</small></div>`).join("");box.scrollTop=box.scrollHeight;}catch(e){document.getElementById("art-chat-status").textContent=e.message;}}
+async function sendArtChat(e){e.preventDefault();const input=document.getElementById("art-chat-input"),status=document.getElementById("art-chat-status");try{await artApi("/art-chat/messages",{method:"POST",body:JSON.stringify({request_id:artOpenRequestId,content:input.value.trim()})});input.value="";status.textContent="Sent.";loadArtChatMessages();}catch(err){status.textContent=err.message;}}
+function setSiteTheme(theme){if(!["default","bw","night","day"].includes(theme))return;document.body.dataset.theme=theme;localStorage.setItem("tsukasa_site_theme",theme);document.getElementById("theme-status").textContent=`Theme set to ${theme.toUpperCase()}.`;}
+function loadSiteTheme(){const theme=localStorage.getItem("tsukasa_site_theme")||"default";document.body.dataset.theme=theme;}
+window.addEventListener("DOMContentLoaded",async()=>{loadSiteTheme();await refreshArtMe();loadArtListings();loadArtInbox();});
+
 </script>
 
 </body>
 
 </html>
 ```
+
+
