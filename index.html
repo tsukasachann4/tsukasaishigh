@@ -1373,97 +1373,202 @@ body.tchan-mode .translation-preview {
 .art-box label{display:block;margin:9px 0;font-size:12px}.art-box input,.art-box textarea,.art-box select{display:block;width:100%;box-sizing:border-box;margin-top:4px;padding:8px;border:1px solid #b9a1c4;background:#fff;color:#44364b;border-radius:4px;font:inherit}
 .art-box textarea{resize:vertical}.art-contact-row{display:grid;grid-template-columns:140px 1fr;gap:6px;margin:6px 0}.art-contact-row input,.art-contact-row select{margin:0}
 .art-status{min-height:1em;font-size:12px}.small-note{font-size:11px;opacity:.8}.art-listings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}.art-card{border:1px solid #c8a9d5;background:rgba(255,255,255,.55);padding:12px;border-radius:8px;cursor:pointer}.art-card:hover{transform:translateY(-2px);box-shadow:0 3px 9px #bca7c555}.art-card h3{font-size:14px;margin:0 0 6px}.art-card p{font-size:12px;white-space:pre-wrap}.art-card button{margin-top:7px}.art-detail-title{font-size:18px;margin:5px 0}.art-detail-text{white-space:pre-wrap;overflow-wrap:anywhere}.art-detail-link{display:inline-block;margin:8px 0;font-weight:bold}.art-notice,.art-request-card,.art-chat-card{border:1px solid #c8a9d5;padding:10px;margin:8px 0;background:rgba(255,255,255,.5);border-radius:6px}.art-notice.unread{border-left:4px solid #d56c9a}.art-chat-messages{height:260px;overflow:auto;border:1px solid #c8a9d5;background:rgba(255,255,255,.4);padding:8px;margin:8px 0}.art-chat-line{padding:6px;margin:4px 0;border-radius:5px;background:#f1e7f5;white-space:pre-wrap;overflow-wrap:anywhere}.art-chat-line.mine{background:#dcecf5}.theme-options button{display:flex;align-items:center;gap:8px}.theme-swatch{width:28px;height:20px;border:1px solid #888;display:inline-block}.theme-default{background:linear-gradient(90deg,#f8dce9,#e8ddf5,#d8eff0)}.theme-bw{background:linear-gradient(90deg,#000,#fff)}.theme-night{background:linear-gradient(90deg,#17243b,#352748,#dce5f8)}.theme-day{background:linear-gradient(90deg,#e7dca8,#cbd9b8,#f4efdc)}
-/* Full-site themes. TCHAN mode and its access window are deliberately exempt. */
-body:not(.tchan-mode)[data-theme="default"]{--theme-bg:#FEE8FF;--theme-page:#FEE8FF;--theme-panel:#D8F3F5;--theme-text:#806E86;--theme-border:#C9C2E8;--theme-link:#806E86;--theme-accent:#C9C2E8;--theme-button:#FEE8FF;--theme-button-hover:#D8F3F5;--theme-input:#fff;--theme-input-text:#44364b}
-body:not(.tchan-mode)[data-theme="bw"]{--theme-bg:#ededed;--theme-page:#fff;--theme-panel:#f7f7f7;--theme-text:#171717;--theme-border:#555;--theme-link:#111;--theme-accent:#dedede;--theme-button:#e5e5e5;--theme-button-hover:#cfcfcf;--theme-input:#fff;--theme-input-text:#171717}
-body:not(.tchan-mode)[data-theme="night"]{--theme-bg:#101827;--theme-page:#17243b;--theme-panel:#202d46;--theme-text:#e8eafa;--theme-border:#596987;--theme-link:#c9c4ef;--theme-accent:#354765;--theme-button:#293955;--theme-button-hover:#405577;--theme-input:#18243a;--theme-input-text:#e8eafa}
-/* DAY = warm cream + sky blue + soft green, not beige-only. */
-body:not(.tchan-mode)[data-theme="day"]{--theme-bg:#f5f4e9;--theme-page:#fffdf2;--theme-panel:#e5f0f4;--theme-text:#3d5148;--theme-border:#a9c8c2;--theme-link:#397c91;--theme-accent:#c7e1e8;--theme-button:#cfe6d2;--theme-button-hover:#b8d9c0;--theme-input:#fffdf7;--theme-input-text:#3d5148}
-body:not(.tchan-mode)[data-theme]{color:var(--theme-text)!important;background-color:var(--theme-bg)!important;background-image:none!important}
-/* Broad containers and every feature panel. */
-body:not(.tchan-mode)[data-theme] .page,
-body:not(.tchan-mode)[data-theme] main,
-body:not(.tchan-mode)[data-theme] .panel-area,
-body:not(.tchan-mode)[data-theme] .panel,
-body:not(.tchan-mode)[data-theme] .panel-scroll,
-body:not(.tchan-mode)[data-theme] .post-window,
-body:not(.tchan-mode)[data-theme] .user-post,
-body:not(.tchan-mode)[data-theme] .post,
-body:not(.tchan-mode)[data-theme] .post-card,
-body:not(.tchan-mode)[data-theme] .profile-box,
-body:not(.tchan-mode)[data-theme] .guest-panel,
-body:not(.tchan-mode)[data-theme] .guest-note,
-body:not(.tchan-mode)[data-theme] .poll,
-body:not(.tchan-mode)[data-theme] .story-card,
-body:not(.tchan-mode)[data-theme] .story-text,
-body:not(.tchan-mode)[data-theme] .music-player-box,
-body:not(.tchan-mode)[data-theme] .music-item,
-body:not(.tchan-mode)[data-theme] .chat-thread-card,
-body:not(.tchan-mode)[data-theme] .chat-window-modal .post-window,
-body:not(.tchan-mode)[data-theme] .art-box,
-body:not(.tchan-mode)[data-theme] .art-card,
-body:not(.tchan-mode)[data-theme] .art-notice,
-body:not(.tchan-mode)[data-theme] .art-request-card,
-body:not(.tchan-mode)[data-theme] .art-chat-card,
-body:not(.tchan-mode)[data-theme] .art-chat-messages,
-body:not(.tchan-mode)[data-theme] .post-options,
-body:not(.tchan-mode)[data-theme] .translation-preview,
-body:not(.tchan-mode)[data-theme] .modal-content{background:var(--theme-page)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] header,
-body:not(.tchan-mode)[data-theme] nav,
-body:not(.tchan-mode)[data-theme] .status,
-body:not(.tchan-mode)[data-theme] .section-title,
-body:not(.tchan-mode)[data-theme] footer,
-body:not(.tchan-mode)[data-theme] .music-now-playing,
-body:not(.tchan-mode)[data-theme] .post-window-title{background:var(--theme-accent)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] h1,body:not(.tchan-mode)[data-theme] h2,body:not(.tchan-mode)[data-theme] h3,body:not(.tchan-mode)[data-theme] h4,
-body:not(.tchan-mode)[data-theme] p,body:not(.tchan-mode)[data-theme] label,body:not(.tchan-mode)[data-theme] li,
-body:not(.tchan-mode)[data-theme] small,body:not(.tchan-mode)[data-theme] strong,body:not(.tchan-mode)[data-theme] .art-status,
-body:not(.tchan-mode)[data-theme] .story-card-title,body:not(.tchan-mode)[data-theme] .music-item-name,
-body:not(.tchan-mode)[data-theme] .profile-description,body:not(.tchan-mode)[data-theme] .user-post-time{color:var(--theme-text)!important}
-body:not(.tchan-mode)[data-theme] a{color:var(--theme-link)!important}
-/* Catch ALL buttons, including nested feature controls with hardcoded gray backgrounds. */
+@media(max-width:600px){.art-form-grid{grid-template-columns:1fr}.art-contact-row{grid-template-columns:1fr}}
+
+
+/* =========================================================
+   SITE THEMES (NORMAL MODE ONLY; TCHAN IS EXEMPT)
+   ========================================================= */
+body:not(.tchan-mode)[data-theme="bw"]{--th-page:#fff;--th-panel:#f7f7f7;--th-card:#fff;--th-text:#111;--th-muted:#444;--th-border:#222;--th-link:#111;--th-button:#e8e8e8;--th-button-hover:#d2d2d2;--th-accent:#222;--th-input:#fff}
+body:not(.tchan-mode)[data-theme="night"]{--th-page:#141a2b;--th-panel:#20283d;--th-card:#263149;--th-text:#edf0ff;--th-muted:#c0c8e0;--th-border:#596783;--th-link:#c9c6ff;--th-button:#303b55;--th-button-hover:#43516f;--th-accent:#879fd0;--th-input:#182238}
+/* Day: cream base, pastel blue and green accents */
+body:not(.tchan-mode)[data-theme="day"]{--th-page:#fff9e9;--th-panel:#fffdf5;--th-card:#f5fbf5;--th-text:#35483f;--th-muted:#61756a;--th-border:#b8d2c0;--th-link:#477d91;--th-button:#dcecf3;--th-button-hover:#c9e1e9;--th-accent:#cfe6d4;--th-input:#fff}
+body:not(.tchan-mode)[data-theme="bw"],body:not(.tchan-mode)[data-theme="night"],body:not(.tchan-mode)[data-theme="day"]{background:var(--th-page)!important;color:var(--th-text)!important;background-image:none!important}
+body:not(.tchan-mode)[data-theme="bw"] .page,body:not(.tchan-mode)[data-theme="night"] .page,body:not(.tchan-mode)[data-theme="day"] .page,
+body:not(.tchan-mode)[data-theme="bw"] header,body:not(.tchan-mode)[data-theme="night"] header,body:not(.tchan-mode)[data-theme="day"] header,
+body:not(.tchan-mode)[data-theme="bw"] .profile-box,body:not(.tchan-mode)[data-theme="night"] .profile-box,body:not(.tchan-mode)[data-theme="day"] .profile-box,
+body:not(.tchan-mode)[data-theme="bw"] .panel,body:not(.tchan-mode)[data-theme="night"] .panel,body:not(.tchan-mode)[data-theme="day"] .panel,
+body:not(.tchan-mode)[data-theme="bw"] .panel-area,body:not(.tchan-mode)[data-theme="night"] .panel-area,body:not(.tchan-mode)[data-theme="day"] .panel-area,
+body:not(.tchan-mode)[data-theme="bw"] .panel-scroll,body:not(.tchan-mode)[data-theme="night"] .panel-scroll,body:not(.tchan-mode)[data-theme="day"] .panel-scroll,
+body:not(.tchan-mode)[data-theme="bw"] .user-post,body:not(.tchan-mode)[data-theme="night"] .user-post,body:not(.tchan-mode)[data-theme="day"] .user-post,
+body:not(.tchan-mode)[data-theme="bw"] .poll,body:not(.tchan-mode)[data-theme="night"] .poll,body:not(.tchan-mode)[data-theme="day"] .poll,
+body:not(.tchan-mode)[data-theme="bw"] .guest-panel,body:not(.tchan-mode)[data-theme="night"] .guest-panel,body:not(.tchan-mode)[data-theme="day"] .guest-panel,
+body:not(.tchan-mode)[data-theme="bw"] .guest-note,body:not(.tchan-mode)[data-theme="night"] .guest-note,body:not(.tchan-mode)[data-theme="day"] .guest-note,
+body:not(.tchan-mode)[data-theme="bw"] .post-window,body:not(.tchan-mode)[data-theme="night"] .post-window,body:not(.tchan-mode)[data-theme="day"] .post-window,
+body:not(.tchan-mode)[data-theme="bw"] .section-title,body:not(.tchan-mode)[data-theme="night"] .section-title,body:not(.tchan-mode)[data-theme="day"] .section-title,
+body:not(.tchan-mode)[data-theme="bw"] .art-box,body:not(.tchan-mode)[data-theme="night"] .art-box,body:not(.tchan-mode)[data-theme="day"] .art-box,
+body:not(.tchan-mode)[data-theme="bw"] .art-card,body:not(.tchan-mode)[data-theme="night"] .art-card,body:not(.tchan-mode)[data-theme="day"] .art-card,
+body:not(.tchan-mode)[data-theme="bw"] .art-notice,body:not(.tchan-mode)[data-theme="night"] .art-notice,body:not(.tchan-mode)[data-theme="day"] .art-notice,
+body:not(.tchan-mode)[data-theme="bw"] .art-request-card,body:not(.tchan-mode)[data-theme="night"] .art-request-card,body:not(.tchan-mode)[data-theme="day"] .art-request-card,
+body:not(.tchan-mode)[data-theme="bw"] .art-chat-card,body:not(.tchan-mode)[data-theme="night"] .art-chat-card,body:not(.tchan-mode)[data-theme="day"] .art-chat-card{background:var(--th-panel)!important;color:var(--th-text)!important;border-color:var(--th-border)!important}
+body:not(.tchan-mode)[data-theme="bw"] *,body:not(.tchan-mode)[data-theme="night"] *,body:not(.tchan-mode)[data-theme="day"] *{border-color:var(--th-border)}
+body:not(.tchan-mode)[data-theme="bw"] :is(button,input,textarea,select),body:not(.tchan-mode)[data-theme="night"] :is(button,input,textarea,select),body:not(.tchan-mode)[data-theme="day"] :is(button,input,textarea,select){background:var(--th-button)!important;color:var(--th-text)!important;border:1px solid var(--th-border)!important;box-shadow:none!important}
+body:not(.tchan-mode)[data-theme="bw"] :is(button,input,textarea,select):hover,body:not(.tchan-mode)[data-theme="night"] :is(button,input,textarea,select):hover,body:not(.tchan-mode)[data-theme="day"] :is(button,input,textarea,select):hover{background:var(--th-button-hover)!important}
+body:not(.tchan-mode)[data-theme="bw"] :is(input,textarea,select),body:not(.tchan-mode)[data-theme="night"] :is(input,textarea,select),body:not(.tchan-mode)[data-theme="day"] :is(input,textarea,select){background:var(--th-input)!important}
+body:not(.tchan-mode)[data-theme="bw"] a,body:not(.tchan-mode)[data-theme="night"] a,body:not(.tchan-mode)[data-theme="day"] a{color:var(--th-link)!important}
+body:not(.tchan-mode)[data-theme="bw"] :is(p,span,li,label,h1,h2,h3,h4,strong,small),body:not(.tchan-mode)[data-theme="night"] :is(p,span,li,label,h1,h2,h3,h4,strong,small),body:not(.tchan-mode)[data-theme="day"] :is(p,span,li,label,h1,h2,h3,h4,strong,small){color:inherit}
+body:not(.tchan-mode)[data-theme="night"] .art-chat-line{background:#303b55!important;color:#edf0ff!important}
+body:not(.tchan-mode)[data-theme="day"] .art-chat-line{background:#dcecf3!important;color:#35483f!important}
+body:not(.tchan-mode)[data-theme="day"] .art-chat-line.mine{background:#cfe6d4!important}
+body:not(.tchan-mode)[data-theme="bw"] .art-chat-line{background:#eee!important;color:#111!important}
+body:not(.tchan-mode)[data-theme] .theme-swatch{background-image:initial!important}
+/* FULL THEME COVERAGE: navigation tabs, links, and interactive states */
+body:not(.tchan-mode)[data-theme="bw"] nav a,
+body:not(.tchan-mode)[data-theme="night"] nav a,
+body:not(.tchan-mode)[data-theme="day"] nav a {
+  background:var(--th-button)!important;
+  color:var(--th-text)!important;
+  border:1px solid var(--th-border)!important;
+  text-decoration:none!important;
+  box-shadow:none!important;
+}
+body:not(.tchan-mode)[data-theme="bw"] nav a:hover,
+body:not(.tchan-mode)[data-theme="night"] nav a:hover,
+body:not(.tchan-mode)[data-theme="day"] nav a:hover,
+body:not(.tchan-mode)[data-theme="bw"] nav a:focus-visible,
+body:not(.tchan-mode)[data-theme="night"] nav a:focus-visible,
+body:not(.tchan-mode)[data-theme="day"] nav a:focus-visible {
+  background:var(--th-button-hover)!important;
+  color:var(--th-text)!important;
+  outline:2px solid var(--th-accent)!important;
+  outline-offset:1px;
+}
+body:not(.tchan-mode)[data-theme="bw"] nav a.active,
+body:not(.tchan-mode)[data-theme="night"] nav a.active,
+body:not(.tchan-mode)[data-theme="day"] nav a.active {
+  background:var(--th-accent)!important;
+  color:var(--th-text)!important;
+  border-color:var(--th-border)!important;
+  font-weight:700!important;
+}
+body:not(.tchan-mode)[data-theme="bw"] a,
+body:not(.tchan-mode)[data-theme="night"] a,
+body:not(.tchan-mode)[data-theme="day"] a,
+body:not(.tchan-mode)[data-theme="bw"] a:visited,
+body:not(.tchan-mode)[data-theme="night"] a:visited,
+body:not(.tchan-mode)[data-theme="day"] a:visited {color:var(--th-link)!important}
+body:not(.tchan-mode)[data-theme="bw"] a:hover,
+body:not(.tchan-mode)[data-theme="night"] a:hover,
+body:not(.tchan-mode)[data-theme="day"] a:hover {color:var(--th-text)!important;text-decoration:underline!important}
+body:not(.tchan-mode)[data-theme="day"] nav a.active{background:#cfe6d4!important;color:#35483f!important}
+body:not(.tchan-mode)[data-theme="night"] nav a.active{background:#879fd0!important;color:#141a2b!important}
+body:not(.tchan-mode)[data-theme="bw"] nav a.active{background:#222!important;color:#fff!important}
+/* Theme every common content surface and interactive control, not just the outer boxes. */
+body:not(.tchan-mode)[data-theme] :is(.section-title,.status,.profile-box,.profile-info,.post-window,.post-content,.user-post,.poll,.poll-option,.guest-panel,.guest-note,.story-card,.chat-thread,.chat-bubble,.chat-message-row,.panel-area,.panel-scroll,.art-box,.art-card,.art-notice,.art-request-card,.art-chat-card,.art-chat-messages,.art-chat-line,.modal-content,.notification,.request-card){
+  border-color:var(--th-border)!important;
+}
+body:not(.tchan-mode)[data-theme="bw"] :is(.post-content,.poll-option,.story-card,.chat-bubble,.notification,.request-card),
+body:not(.tchan-mode)[data-theme="night"] :is(.post-content,.poll-option,.story-card,.chat-bubble,.notification,.request-card),
+body:not(.tchan-mode)[data-theme="day"] :is(.post-content,.poll-option,.story-card,.chat-bubble,.notification,.request-card){
+  background:var(--th-card)!important;color:var(--th-text)!important;
+}
+body:not(.tchan-mode)[data-theme] :is(button,[role="button"],.button,.btn){cursor:pointer}
+body:not(.tchan-mode)[data-theme] :is(button,input,textarea,select):focus-visible{outline:2px solid var(--th-accent)!important;outline-offset:2px}
+body:not(.tchan-mode)[data-theme="night"] :is(input,textarea,select)::placeholder{color:#aeb9d2!important}
+body:not(.tchan-mode)[data-theme="day"] :is(input,textarea,select)::placeholder{color:#71877b!important}
+.theme-day{background:linear-gradient(90deg,#dcecf3,#cfe6d4,#fff9e9)!important}
+footer.arg-footer-flashing{animation:tsukasAngelFlash 1s steps(1,end) infinite}
+@keyframes tsukasAngelFlash{0%{color:#ff0000}50%{color:#000000}100%{color:#ff0000}}
+footer.arg-footer-revealed{animation:none!important;color:#000!important;cursor:default}
+
+
+/* PATCH 2: theme every tab strip, tab panel, link and button (normal mode only). */
+body:not(.tchan-mode)[data-theme="bw"] nav,
+body:not(.tchan-mode)[data-theme="night"] nav,
+body:not(.tchan-mode)[data-theme="day"] nav,
+body:not(.tchan-mode)[data-theme] .tabs,
+body:not(.tchan-mode)[data-theme] .tab-bar,
+body:not(.tchan-mode)[data-theme] .tab-buttons,
+body:not(.tchan-mode)[data-theme] .art-subtabs {
+  background:var(--th-panel)!important;color:var(--th-text)!important;
+  border-color:var(--th-border)!important;
+}
+body:not(.tchan-mode)[data-theme] nav a,
+body:not(.tchan-mode)[data-theme] .tabs a,
+body:not(.tchan-mode)[data-theme] .tab-bar a,
+body:not(.tchan-mode)[data-theme] .tab-buttons a,
+body:not(.tchan-mode)[data-theme] .art-subtabs button,
+body:not(.tchan-mode)[data-theme] .tab,
+body:not(.tchan-mode)[data-theme] [role="tab"] {
+  background:var(--th-button)!important;color:var(--th-text)!important;
+  border:1px solid var(--th-border)!important;box-shadow:none!important;
+}
+body:not(.tchan-mode)[data-theme] nav a:hover,
+body:not(.tchan-mode)[data-theme] .tabs a:hover,
+body:not(.tchan-mode)[data-theme] .tab-bar a:hover,
+body:not(.tchan-mode)[data-theme] .tab-buttons a:hover,
+body:not(.tchan-mode)[data-theme] .art-subtabs button:hover,
+body:not(.tchan-mode)[data-theme] .tab:hover,
+body:not(.tchan-mode)[data-theme] [role="tab"]:hover,
+body:not(.tchan-mode)[data-theme] button:hover,
+body:not(.tchan-mode)[data-theme] input[type="button"]:hover,
+body:not(.tchan-mode)[data-theme] input[type="submit"]:hover {
+  background:var(--th-button-hover)!important;color:var(--th-text)!important;
+}
+body:not(.tchan-mode)[data-theme] nav a.active,
+body:not(.tchan-mode)[data-theme] .tab.active,
+body:not(.tchan-mode)[data-theme] [role="tab"][aria-selected="true"],
+body:not(.tchan-mode)[data-theme] .tab.active-tab {
+  background:var(--th-accent)!important;color:var(--th-text)!important;
+  border-color:var(--th-border)!important;font-weight:700!important;
+}
 body:not(.tchan-mode)[data-theme] button,
 body:not(.tchan-mode)[data-theme] input[type="button"],
 body:not(.tchan-mode)[data-theme] input[type="submit"],
-body:not(.tchan-mode)[data-theme] input[type="reset"],
-body:not(.tchan-mode)[data-theme] .open-post-button,
-body:not(.tchan-mode)[data-theme] .tchan-button,
-body:not(.tchan-mode)[data-theme] .guest-write-button,
-body:not(.tchan-mode)[data-theme] .poll-option,
-body:not(.tchan-mode)[data-theme] .post-delete,
-body:not(.tchan-mode)[data-theme] .translate-button,
-body:not(.tchan-mode)[data-theme] .story-card-buttons button,
-body:not(.tchan-mode)[data-theme] .art-subtabs button,
-body:not(.tchan-mode)[data-theme] .art-actions button,
-body:not(.tchan-mode)[data-theme] .theme-options button{background:var(--theme-button)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] button:hover,
-body:not(.tchan-mode)[data-theme] input[type="button"]:hover,
-body:not(.tchan-mode)[data-theme] input[type="submit"]:hover,
-body:not(.tchan-mode)[data-theme] input[type="reset"]:hover,
-body:not(.tchan-mode)[data-theme] .poll-option:hover,
-body:not(.tchan-mode)[data-theme] .translate-button:hover,
-body:not(.tchan-mode)[data-theme] .story-card-buttons button:hover{background:var(--theme-button-hover)!important;color:var(--theme-text)!important}
-/* Form fields, separately colored from buttons. Keep TCHAN access password untouched. */
-body:not(.tchan-mode)[data-theme] input:not(#tchan-password),
-body:not(.tchan-mode)[data-theme] textarea,
-body:not(.tchan-mode)[data-theme] select{background:var(--theme-input)!important;color:var(--theme-input-text)!important;border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] input::placeholder,body:not(.tchan-mode)[data-theme] textarea::placeholder{color:var(--theme-text)!important;opacity:.65}
-body:not(.tchan-mode)[data-theme] .art-chat-line,
-body:not(.tchan-mode)[data-theme] .chat-bubble,
-body:not(.tchan-mode)[data-theme] .chat-message{background:var(--theme-accent)!important;color:var(--theme-text)!important;border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] .art-chat-line.mine{background:var(--theme-button)!important}
-body:not(.tchan-mode)[data-theme] hr,body:not(.tchan-mode)[data-theme] .divider{border-color:var(--theme-border)!important}
-body:not(.tchan-mode)[data-theme] ::-webkit-scrollbar-track{background:var(--theme-page)}
-body:not(.tchan-mode)[data-theme] ::-webkit-scrollbar-thumb{background:var(--theme-accent);border:1px solid var(--theme-border)}
-/* TCHAN access modal stays its original black/red. */
-body:not(.tchan-mode)[data-theme] #tchan-modal .tchan-window,
-body:not(.tchan-mode)[data-theme] #tchan-modal .tchan-title,
-body:not(.tchan-mode)[data-theme] #tchan-modal button,
-body:not(.tchan-mode)[data-theme] #tchan-modal input{background:#000!important;color:#f00!important;border-color:#f00!important}
-body:not(.tchan-mode)[data-theme] .theme-swatch{background-image:initial!important}
-.theme-default{background:linear-gradient(90deg,#f8dce9,#e8ddf5,#d8eff0)!important}.theme-bw{background:linear-gradient(90deg,#000,#fff)!important}.theme-night{background:linear-gradient(90deg,#17243b,#352748,#dce5f8)!important}.theme-day{background:linear-gradient(90deg,#c7e1e8,#cfe6d2,#fffdf2)!important}
-@media(max-width:600px){.art-form-grid{grid-template-columns:1fr}.art-contact-row{grid-template-columns:1fr}}
+body:not(.tchan-mode)[data-theme] input[type="reset"] {
+  background:var(--th-button)!important;color:var(--th-text)!important;
+  border:1px solid var(--th-border)!important;
+}
+body:not(.tchan-mode)[data-theme="bw"] button:disabled,
+body:not(.tchan-mode)[data-theme="night"] button:disabled,
+body:not(.tchan-mode)[data-theme="day"] button:disabled {opacity:.55!important}
+
+
+/* THEME REPAIR: default blue palette + status/footer coverage */
+body:not(.tchan-mode)[data-theme="default"]{
+ --th-page:#FEE8FF;--th-panel:#FEE8FF;--th-card:#fff7ff;--th-text:#554b68;--th-muted:#808080;
+ --th-border:#C9C2E8;--th-link:#477da8;--th-button:#D8F3F5;--th-button-hover:#c2e8ef;
+ --th-accent:#9fcfe5;--th-input:#ffffff;
+ background:#FEE8FF!important;color:var(--th-text)!important;
+}
+body:not(.tchan-mode)[data-theme="default"] .status,
+body:not(.tchan-mode)[data-theme="default"] footer,
+body:not(.tchan-mode)[data-theme="default"] .status .online{background:#D8F3F5!important;color:#536b83!important;border-color:#C9C2E8!important}
+body:not(.tchan-mode)[data-theme="default"] nav a{background:#FEE8FF!important;color:#477da8!important;border-color:#C9C2E8!important}
+body:not(.tchan-mode)[data-theme="default"] nav a:hover,
+body:not(.tchan-mode)[data-theme="default"] nav a.active{background:#D8F3F5!important;color:#426b91!important}
+body:not(.tchan-mode)[data-theme="default"] a,
+body:not(.tchan-mode)[data-theme="default"] a:visited{color:#477da8!important}
+body:not(.tchan-mode)[data-theme="default"] a:hover{color:#315b83!important}
+body:not(.tchan-mode)[data-theme] .status,
+body:not(.tchan-mode)[data-theme] .status .online,
+body:not(.tchan-mode)[data-theme] footer{
+ background:var(--th-panel)!important;color:var(--th-text)!important;border-color:var(--th-border)!important;
+}
+body:not(.tchan-mode)[data-theme] .status .online{background:var(--th-accent)!important;color:var(--th-text)!important}
+body:not(.tchan-mode)[data-theme] footer.arg-footer-flashing{animation:tsukasAngelFlash 1s steps(1,end) infinite!important}
+body:not(.tchan-mode)[data-theme] footer.arg-footer-revealed{animation:none!important;color:var(--th-text)!important;background:var(--th-panel)!important}
+body:not(.tchan-mode)[data-theme="bw"] footer.arg-footer-flashing{animation:tsukasAngelFlashBW 1s steps(1,end) infinite!important}
+@keyframes tsukasAngelFlashBW{0%,100%{color:#000}50%{color:#fff}}
+
+
+/* FIX: theme the status strip and profile's decorative links in EVERY theme */
+body:not(.tchan-mode)[data-theme] .status{background:var(--th-button)!important;color:var(--th-text)!important;border:2px dotted var(--th-border)!important}
+body:not(.tchan-mode)[data-theme] .status .online{display:inline-block;padding:1px 5px;background:var(--th-accent)!important;color:var(--th-text)!important;border:1px solid var(--th-border)!important}
+body:not(.tchan-mode)[data-theme] .links a,body:not(.tchan-mode)[data-theme] .links a:visited{background:var(--th-card)!important;color:var(--th-link)!important;border:2px dashed var(--th-border)!important;text-decoration:none!important}
+body:not(.tchan-mode)[data-theme] .links a:hover,body:not(.tchan-mode)[data-theme] .links a:focus-visible{background:var(--th-button-hover)!important;color:var(--th-text)!important;outline:1px solid var(--th-accent)!important}
+
+
+/* FINAL NAV TEXT RESTORE: keep tab labels their original gray in every theme.
+   Decorative .links are themed separately; generic anchor rules must not leak here. */
+body:not(.tchan-mode)[data-theme] nav a,
+body:not(.tchan-mode)[data-theme] nav a:visited { color:#808080!important; }
+body:not(.tchan-mode)[data-theme] nav a:hover,
+body:not(.tchan-mode)[data-theme] nav a:focus-visible,
+body:not(.tchan-mode)[data-theme] nav a.active { color:#808080!important; }
+/* Default theme tabs retain their original pastel-blue hover/active background. */
+body:not(.tchan-mode)[data-theme="default"] nav a:hover,
+body:not(.tchan-mode)[data-theme="default"] nav a.active { background:#D8F3F5!important; }
 
 </style>
 </head>
@@ -1974,7 +2079,7 @@ loading chat threads...
 </section>
 
 <!-- THEMES -->
-<section id="panel-themes" class="panel"><div class="section-title">THEMES</div><p>Choose a color theme for the whole site. TCHAN keeps its independent black-and-red appearance.</p><div class="theme-options"><button onclick="setSiteTheme('default')"><span class="theme-swatch theme-default"></span>DEFAULT</button><button onclick="setSiteTheme('bw')"><span class="theme-swatch theme-bw"></span>BLACK / WHITE</button><button onclick="setSiteTheme('night')"><span class="theme-swatch theme-night"></span>NIGHT</button><button onclick="setSiteTheme('day')"><span class="theme-swatch theme-day"></span>DAY</button></div><p id="theme-status" class="art-status"></p></section>
+<section id="panel-themes" class="panel"><div class="section-title">THEMES</div><p>Choose the colors for the normal blog. TCHAN keeps its own black-and-red look.</p><div class="theme-options"><button onclick="setSiteTheme('default')"><span class="theme-swatch theme-default"></span>DEFAULT</button><button onclick="setSiteTheme('bw')"><span class="theme-swatch theme-bw"></span>BLACK / WHITE</button><button onclick="setSiteTheme('night')"><span class="theme-swatch theme-night"></span>NIGHT</button><button onclick="setSiteTheme('day')"><span class="theme-swatch theme-day"></span>DAY</button></div><p id="theme-status" class="art-status"></p></section>
 
 </div>
 
@@ -3158,51 +3263,15 @@ function showPanel(
 
 
 /* =========================================================
-   TEXT
+   TEXT + ARG FOOTER EASTER EGG
    ========================================================= */
-
-function applyNormalText() {
-
-  document.getElementById(
-    "blog-subtitle"
-  ).textContent =
-    SITE_TEXT.normal.subtitle;
-
-
-  document.getElementById(
-    "about-text"
-  ).textContent =
-    SITE_TEXT.normal.about;
-
-
-  document.getElementById(
-    "footer-text"
-  ).textContent =
-    SITE_TEXT.normal.footer;
-
-}
-
-
-function applyTchanText() {
-
-  document.getElementById(
-    "blog-subtitle"
-  ).textContent =
-    SITE_TEXT.tchan.subtitle;
-
-
-  document.getElementById(
-    "about-text"
-  ).textContent =
-    SITE_TEXT.tchan.about;
-
-
-  document.getElementById(
-    "footer-text"
-  ).textContent =
-    SITE_TEXT.tchan.footer;
-
-}
+const ARG_FOOTER_ATBASH = "ghfpzhzxszmm4.trgsfy.rl/gxszm/";
+let argFooterRevealed = false;
+function setupArgFooter(){const footer=document.getElementById("footer-text");if(!footer)return;footer.classList.remove("arg-footer-revealed");footer.classList.add("arg-footer-flashing");footer.style.cursor="pointer";footer.textContent=SITE_TEXT.normal.footer;argFooterRevealed=false;}
+function disableArgFooter(){const footer=document.getElementById("footer-text");if(!footer)return;footer.classList.remove("arg-footer-flashing","arg-footer-revealed");footer.style.cursor="default";argFooterRevealed=false;}
+const argFooter=document.getElementById("footer-text");if(argFooter){argFooter.addEventListener("click",function(){if(document.body.classList.contains("tchan-mode")||argFooterRevealed)return;this.textContent=ARG_FOOTER_ATBASH;this.classList.remove("arg-footer-flashing");this.classList.add("arg-footer-revealed");this.style.cursor="default";argFooterRevealed=true;});}
+function applyNormalText(){document.getElementById("blog-subtitle").textContent=SITE_TEXT.normal.subtitle;document.getElementById("about-text").textContent=SITE_TEXT.normal.about;setupArgFooter();}
+function applyTchanText(){document.getElementById("blog-subtitle").textContent=SITE_TEXT.tchan.subtitle;document.getElementById("about-text").textContent=SITE_TEXT.tchan.about;disableArgFooter();document.getElementById("footer-text").textContent=SITE_TEXT.tchan.footer;}
 
 
 /* =========================================================
@@ -7053,10 +7122,10 @@ let artSession = localStorage.getItem(ART_TOKEN_KEY) || "";
 let artMe = null, artListingsCache = [], artOpenRequestId = null, artChatTimer = null;
 function artEsc(value){return String(value??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function artAuthHeaders(){return artSession?{"Authorization":"Bearer "+artSession}:{};}
-async function artApi(path,opts={}){const res=await fetch(WORKER_URL+path,{...opts,headers:{"Content-Type":"application/json",...artAuthHeaders(),...(opts.headers||{})}});let data={};try{data=await res.json()}catch{}if(!res.ok)throw new Error(data.error||`Request failed (${res.status})`);return data;}
-async function refreshArtMe(throwOnError=false){if(!artSession){artMe=null;renderArtAccount();return;}try{artMe=await artApi("/art-me");}catch(error){artSession="";localStorage.removeItem(ART_TOKEN_KEY);artMe=null;if(throwOnError)throw error;}renderArtAccount();}
+async function artApi(path,opts={}){const res=await fetch(WORKER_URL+path,{...opts,headers:{"Content-Type":"application/json",...artAuthHeaders(),...(opts.headers||{})}});let data={};try{data=await res.json()}catch{}if(!res.ok)throw new Error([data.error,data.details?`Details: ${data.details}`:null,`HTTP ${res.status}`].filter(Boolean).join("\n"));return data;}
+async function refreshArtMe(throwOnError=false){if(!artSession){artMe=null;renderArtAccount();return;}try{artMe=await artApi("/art-me");if(!artMe||!artMe.username)throw new Error("The server did not return a valid account profile.");}catch(error){artSession="";localStorage.removeItem(ART_TOKEN_KEY);artMe=null;if(throwOnError)throw error;}renderArtAccount();}
 function renderArtAccount(){const auth=document.getElementById("art-auth-box"),bar=document.getElementById("art-account-bar");if(!auth||!bar)return;auth.hidden=!!artMe;bar.hidden=!artMe;document.getElementById("art-current-user").textContent=artMe?.username||"";}
-async function artAuth(kind){const username=document.getElementById("art-auth-username").value.trim(),password=document.getElementById("art-auth-password").value,status=document.getElementById("art-auth-status");if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){status.textContent="Username must be 3–24 characters and use only letters, numbers, and underscores.";return;}if(password.length<8||password.length>128){status.textContent="Password must be 8–128 characters.";return;}status.textContent=kind==="register"?"Creating account...":"Logging in...";try{const data=await artApi(`/art-auth/${kind}`,{method:"POST",body:JSON.stringify({username,password})});if(!data||!data.token)throw new Error(data?.error||"The Worker did not return a login token.");artSession=data.token;localStorage.setItem(ART_TOKEN_KEY,artSession);await refreshArtMe(true);if(!artMe)throw new Error("Account response was received, but the session could not be verified.");status.textContent=kind==="register"?`Account created. Welcome, ${artMe.username}!`:`Welcome back, ${artMe.username}!`;loadArtListings();loadArtInbox();}catch(e){status.textContent=e.message||"Account request failed.";}}
+async function artAuth(kind){const username=document.getElementById("art-auth-username").value.trim(),password=document.getElementById("art-auth-password").value,status=document.getElementById("art-auth-status");if(!/^[A-Za-z0-9_]{3,24}$/.test(username)){status.textContent="Username must be 3–24 characters and use only letters, numbers, and underscores.";return;}if(password.length<8||password.length>128){status.textContent="Password must be 8–128 characters.";return;}status.textContent=kind==="register"?"Creating account...":"Logging in...";try{const data=await artApi(`/art-auth/${kind}`,{method:"POST",body:JSON.stringify({username,password})});if(!data||!data.token)throw new Error(data?.error||"The Worker did not return a login token.");artSession=data.token;localStorage.setItem(ART_TOKEN_KEY,artSession);await refreshArtMe(true);if(!artMe)throw new Error("Account response was received, but the session could not be verified.");status.textContent=kind==="register"?`Account created. Welcome, ${artMe.username}!`:`Welcome back, ${artMe.username}!`;loadArtListings();loadArtInbox();loadArtRequests();loadArtChats();}catch(e){status.textContent=e.message||"Account request failed.";}}
 async function artLogout(){artSession="";artMe=null;localStorage.removeItem(ART_TOKEN_KEY);if(artChatTimer)clearInterval(artChatTimer);renderArtAccount();document.getElementById("art-chat-window").hidden=true;loadArtInbox();}
 function showArtView(which){document.getElementById("art-view-browse").hidden=which!=="browse";document.getElementById("art-view-post").hidden=which!=="post";document.getElementById("art-detail").hidden=true;if(which==="post"&&!artMe)document.getElementById("art-auth-box").hidden=false;}
 function addArtContact(){const wrap=document.getElementById("art-contacts");if(wrap.children.length>=5){alert("You can add up to 5 contacts.");return;}const row=document.createElement("div");row.className="art-contact-row";row.innerHTML='<select aria-label="contact platform"><option>Discord</option><option>Instagram</option><option>Twitter / X</option><option>Email</option><option>Ko-fi</option><option>Other</option></select><input maxlength="120" placeholder="username / contact" aria-label="contact username"><button type="button" aria-label="remove contact" onclick="this.parentElement.remove()">×</button>';wrap.appendChild(row);}
@@ -7075,8 +7144,8 @@ async function loadArtChats(){const box=document.getElementById("art-chats");if(
 async function openArtChat(id){if(!artMe)return alert("Sign in first.");artOpenRequestId=id;document.getElementById("art-chat-title").textContent="Commission chat #"+id;document.getElementById("art-chat-window").hidden=false;await loadArtChatMessages();if(artChatTimer)clearInterval(artChatTimer);artChatTimer=setInterval(loadArtChatMessages,5000);document.getElementById("art-chat-window").scrollIntoView({behavior:"smooth"});}
 async function loadArtChatMessages(){if(!artOpenRequestId)return;try{const rows=await artApi(`/art-chat/messages?request_id=${artOpenRequestId}`);const box=document.getElementById("art-chat-messages");box.innerHTML=rows.map(m=>`<div class="art-chat-line ${Number(m.sender_id)===Number(artMe.id)?"mine":""}"><b>${artEsc(m.username)}</b><br>${artEsc(m.content)}<small style="display:block">${artEsc(m.created_at)}</small></div>`).join("");box.scrollTop=box.scrollHeight;}catch(e){document.getElementById("art-chat-status").textContent=e.message;}}
 async function sendArtChat(e){e.preventDefault();const input=document.getElementById("art-chat-input"),status=document.getElementById("art-chat-status");try{await artApi("/art-chat/messages",{method:"POST",body:JSON.stringify({request_id:artOpenRequestId,content:input.value.trim()})});input.value="";status.textContent="Sent.";loadArtChatMessages();}catch(err){status.textContent=err.message;}}
-function setSiteTheme(theme){if(!["default","bw","night","day"].includes(theme))return;document.body.dataset.theme=theme;localStorage.setItem("tsukasa_site_theme",theme);document.getElementById("theme-status").textContent=`Theme set to ${theme.toUpperCase()}.`;}
-function loadSiteTheme(){const theme=localStorage.getItem("tsukasa_site_theme")||"default";document.body.dataset.theme=theme;}
+function setSiteTheme(theme){if(!["default","bw","night","day"].includes(theme))return;document.body.dataset.theme=theme;localStorage.setItem("tsukasa_site_theme",theme);const status=document.getElementById("theme-status");if(status)status.textContent=`Theme set to ${theme.toUpperCase()}.`; }
+function loadSiteTheme(){const theme=localStorage.getItem("tsukasa_site_theme")||"default";if(["default","bw","night","day"].includes(theme))document.body.dataset.theme=theme;else document.body.dataset.theme="default";}
 window.addEventListener("DOMContentLoaded",async()=>{loadSiteTheme();await refreshArtMe();loadArtListings();loadArtInbox();});
 
 </script>
